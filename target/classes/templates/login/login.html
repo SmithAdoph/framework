@@ -1,0 +1,84 @@
+<!--
+    Framework登录模块
+    User: Adoph
+    Date: 2017/8/18
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Framework登录模块</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--layui-->
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/layui/layui.js" charset="utf-8"></script>
+    <style>
+        #container {
+            position: relative;
+        }
+
+        #center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-55%, 190%);
+        }
+    </style>
+</head>
+<body>
+<div id="container" class="layui-anim layui-anim-scale">
+    <div id="center">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="userName" required="required" lay-verify="required" placeholder="请输入用户名"
+                           autocomplete="off"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码框</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="password" required="required" lay-verify="required" placeholder="请输入密码"
+                           autocomplete="off"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="login">登录</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    layui.use(['jquery', 'form'], function () {
+        var form = layui.form,
+            $ = layui.$;
+
+        //监听提交
+        form.on('submit(login)', function (data) {
+            var params = data.field;
+            var url = "/login/doLogin.do";
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: params,
+                success: function (r) {
+                    debugger;
+                },
+                error: function (r) {
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
