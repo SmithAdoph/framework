@@ -1,7 +1,5 @@
 package com.adoph.framework.dao.jdbc;
 
-import sun.jdbc.odbc.JdbcOdbcDriver;
-
 import java.sql.*;
 
 /**
