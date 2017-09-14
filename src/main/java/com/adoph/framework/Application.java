@@ -8,7 +8,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 /**
  * web启动配置
  *
- * @author Tangqiandong
+ * @author Adohp
  * @version v1.0
  * @since 2017/8/11
  */

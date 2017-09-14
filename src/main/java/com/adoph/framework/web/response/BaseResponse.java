@@ -3,7 +3,7 @@ package com.adoph.framework.web.response;
 /**
  * 统一返回前端包装实体
  *
- * @author Tangqiandong
+ * @author Adohp
  * @version v1.0
  * @since 2017/9/13
  */
