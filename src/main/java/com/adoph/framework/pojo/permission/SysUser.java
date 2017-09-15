@@ -1,5 +1,6 @@
 package com.adoph.framework.pojo.permission;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -9,11 +10,15 @@ import java.util.Date;
  * @version v1.0
  * @since 2017/9/14
  */
+@Entity
+@Table(name = "sys_user")
 public class SysUser {
 
     /**
      * 主键
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**

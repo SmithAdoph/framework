@@ -1,5 +1,7 @@
 package com.adoph.framework.service.common;
 
+import com.adoph.framework.pojo.permission.SysUser;
+
 /**
  * TODO
  *
@@ -9,6 +11,6 @@ package com.adoph.framework.service.common;
  */
 public interface LoginService {
 
-    public void login();
+    SysUser login(String userName, String password);
 
 }
