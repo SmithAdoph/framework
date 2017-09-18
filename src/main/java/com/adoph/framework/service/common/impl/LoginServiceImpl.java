@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * TODO
+ * 用户登录
  *
- * @author Tangqiandong
+ * @author Adoph
  * @version v1.0
  * @since 2017/9/14
  */
@@ -23,8 +23,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginRepository loginRepository;
 
     @Override
-    public SysUser login(String userName, String securityPassword) {
-        String password = RSAEncryptUtils.encrypt(null, securityPassword);
+    public SysUser login(String userName, String password) {
         List<SysUser> sysUserList = loginRepository.findByUserName(userName);
         for (SysUser user : sysUserList) {
             if (user.getPassword().equals(password)) {

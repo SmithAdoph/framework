@@ -29,12 +29,12 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-55%, 190%);
+            transform: translate(-50%, 260%);
         }
     </style>
 </head>
 <body>
-<div id="container" class="layui-anim layui-anim-scale">
+<div id="container" class="">
     <div id="center">
         <form class="layui-form">
             <input type="hidden" name="loginId" id="loginId" th:value="${{loginId}}"/>
@@ -65,44 +65,51 @@
 </div>
 
 <script>
-
-    layui.use(['jquery', 'form'], function () {
+    layui.use(['jquery', 'form', 'layer'], function () {
         var form = layui.form,
-            $ = layui.$;
+            $ = layui.$,
+            layer = layui.layer;
 
         //监听提交
         form.on('submit(login)', function (data) {
             var params = data.field;
             var url = "/login/doLogin.do";
 
-            // Encrypt with the public key...
-            var encrypt = new JSEncrypt();
-            encrypt.setPublicKey($('#pubkey').val());
-            var encrypted = encrypt.encrypt(params.password);
+            // 加密
+            params.password = encrypt(params.password);
 
-            // Decrypt with the private key...
-            var decrypt = new JSEncrypt();
-            decrypt.setPrivateKey($('#privkey').val());
-            var uncrypted = decrypt.decrypt(encrypted);
-
-            debugger;
             $.ajax({
                 url: url,
                 type: "POST",
                 data: params,
                 success: function (r) {
                     if ($req.success(r.status)) {
-                        layer.msg(r.msg);
+                        layer.msg(r.msg, {icon: 1});
                     } else {
-                        layer.msg(r.msg);
+                        layer.open({
+                            title: '系统提示',
+                            content: r.msg,
+                            icon: 2
+                        });
                     }
                 },
                 error: function (r) {
-
+                    layer.open({
+                        title: '系统提示',
+                        content: '登录异常，请稍后重试！',
+                        icon: 2
+                    });
                 }
             });
             return false;
         });
+
+        //加密
+        function encrypt(password) {
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey($('#publicKey').val());
+            return encrypt.encrypt(password);
+        }
     });
 </script>
 </body>
