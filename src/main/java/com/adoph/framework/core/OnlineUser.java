@@ -36,10 +36,6 @@ public class OnlineUser implements Serializable {
         this.loginId = loginId;
     }
 
-    /*public SysUser getSysUser() {
-        return sysUser;
-    }*/
-
     public void setSysUser(SysUser sysUser) {
         this.sysUser = sysUser;
     }

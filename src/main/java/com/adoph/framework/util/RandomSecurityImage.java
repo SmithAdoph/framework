@@ -1,6 +1,9 @@
 package com.adoph.framework.util;
 
+import com.adoph.framework.core.LoginManager;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,35 +20,68 @@ import java.util.Random;
  */
 public class RandomSecurityImage {
 
+    private final static Logger log = LoggerFactory.getLogger(RandomSecurityImage.class);
+
     private static Random random = new Random();
-    private static Font font = new Font("Fixedsys", Font.BOLD, 18);
+
+    /**
+     * 字符字体类型
+     */
+    private final static String CHAR_FONT_FAMILY = "Courier New";
+
+    /**
+     * 字符字体大小
+     */
+    private final static int CHAR_FONT_SIZE = 22;
 
     /**
      * 根据指定的字符和大小生成随机验证码图片
      *
-     * @param code   需要绘制到图片上的字符数组
+     * @param codes  需要绘制到图片上的字符数组
      * @param width  图片宽度
      * @param height 图片高度
      * @param line   干扰线数量
      * @return 图片的输入流
      */
-    public static ByteArrayInputStream getImage(char[] code, int width, int height, int line) {
+    public static ByteArrayInputStream getImage(char[] codes, int width, int height, int line) {
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
-        Graphics g = image.getGraphics();
+        Graphics2D g = (Graphics2D) image.getGraphics();
+        g.setBackground(new Color(211, 82, 103));//背景色
         g.fillRect(0, 0, width, height);
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-        g.setColor(getRandColor(110, 133));
         // 绘制干扰线
         for (int i = 0; i < line; i++) {
             drawLine(g, width, height);
         }
         // 绘制随机字符
-        for (int i = 0; i < code.length; i++) {
-            drawChar(g, width / code.length * i, random.nextInt(height / 3)
-                    + height / 3, code[i]);
+        for (int i = 0; i < codes.length; i++) {
+            drawChar(g, width / (codes.length + 1) * i + 20, height / 2 + height / 6, codes[i]);
         }
         g.dispose();
+        return convertImageToStream(image);
+    }
+
+    /**
+     * 高斯模糊验证码图片：
+     * 随机字符4个，包含数字和大小写英文，允许重复字符
+     * 图片固定宽度130，高度34
+     *
+     * @return ByteArrayInputStream
+     */
+    public static ByteArrayInputStream getGaussianBlurImage(char[] codes) {
+        int width = 130;
+        int height = 38;
+        log.info("刷新验证码：" + new String(codes));
+        // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
+        Graphics2D g = (Graphics2D) image.getGraphics();
+        g.fillRect(0, 0, width, height);
+        // 绘制随机字符
+        for (int i = 0; i < codes.length; i++) {
+            drawChar(g, width / (codes.length + 1) * i + 20, height / 2 + height / 6, codes[i]);
+        }
+        g.dispose();
+        GaussianBlurUtils.gaussianBlur(image);//高斯模糊
         return convertImageToStream(image);
     }
 
@@ -88,28 +124,35 @@ public class RandomSecurityImage {
      * 绘制字符
      */
     private static void drawChar(Graphics g, int x, int y, char code) {
-        g.setFont(font);
+        g.setFont(new Font(CHAR_FONT_FAMILY, Font.BOLD, CHAR_FONT_SIZE));
         g.setColor(getRandColor(10, 200));
-        g.translate(random.nextInt(3), random.nextInt(3));
+        g.translate(random.nextInt(2), random.nextInt(2));
         g.drawString(code + "", x, y);
     }
 
     /*
      * 绘制干扰线
      */
-    private static void drawLine(Graphics g, int width, int height) {
+    private static void drawLine(Graphics2D g, int width, int height) {
         int x = random.nextInt(width);
         int y = random.nextInt(height);
         int xl = random.nextInt(width / 2);
         int yl = random.nextInt(height / 2);
+        g.setFont(new Font("cursive", Font.PLAIN, 18));
+        g.setColor(new Color(114, 144, 125));
         g.drawLine(x, y, x + xl, y + yl);
     }
 
     public static void main(String[] args) throws Exception {
-        char[] charCode = RandomSecurityCode.getSecurityCode(4, RandomSecurityCode.SecurityCodeLevel.Hard, true);
-        ByteArrayInputStream imageStream = RandomSecurityImage.getImage(charCode, 130, 34, 25);
-        File file  = new File("D:\\study\\framework\\target\\classes\\code.jpeg");
-        if(!file.exists()) {
+        // 实例1
+//        char[] codes = RandomSecurityCode.getSecurityCode(4, RandomSecurityCode.SecurityCodeLevel.Hard, true);
+//        System.out.println(codes);
+//        ByteArrayInputStream imageStream = RandomSecurityImage.getImage(charCode, 130, 34, 25);
+        // 实例2
+        char[] codes = RandomSecurityCode.getSecurityCode(4, RandomSecurityCode.SecurityCodeLevel.Hard, true);
+        ByteArrayInputStream imageStream = RandomSecurityImage.getGaussianBlurImage(codes);
+        File file = new File("D:\\study\\framework\\target\\classes\\code.jpeg");
+        if (!file.exists()) {
             file.createNewFile();
         }
         OutputStream os = new FileOutputStream(file);
@@ -117,7 +160,6 @@ public class RandomSecurityImage {
         os.write(imageStream.read());
         os.close();
         imageStream.close();
-        System.out.println(charCode);
     }
 
 }

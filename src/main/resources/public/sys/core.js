@@ -6,6 +6,6 @@ var RequestHelper = $req = {};
  * @param status
  * @returns {boolean}
  */
-RequestHelper.success = function (status) {
+RequestHelper.isSuccess = function (status) {
     return status === 'success';
 };

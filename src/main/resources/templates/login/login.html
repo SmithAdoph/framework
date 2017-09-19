@@ -29,7 +29,47 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, 260%);
+            transform: translate(-50%, 170%);
+        }
+
+        .code {
+            float: left;
+            letter-spacing: 1px;
+            font-size: 16px;
+            text-align: center;
+            width: 80px;
+            height: 37px;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        .code:hover {
+            border-color: #D2D2D2 !important;
+        }
+
+        .codeImage {
+            float: left;
+            border: 1px solid #e6e6e6;
+            background-color: #fff;
+            border-radius: 2px;
+            margin-left: 18px;
+            cursor: pointer;
+        }
+
+        .codeBtn {
+            cursor: pointer;
+            width: 45px;
+            display: inline-block;
+            float: right;
+            margin-right: 10px;
+        }
+
+        .codeBtn:hover {
+            color: #f72f41;
+            text-decoration: underline !important;
         }
     </style>
 </head>
@@ -55,16 +95,22 @@
                            class="layui-input"/>
                 </div>
             </div>
+            <div id="verifyCode" class="layui-form-item layui-hide">
+                <input type="text" name="verifyCode" class="code" required="required"
+                       placeholder="验证码"/>
+                <img class="codeImage" width="130" height="38"/>
+                <a class="codeBtn">看不清换一张</a>
+            </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="login">登录</button>
+                    <button class="layui-btn layui-btn-big" lay-submit lay-filter="login">登&nbsp;&nbsp;录</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     layui.use(['jquery', 'form', 'layer'], function () {
         var form = layui.form,
             $ = layui.$,
@@ -83,7 +129,7 @@
                 type: "POST",
                 data: params,
                 success: function (r) {
-                    if ($req.success(r.status)) {
+                    if ($req.isSuccess(r.status)) {
                         layer.msg(r.msg, {icon: 1});
                     } else {
                         layer.open({
@@ -91,6 +137,15 @@
                             content: r.msg,
                             icon: 2
                         });
+                        debugger;
+                        var data = r.data;
+                        if (data) {
+                            if (data.showVerifyCode == 1) {//显示验证码
+                                $(".code").attr("lay-verify", "required");
+                                $("#verifyCode").removeClass("layui-hide");
+                                refreshVerifyCode();
+                            }
+                        }
                     }
                 },
                 error: function (r) {
@@ -109,6 +164,20 @@
             var encrypt = new JSEncrypt();
             encrypt.setPublicKey($('#publicKey').val());
             return encrypt.encrypt(password);
+        }
+
+        $('.codeBtn').on('click', function () {
+            refreshVerifyCode();
+        });
+
+        $('.codeImage').on('click', function () {
+            refreshVerifyCode();
+        });
+
+        //刷新验证码
+        function refreshVerifyCode() {
+            var second = new Date().getTime();
+            $(".codeImage").attr("src", "/login/verifyCode.do?loginId=[[${loginId}]]&uuid=" + second);
         }
     });
 </script>
