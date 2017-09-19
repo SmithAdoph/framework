@@ -18,7 +18,7 @@ import java.util.Random;
 public class RandomSecurityImage {
 
     private static Random random = new Random();
-    private static Font font = new Font("Fixedsys", Font.CENTER_BASELINE, 18);
+    private static Font font = new Font("Fixedsys", Font.BOLD, 18);
 
     /**
      * 根据指定的字符和大小生成随机验证码图片
@@ -34,7 +34,7 @@ public class RandomSecurityImage {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
         g.fillRect(0, 0, width, height);
-        g.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 18));
+        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         g.setColor(getRandColor(110, 133));
         // 绘制干扰线
         for (int i = 0; i < line; i++) {
