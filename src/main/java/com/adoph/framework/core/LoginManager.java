@@ -109,6 +109,17 @@ public class LoginManager {
     }
 
     /**
+     * 校验用户验证码
+     *
+     * @param loginId    登录id
+     * @param verifyCode 验证码
+     * @return
+     */
+    public static boolean verifyCode(String loginId, String verifyCode) {
+        return getVerifyCode(loginId).equalsIgnoreCase(verifyCode);
+    }
+
+    /**
      * 用户登录
      *
      * @param loginId  登录id

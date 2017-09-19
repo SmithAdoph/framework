@@ -6,11 +6,9 @@ import com.adoph.framework.core.vo.LoginVO;
 import com.adoph.framework.service.common.LoginService;
 import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.web.response.BaseResponse;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.security.KeyPair;
 import java.util.UUID;
 
@@ -56,13 +53,23 @@ public class LoginController {
     @RequestMapping(value = "doLogin.do", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse doLogin(@RequestParam("loginId") String loginId, @RequestParam("userName") String userName,
-                                @RequestParam("password") String password) {
+                                @RequestParam("password") String password, HttpServletRequest request) {
         BaseResponse<LoginVO> response = new BaseResponse<>();
+        Integer failCount = LoginManager.getFailCount(loginId);
+        if (failCount != null) {
+            if (failCount >= LoginManager.FAIL_COUNT_MAX) {
+                String verifyCode = request.getParameter("verifyCode");
+                if (!LoginManager.verifyCode(loginId, verifyCode)) {
+                    response.error("验证码输入错误！");
+                    return response;
+                }
+            }
+        }
         OnlineUser user;
         try {
             user = LoginManager.login(loginId, userName, password);
             if (user == null) {
-                Integer failCount = LoginManager.getFailCount(loginId);
+                failCount = LoginManager.getFailCount(loginId);
                 if (failCount >= LoginManager.FAIL_COUNT_MAX) {
                     LoginVO vo = new LoginVO();
                     vo.setShowVerifyCode(1);

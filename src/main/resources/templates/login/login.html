@@ -16,66 +16,17 @@
     <script type="text/javascript" src="/layui/layui.js" charset="utf-8"></script>
     <!--layui end-->
 
+    <!--登录界面样式-->
+    <link rel="stylesheet" href="/css/login/login.css">
+
     <!--系统库 start-->
     <script type="text/javascript" src="/sys/core.js" charset="utf-8"></script>
-    <script type="text/javascript" src="/encrypt/jsencrypt.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/encrypt/jsencrypt.min.js" charset="utf-8"></script>
     <!--系统库 end-->
-    <style>
-        #container {
-            position: relative;
-        }
-
-        #center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, 170%);
-        }
-
-        .code {
-            float: left;
-            letter-spacing: 1px;
-            font-size: 16px;
-            text-align: center;
-            width: 80px;
-            height: 37px;
-            border: 1px solid #e6e6e6;
-            background-color: #fff;
-            border-radius: 2px;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-
-        .code:hover {
-            border-color: #D2D2D2 !important;
-        }
-
-        .codeImage {
-            float: left;
-            border: 1px solid #e6e6e6;
-            background-color: #fff;
-            border-radius: 2px;
-            margin-left: 18px;
-            cursor: pointer;
-        }
-
-        .codeBtn {
-            cursor: pointer;
-            width: 45px;
-            display: inline-block;
-            float: right;
-            margin-right: 10px;
-        }
-
-        .codeBtn:hover {
-            color: #f72f41;
-            text-decoration: underline !important;
-        }
-    </style>
 </head>
 <body>
-<div id="container" class="">
-    <div id="center">
+<div id="wrap">
+    <div id="content">
         <form class="layui-form">
             <input type="hidden" name="loginId" id="loginId" th:value="${{loginId}}"/>
             <input type="hidden" id="publicKey" th:value="${{publicKey}}"/>
@@ -103,7 +54,7 @@
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn layui-btn-big" lay-submit lay-filter="login">登&nbsp;&nbsp;录</button>
+                    <button class="layui-btn" lay-submit lay-filter="login">登&nbsp;&nbsp;录</button>
                 </div>
             </div>
         </form>
@@ -137,12 +88,17 @@
                             content: r.msg,
                             icon: 2
                         });
-                        debugger;
                         var data = r.data;
                         if (data) {
-                            if (data.showVerifyCode == 1) {//显示验证码
+                            var hide = $("#verifyCode").hasClass("layui-hide");
+                            if (data.showVerifyCode == 1 && hide) {//显示验证码
                                 $(".code").attr("lay-verify", "required");
                                 $("#verifyCode").removeClass("layui-hide");
+                                var image = $(".codeImage").attr("src");
+                                if (!image) {
+                                    refreshVerifyCode();
+                                }
+                            } else {
                                 refreshVerifyCode();
                             }
                         }
@@ -174,10 +130,12 @@
             refreshVerifyCode();
         });
 
-        //刷新验证码
+        //刷新验证码，清空输入
         function refreshVerifyCode() {
             var second = new Date().getTime();
-            $(".codeImage").attr("src", "/login/verifyCode.do?loginId=[[${loginId}]]&uuid=" + second);
+            var loginId = [[${loginId}]];
+            $(".code").val("");
+            $(".codeImage").attr("src", "/login/verifyCode.do?loginId=" + loginId + "&uuid=" + second);
         }
     });
 </script>
