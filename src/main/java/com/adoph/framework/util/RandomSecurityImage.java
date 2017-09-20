@@ -71,7 +71,7 @@ public class RandomSecurityImage {
     public static ByteArrayInputStream getGaussianBlurImage(char[] codes) {
         int width = 130;
         int height = 38;
-        log.info("刷新验证码：" + new String(codes));
+        log.info("{刷新验证码：" + new String(codes) + "}");
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics2D g = (Graphics2D) image.getGraphics();

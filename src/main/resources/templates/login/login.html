@@ -25,44 +25,47 @@
     <!--系统库 end-->
 </head>
 <body>
-<div id="wrap">
-    <div id="content">
-        <form class="layui-form">
-            <input type="hidden" name="loginId" id="loginId" th:value="${{loginId}}"/>
-            <input type="hidden" id="publicKey" th:value="${{publicKey}}"/>
-            <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="userName" required="required" lay-verify="required" placeholder="请输入用户名"
-                           autocomplete="off"
-                           class="layui-input"/>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">密码框</label>
-                <div class="layui-input-inline">
-                    <input type="password" name="password" required="required" lay-verify="required" placeholder="请输入密码"
-                           autocomplete="off"
-                           class="layui-input"/>
-                </div>
-            </div>
-            <div id="verifyCode" class="layui-form-item layui-hide">
-                <input type="text" name="verifyCode" class="code" required="required"
-                       placeholder="验证码"/>
-                <img class="codeImage" width="130" height="38"/>
-                <a class="codeBtn">看不清换一张</a>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit lay-filter="login">登&nbsp;&nbsp;录</button>
-                </div>
-            </div>
-        </form>
+<div class="container">
+    <div class="titleCon">
+        <a href="https://github.com/SmithAdoph/framework.git" target="_blank">
+            <span style="color: #0950ff">甘道夫</span>&nbsp;权限管理系统
+        </a>
     </div>
+    <form class="layui-form">
+        <input type="hidden" name="loginId" id="loginId" th:value="${{loginId}}"/>
+        <input type="hidden" id="publicKey" th:value="${{publicKey}}"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="userName" required="required" lay-verify="required" placeholder="请输入用户名"
+                       autocomplete="off"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码框</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required="required" lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off"
+                       class="layui-input"/>
+            </div>
+        </div>
+        <div id="verifyCode" class="layui-form-item layui-hide">
+            <input type="text" name="verifyCode" class="code" required="required"
+                   placeholder="验证码"/>
+            <img class="codeImage" width="130" height="38"/>
+            <a class="codeBtn">看不清换一张</a>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="login">登&nbsp;&nbsp;录</button>
+            </div>
+        </div>
+    </form>
 </div>
 
 <script th:inline="javascript">
-    layui.use(['jquery', 'form', 'layer'], function () {
+    layui.use(['jquery', 'form', 'layer', 'element'], function () {
         var form = layui.form,
             $ = layui.$,
             layer = layui.layer;
@@ -90,10 +93,11 @@
                         });
                         var data = r.data;
                         if (data) {
-                            var hide = $("#verifyCode").hasClass("layui-hide");
-                            if (data.showVerifyCode == 1 && hide) {//显示验证码
+                            var $verifyCode = $("#verifyCode");
+                            var hide = $verifyCode.hasClass("layui-hide");
+                            if (data.showVerifyCode === 1 && hide) {//显示验证码
                                 $(".code").attr("lay-verify", "required");
-                                $("#verifyCode").removeClass("layui-hide");
+                                $verifyCode.removeClass("layui-hide");
                                 var image = $(".codeImage").attr("src");
                                 if (!image) {
                                     refreshVerifyCode();

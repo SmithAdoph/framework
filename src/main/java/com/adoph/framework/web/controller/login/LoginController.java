@@ -70,18 +70,25 @@ public class LoginController {
             user = LoginManager.login(loginId, userName, password);
             if (user == null) {
                 failCount = LoginManager.getFailCount(loginId);
-                if (failCount >= LoginManager.FAIL_COUNT_MAX) {
-                    LoginVO vo = new LoginVO();
-                    vo.setShowVerifyCode(1);
-                    response.setData(vo);
+                if (failCount == null) {
+                    // 非法登录
+                    log.warn("{非法登录！loginId=" + loginId + "失效！}");
+                    response.error("登录异常，请联系管理员！");
+                } else {
+                    if (failCount >= LoginManager.FAIL_COUNT_MAX) {
+                        LoginVO vo = new LoginVO();
+                        vo.setShowVerifyCode(1);
+                        response.setData(vo);
+                    }
+                    response.error("用户名或者密码错误！");
                 }
-                response.error("用户名或者密码错误！");
             } else {
+                // TODO 登录成功，保存用户session
                 response.success("登录成功！");
             }
         } catch (Exception e) {
             response.error("登录异常，请联系管理员！");
-            log.error("登录失败!", e);
+            log.error("{登录失败!}", e);
         }
         return response;
     }

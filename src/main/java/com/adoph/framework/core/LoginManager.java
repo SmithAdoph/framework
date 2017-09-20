@@ -30,7 +30,7 @@ public class LoginManager {
     /**
      * 用户登录失败计数
      */
-    private static Map<String, Integer> loginCount = new ConcurrentHashMap<>();
+    private static Map<String, Integer> loginCountMap = new ConcurrentHashMap<>();
 
     /**
      * 用户登录验证码
@@ -49,12 +49,12 @@ public class LoginManager {
      * @return Integer
      */
     private static Integer fail(String loginId) {
-        Integer failCount = loginCount.get(loginId);
+        Integer failCount = loginCountMap.get(loginId);
         if (failCount == null) {
             failCount = 0;
         }
-        loginCount.put(loginId, failCount + 1);
-        return loginCount.get(loginId);
+        loginCountMap.put(loginId, failCount + 1);
+        return loginCountMap.get(loginId);
     }
 
     /**
@@ -64,7 +64,16 @@ public class LoginManager {
      * @return Integer
      */
     public static Integer getFailCount(String loginId) {
-        return loginCount.get(loginId);
+        return loginCountMap.get(loginId);
+    }
+
+    /**
+     * 移除用户登录失败记录
+     *
+     * @param loginId 登录id
+     */
+    private static void removeFailCount(String loginId) {
+        loginCountMap.remove(loginId);
     }
 
     /**
@@ -99,6 +108,15 @@ public class LoginManager {
     }
 
     /**
+     * 移除验证码
+     *
+     * @param loginId 登录id
+     */
+    private static void removeVerifyCode(String loginId) {
+        loginVerifyCodeMap.remove(loginId);
+    }
+
+    /**
      * 获取用户验证码
      *
      * @param loginId 登录id
@@ -109,11 +127,11 @@ public class LoginManager {
     }
 
     /**
-     * 校验用户验证码
+     * 校验用户验证码(忽略大小写)
      *
      * @param loginId    登录id
      * @param verifyCode 验证码
-     * @return
+     * @return boolean
      */
     public static boolean verifyCode(String loginId, String verifyCode) {
         return getVerifyCode(loginId).equalsIgnoreCase(verifyCode);
@@ -130,13 +148,20 @@ public class LoginManager {
     public static OnlineUser login(String loginId, String userName, String password) {
         LoginService loginService = SpringUtils.getBean("loginService");
         KeyPair keyPair = keyPairMap.get(loginId);
+        if (keyPair == null) {
+            // 非法登录
+            log.warn("{非法登录！loginId=" + loginId + "失效！}");
+            return null;
+        }
         SysUser user = loginService.login(userName, SecurityUtils.MD5(RSAEncryptUtils.decrypt(keyPair.getPrivate(), password)));
         if (user != null) {
             // TODO 记住用户时，不能移除密钥对
             removeKey(loginId);//移除密钥对
+            removeFailCount(loginId);//移除登录失败记录
+            removeVerifyCode(loginId);//基础验证码
             return new OnlineUser(loginId, user);
         } else {
-            log.warn("用户登录失败次数：【loginId=" + loginId + "】" + fail(loginId) + "次");//登录失败记录次数
+            log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//登录失败记录次数
         }
         return null;
     }
