@@ -19,7 +19,7 @@ import java.util.Map;
  * @since 2017/9/18
  */
 @Component
-@Lazy(false)
+//@Lazy(false)
 public class SpringUtils implements ApplicationContextAware {
 
     private static ApplicationContext context;

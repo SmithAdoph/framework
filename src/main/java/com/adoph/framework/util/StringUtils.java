@@ -1,7 +1,9 @@
 package com.adoph.framework.util;
 
 /**
- * String工具类
+ * String工具类：
+ * 1.继承org.apache.commons.lang3.StringUtils
+ * 2.自定义功能
  *
  * @author Adoph
  * @version v1.0
