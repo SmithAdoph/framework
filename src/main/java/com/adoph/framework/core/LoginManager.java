@@ -146,7 +146,7 @@ public class LoginManager {
      * @return OnlineUser
      */
     public static OnlineUser login(String loginId, String userName, String password) {
-        LoginService loginService = SpringUtils.getBean("loginService");
+        LoginService loginService = SpringUtils.getBean("loginService", LoginService.class);
         KeyPair keyPair = keyPairMap.get(loginId);
         if (keyPair == null) {
             // 非法登录

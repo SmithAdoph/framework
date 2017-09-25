@@ -1,6 +1,5 @@
 package com.adoph.framework.test;
 
-import com.adoph.framework.Application;
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
 import org.junit.Assert;
@@ -23,7 +22,7 @@ import java.io.Serializable;
  * @since 2017/9/20
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest
 public class RedisTest {
 
     @Autowired
@@ -31,11 +30,6 @@ public class RedisTest {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
-    /**
-     * RedisCache
-     */
-    private CacheService redisCache = CacheFactory.getRedisCache();
 
     @Test
     public void valueOpTest() throws InterruptedException {
@@ -72,7 +66,8 @@ public class RedisTest {
         //获取指定key的值，并截取字符串
 //        Assert.assertEquals("ad", ops.get("t1", 0, 1));
 
-        redisCache.set("tqd", 123334);
+        CacheService redisCache = CacheFactory.getRedisCache();
+//        redisCache.set("tqd", 123334);
         Assert.assertEquals(123334, redisCache.get("tqd"));
     }
 

@@ -26,6 +26,7 @@ public class CacheFactory {
      * @return CacheService
      */
     public static CacheService getRedisCache() {
+        // 双重检查
         if (redisCache == null) {
             synchronized (CacheFactory.class) {
                 if (redisCache == null) {
