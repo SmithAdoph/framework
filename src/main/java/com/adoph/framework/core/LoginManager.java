@@ -1,5 +1,7 @@
 package com.adoph.framework.core;
 
+import com.adoph.framework.core.cache.CacheFactory;
+import com.adoph.framework.core.cache.service.CacheService;
 import com.adoph.framework.pojo.permission.SysUser;
 import com.adoph.framework.service.common.LoginService;
 import com.adoph.framework.util.*;
@@ -21,6 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LoginManager {
 
     private final static Logger log = LoggerFactory.getLogger(LoginManager.class);
+
+    /**
+     * redis缓存
+     */
+    private static CacheService<String, OnlineUser> redisCache = CacheFactory.getRedisCache();
 
     /**
      * 用户登录密钥对
@@ -154,12 +161,14 @@ public class LoginManager {
             return null;
         }
         SysUser user = loginService.login(userName, SecurityUtils.MD5(RSAEncryptUtils.decrypt(keyPair.getPrivate(), password)));
-        if (user != null) {
+        if (user != null) {//登录成功
             // TODO 记住用户时，不能移除密钥对
             removeKey(loginId);//移除密钥对
             removeFailCount(loginId);//移除登录失败记录
             removeVerifyCode(loginId);//基础验证码
-            return new OnlineUser(loginId, user);
+            OnlineUser online = new OnlineUser(loginId, user);
+            redisCache.add(loginId, online);//缓存用户
+            return online;
         } else {
             log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//登录失败记录次数
         }

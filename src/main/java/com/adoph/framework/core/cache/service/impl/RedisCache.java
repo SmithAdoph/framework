@@ -21,12 +21,12 @@ public class RedisCache<K, V> implements CacheService<K, V> {
     private RedisTemplate<K, V> redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
 
     @Override
-    public void set(K key, V value) {
+    public void add(K key, V value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
     @Override
-    public void set(K key, V value, long timeout, TimeUnit unit) {
+    public void add(K key, V value, long timeout, TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
     }
 
@@ -35,12 +35,24 @@ public class RedisCache<K, V> implements CacheService<K, V> {
         return (V) redisTemplate.opsForValue().get(key);
     }
 
-    public void set(K key, V ...value) {
+    public void set(K key, V... value) {
         redisTemplate.opsForSet().add(key, value);
+    }
+
+    public void getSet(K key) {
+        redisTemplate.opsForSet().members(key);
     }
 
     public void zSet(K key, V value, double score) {
         redisTemplate.opsForZSet().add(key, value, score);
+    }
+
+    public void getZSet(K key) {
+        redisTemplate.opsForZSet().range(key, 0, -1);
+    }
+
+    public void list() {
+//        redisTemplate.opsForList().leftPush()
     }
 }
 

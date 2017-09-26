@@ -17,7 +17,7 @@ public interface CacheService<K, V> {
      * @param key   非空
      * @param value
      */
-    void set(K key, V value);
+    void add(K key, V value);
 
     /**
      * 缓存，并设置过期时间
@@ -27,7 +27,7 @@ public interface CacheService<K, V> {
      * @param timeout 过期时间
      * @param unit    时间单位
      */
-    void set(K key, V value, long timeout, TimeUnit unit);
+    void add(K key, V value, long timeout, TimeUnit unit);
 
     /**
      * 获取缓存值
