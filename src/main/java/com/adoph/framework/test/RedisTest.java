@@ -2,6 +2,7 @@ package com.adoph.framework.test;
 
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
@@ -30,6 +30,21 @@ public class RedisTest {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    /**
+     * Redis序列化方式：
+     * 不同的数据类型，采用不同的序列化方式
+     */
+    @Test
+    public void serializerTest() {
+//        1.String
+//        stringRedisTemplate.opsForValue().set("user1", "admin");
+//        redisTemplate.opsForValue().set("user2", "admin");
+
+//        2.JSON
+        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.
+    }
 
     @Test
     public void valueOpTest() throws InterruptedException {
@@ -73,10 +88,10 @@ public class RedisTest {
 
     @Test
     public void objectTest() {
-        ValueOperations<String, TestUser> ops = redisTemplate.opsForValue();
-        TestUser user = new TestUser("tqd", 12);
-        ops.set("12321ERTY", user);
-        System.out.println(ops.get("12321ERTY"));
+//        ValueOperations<String, TestUser> ops = redisTemplate.opsForValue();
+//        TestUser user = new TestUser("tqd", 12);
+//        ops.set("12321ERTY", user);
+//        System.out.println(ops.get("12321ERTY"));
     }
 
     @Test
