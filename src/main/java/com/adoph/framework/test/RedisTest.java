@@ -1,8 +1,5 @@
 package com.adoph.framework.test;
 
-import com.adoph.framework.core.cache.CacheFactory;
-import com.adoph.framework.core.cache.service.CacheService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * StringRedisTemplate测试
@@ -42,29 +44,34 @@ public class RedisTest {
 //        redisTemplate.opsForValue().set("user2", "admin");
 
 //        2.JSON
-        ObjectMapper objectMapper = new ObjectMapper();
+//        ObjectMapper objectMapper = new ObjectMapper();
 //        objectMapper.
     }
 
     @Test
     public void valueOpTest() throws InterruptedException {
-        //ValueOperations 存储单个值，key相同覆盖值
-//        ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
+        //1.ValueOperations 存储单个值，key相同覆盖值
+        ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
         //void set(K key, V value);
 //        ops.set("userStr", "admin");
 //        ops.set("userStr", "admin1");
 //        ops.set("userStr", "admin2");
 //        Assert.assertEquals("admin2", ops.get("userStr"));
 
-        //void set(K key, V value, long offset);
-        //offset指定value的长度，长度不够用unicode的"\u0000"填充
+        //2.void set(K key, V value, long offset);
+        //从偏移量offset开始覆盖
+        //如果value的长度不足，则用unicode的"\u0000"填充
 //        ops.set("userStr1", "1", 5);
 //        ops.set("userStr2", "123456", 5);
+
+//        ops.set("str2", "hello");
+//        ops.set("str2", "redis", 6);
+//        Assert.assertEquals("hello redis", ops.get("str1"));
 
 //        char[] rs = ops.get("userStr1").toCharArray();
 //        Assert.assertEquals(UnicodeUtils.encode("1"), UnicodeUtils.decode(ops.get("userStr2")));
 
-        //设置过期时间
+        //3.设置过期时间
 //        ops.set("userStr3", "timeout", 5, TimeUnit.SECONDS);
 //        Assert.assertEquals("timeout", ops.get("userStr3"));
 //        Thread.sleep(1000 * 5);
@@ -72,23 +79,63 @@ public class RedisTest {
 
 //        ops.set("userStr3", "timeout");
 //        Assert.assertEquals("timeout", ops.get("userStr3"));
-//        //动态设置某个key的过期时间
+        //4.动态设置某个key的过期时间
 //        stringRedisTemplate.expire("userStr3", 3, TimeUnit.SECONDS);
 //        Thread.sleep(1000 * 3);
 //        Assert.assertNull(ops.get("userStr3"));
 
 //        ops.set("t1", "admin1");
-        //获取指定key的值，并截取字符串
+        //5.获取指定key的值，并截取字符串
 //        Assert.assertEquals("ad", ops.get("t1", 0, 1));
 
-        CacheService redisCache = CacheFactory.getRedisCache();
+//        CacheService redisCache = CacheFactory.getRedisCache();
 //        redisCache.set("tqd", 123334);
-        Assert.assertEquals(123334, redisCache.get("tqd"));
+//        Assert.assertEquals(123334, redisCache.get("tqd"));
+
+        //6.multiSet以map的形式添加多条kv
+//        Map<String, String> map =  new HashMap<>();
+//        map.put("map1", "admin");
+//        map.put("map2", "admin1");
+//        map.put("map3", "admin2");
+//        ops.multiSet(map);
+
+        //7.multiGet以list获取多个key的值
+//        List<String> keys = new ArrayList<>();
+//        keys.add("map1");
+//        keys.add("map2");
+//        keys.add("map3");
+//        List<String> list = ops.multiGet(keys);
+//        for (String str : list) {
+//            System.out.println(str);
+//        }
+
+        //8.getAndSet设置值并返回旧值
+//        Assert.assertEquals("admin", ops.getAndSet("user2", "new"));
+//        Assert.assertEquals("new", ops.get("user2"));
+
+        //9.支持long, double
+        //increment 增加
+//        ops.increment("count", 1);
+//        ops.increment("money", 12.23);
+
+        //10.追加字符串，如果为空等同于set
+//        ops.append("app1", "com");
+
+        //11.size返回key对应的value的长度
+//        Assert.assertEquals(new Long(3), ops.size("app1"));
+
+        //12.setBit设置value的二进制对应的从右至左偏移量的值，true为1，false为0
+//        ops.set("bit", "a");//ASCII 97-0110 0010
+//        ops.setBit("bit", 2, false);
+//        System.out.println(ops.get("bit"));
+
+
     }
 
     @Test
     public void objectTest() {
-//        ValueOperations<String, TestUser> ops = redisTemplate.opsForValue();
+        ValueOperations<String, Object> ops = redisTemplate.opsForValue();
+//        ops.increment()
 //        TestUser user = new TestUser("tqd", 12);
 //        ops.set("12321ERTY", user);
 //        System.out.println(ops.get("12321ERTY"));
