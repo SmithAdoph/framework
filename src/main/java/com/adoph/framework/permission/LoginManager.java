@@ -1,9 +1,9 @@
-package com.adoph.framework.core;
+package com.adoph.framework.permission;
 
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
-import com.adoph.framework.pojo.permission.SysUser;
-import com.adoph.framework.service.common.LoginService;
+import com.adoph.framework.permission.pojo.SysUser;
+import com.adoph.framework.permission.service.LoginService;
 import com.adoph.framework.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.security.KeyPair;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 在线用户管理
@@ -27,12 +28,12 @@ public class LoginManager {
     /**
      * redis缓存
      */
-    private static CacheService<String, OnlineUser> redisCache = CacheFactory.getRedisCache();
+    private static CacheService redisCache = CacheFactory.getRedisCache();
 
     /**
      * 用户登录密钥对
      */
-    private static Map<String, KeyPair> keyPairMap = new ConcurrentHashMap<>();
+//    private static Map<String, KeyPair> keyPairMap = new ConcurrentHashMap<>();
 
     /**
      * 用户登录失败计数
@@ -48,6 +49,11 @@ public class LoginManager {
      * 登录失败最大次数
      */
     public final static int FAIL_COUNT_MAX = 3;
+
+    /**
+     * 用户登录密钥对缓存，默认有效时间5分钟
+     */
+    private final static String KEY_PAIR_TAG = "LOGIN_KEY_PAIR";
 
     /**
      * 登录失败
@@ -91,7 +97,8 @@ public class LoginManager {
      */
     public static KeyPair addKey(String loginId) {
         KeyPair keyPair = RSAEncryptUtils.genKeyPair();
-        keyPairMap.put(loginId, keyPair);
+//        keyPairMap.put(loginId, keyPair);
+        redisCache.add(KEY_PAIR_TAG + loginId, keyPair, 5, TimeUnit.MINUTES);
         return keyPair;
     }
 
@@ -101,7 +108,8 @@ public class LoginManager {
      * @param loginId 登录id
      */
     private static void removeKey(String loginId) {
-        keyPairMap.remove(loginId);
+//        keyPairMap.remove(loginId);
+        redisCache.delete(KEY_PAIR_TAG + loginId, loginId);
     }
 
     /**
@@ -154,7 +162,8 @@ public class LoginManager {
      */
     public static OnlineUser login(String loginId, String userName, String password) {
         LoginService loginService = SpringUtils.getBean("loginService", LoginService.class);
-        KeyPair keyPair = keyPairMap.get(loginId);
+//        KeyPair keyPair = keyPairMap.get(loginId);
+        KeyPair keyPair = (KeyPair) redisCache.get(KEY_PAIR_TAG + loginId);
         if (keyPair == null) {
             // 非法登录
             log.warn("{非法登录！loginId=" + loginId + "失效！}");

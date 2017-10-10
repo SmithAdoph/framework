@@ -1,4 +1,4 @@
-package com.adoph.framework.pojo.permission;
+package com.adoph.framework.permission.pojo;
 
 import javax.persistence.*;
 import java.util.Date;

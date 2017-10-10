@@ -1,9 +1,9 @@
-package com.adoph.framework.web.controller.login;
+package com.adoph.framework.permission.controller.login;
 
-import com.adoph.framework.core.LoginManager;
-import com.adoph.framework.core.OnlineUser;
-import com.adoph.framework.core.vo.LoginVO;
-import com.adoph.framework.service.common.LoginService;
+import com.adoph.framework.permission.LoginManager;
+import com.adoph.framework.permission.OnlineUser;
+import com.adoph.framework.permission.vo.LoginVO;
+import com.adoph.framework.permission.service.LoginService;
 import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.web.response.BaseResponse;
 import org.slf4j.Logger;

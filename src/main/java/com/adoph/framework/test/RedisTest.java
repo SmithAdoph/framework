@@ -5,9 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
@@ -29,9 +27,9 @@ public class RedisTest {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
     @Autowired
     private RedisTemplate redisTemplate;
+
 
     /**
      * Redis序列化方式：
@@ -128,54 +126,45 @@ public class RedisTest {
 //        ops.set("bit", "a");//ASCII 97-0110 0010
 //        ops.setBit("bit", 2, false);
 //        System.out.println(ops.get("bit"));
-
-
     }
 
     @Test
-    public void objectTest() {
-        ValueOperations<String, Object> ops = redisTemplate.opsForValue();
-//        ops.increment()
-//        TestUser user = new TestUser("tqd", 12);
-//        ops.set("12321ERTY", user);
-//        System.out.println(ops.get("12321ERTY"));
+    public void listTest() {
+        //opsForList 得到一个集合
+        ListOperations ops = stringRedisTemplate.opsForList();
+
+        //leftPush 从集合的头部插入
+//        Long t1 = ops.leftPush("userList", "张三");
+//        Long t2 = ops.leftPush("userList", "李四");
+//        Long t3 = ops.leftPush("userList", "王麻子");
+//        System.out.println(t1 + "," + t2 + "," + t3);
+
+//        String[] users = {"x1", "x2", "x3"};
+//        String[] users = new String[]{"x1", "x2", "x3"};
+//        ops.leftPushAll("userList", users);
+        //rightPush 从集合的尾部插入
+//        Long t4 = ops.rightPush("userList", "r1");
+//        System.out.println(t4);
+
+        //长度
+//        Long size = ops.size("userList");
+
+        //leftPushIfPresent 如果存在key，则插入，不存在，不插入；
+//        Long t5 = ops.leftPushIfPresent("userList", "aa");
+//        System.out.println(t5);
+
+//        Long t6 = ops.leftPushIfPresent("newList", "aa1");
+//        System.out.println(t6);
     }
 
-    @Test
-    public void stringTest() {
-//        stringRedisTemplate.opsForCluster();
-//        stringRedisTemplate.opsForGeo();
+    public void hashTest() {
+        HashOperations<String, Object, Object> ops = stringRedisTemplate.opsForHash();
+        ops.put("people", "name", "tdd");
+        ops.put("people", "age", 12);
+        ops.put("people", "sex", "男");
 
-//        HashOperations<String, Object, Object> opsForHash = stringRedisTemplate.opsForHash();
-//        opsForHash.put("pwd", "QWERTYUI", "123");
-//        Assert.assertEquals("123", opsForHash.get("pwd", "QWERTYUI"));
-//        stringRedisTemplate.opsForHyperLogLog();
-
-        //1.ListOperations按照push顺序存储(类似栈，先进后出)
-//        ListOperations<String, String> opsForList = stringRedisTemplate.opsForList();
-//        opsForList.leftPush("user", "admin");
-//        opsForList.leftPush("user", "admin1");
-//        opsForList.leftPush("user", "admin2");
-
-        //挨个移除，并返回移除的值(从上往下)
-//        Assert.assertEquals("admin2", opsForList.leftPop("user"));
-//        RedisOperations<String, String> operations = opsForList.getOperations();
-//        System.out.println(operations);
-
-//        SetOperations<String, String> opsForSet = stringRedisTemplate.opsForSet();
-////        opsForSet.add("user", "t2", "t1", "t6", "t5");
-//        opsForSet.remove("user", "5");
-//        Set<String> user = opsForSet.members("user");
-//        System.out.println(user);
-
-//        ZSetOperations<String, String> forZSet = stringRedisTemplate.opsForZSet();
-//        forZSet.add("company", "sm1", 2);
-//        forZSet.add("company", "sm2", 1);
-//        forZSet.add("company", "sm3", 5);
-//        Set<String> company = forZSet.range("company", 0, 2);
-//        System.out.println(company);
+//        ops.putAll();
     }
-
 }
 
 class TestUser implements Serializable {

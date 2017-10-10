@@ -35,24 +35,24 @@ public class RedisCache<K, V> implements CacheService<K, V> {
         return (V) redisTemplate.opsForValue().get(key);
     }
 
-    public void set(K key, V... value) {
-        redisTemplate.opsForSet().add(key, value);
+    @Override
+    public void delete(K key) {
+        redisTemplate.delete(key);
     }
 
-    public void getSet(K key) {
-        redisTemplate.opsForSet().members(key);
+    @Override
+    public void add(K key, Object hashKey, V value) {
+        redisTemplate.opsForHash().put(key, hashKey, value);
     }
 
-    public void zSet(K key, V value, double score) {
-        redisTemplate.opsForZSet().add(key, value, score);
+    @Override
+    public Object get(K key, Object hashKey) {
+        return redisTemplate.opsForHash().get(key, hashKey);
     }
 
-    public void getZSet(K key) {
-        redisTemplate.opsForZSet().range(key, 0, -1);
-    }
-
-    public void list() {
-//        redisTemplate.opsForList().leftPush()
+    @Override
+    public void delete(K key, Object... hashKey) {
+        redisTemplate.opsForHash().delete(key, hashKey);
     }
 }
 

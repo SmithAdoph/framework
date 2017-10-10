@@ -1,9 +1,8 @@
-package com.adoph.framework.service.common.impl;
+package com.adoph.framework.permission.service.impl;
 
-import com.adoph.framework.dao.permission.LoginRepository;
-import com.adoph.framework.pojo.permission.SysUser;
-import com.adoph.framework.service.common.LoginService;
-import com.adoph.framework.util.RSAEncryptUtils;
+import com.adoph.framework.permission.dao.LoginRepository;
+import com.adoph.framework.permission.pojo.SysUser;
+import com.adoph.framework.permission.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.adoph.framework.core.vo;
+package com.adoph.framework.permission.vo;
 
 /**
  * 用户登录VO

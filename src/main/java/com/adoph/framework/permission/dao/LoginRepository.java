@@ -1,6 +1,6 @@
-package com.adoph.framework.dao.permission;
+package com.adoph.framework.permission.dao;
 
-import com.adoph.framework.pojo.permission.SysUser;
+import com.adoph.framework.permission.pojo.SysUser;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

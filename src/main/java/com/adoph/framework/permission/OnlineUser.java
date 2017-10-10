@@ -1,6 +1,6 @@
-package com.adoph.framework.core;
+package com.adoph.framework.permission;
 
-import com.adoph.framework.pojo.permission.SysUser;
+import com.adoph.framework.permission.pojo.SysUser;
 
 import java.io.Serializable;
 

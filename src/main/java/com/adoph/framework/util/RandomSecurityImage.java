@@ -1,6 +1,5 @@
 package com.adoph.framework.util;
 
-import com.adoph.framework.core.LoginManager;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
