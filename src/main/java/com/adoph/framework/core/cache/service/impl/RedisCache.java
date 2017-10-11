@@ -3,6 +3,7 @@ package com.adoph.framework.core.cache.service.impl;
 import com.adoph.framework.core.cache.service.CacheService;
 import com.adoph.framework.util.SpringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,7 +19,13 @@ public class RedisCache<K, V> implements CacheService<K, V> {
     /**
      * Spring RedisTemplate
      */
-    private RedisTemplate<K, V> redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
+    private RedisTemplate<K, V> redisTemplate;
+
+    public RedisCache() {
+        redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
+        //默认key都是String类型
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+    }
 
     @Override
     public void add(K key, V value) {
@@ -53,6 +60,21 @@ public class RedisCache<K, V> implements CacheService<K, V> {
     @Override
     public void delete(K key, Object... hashKey) {
         redisTemplate.opsForHash().delete(key, hashKey);
+    }
+
+    @Override
+    public Long increment(K key, long delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    @Override
+    public Double increment(K key, double delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    @Override
+    public void expire(K key, long timeout, TimeUnit unit) {
+        redisTemplate.expire(key, timeout, unit);
     }
 }
 

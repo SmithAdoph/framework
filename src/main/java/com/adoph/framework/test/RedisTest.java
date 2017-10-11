@@ -1,14 +1,18 @@
 package com.adoph.framework.test;
 
+import com.adoph.framework.util.RSAEncryptUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.Serializable;
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +44,29 @@ public class RedisTest {
 //        1.String
 //        stringRedisTemplate.opsForValue().set("user1", "admin");
 //        redisTemplate.opsForValue().set("user2", "admin");
+
+//        2.TestUser
+//        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
+//        redisTemplate.setKeySerializer(stringSerializer);
+        ValueOperations ops = redisTemplate.opsForValue();
+//        TestUser user = new TestUser("TDD", 12);
+//        ops.set("user3", user);
+//        ops.set("user4", "xxx");
+//
+//        TestChild child = new TestChild("child");
+//        ops.set("user5", child);
+//
+//        KeyPair keyPair = RSAEncryptUtils.genKeyPair();
+//        ops.set("key", keyPair);
+//
+//        System.out.println(ops.get("user3"));
+//        System.out.println(ops.get("user4"));
+//        System.out.println(ops.get("user5"));
+//        System.out.println(ops.get("key"));
+
+        ops.increment("user_count", 1);
+//        Long user_count = (Long) ops.get("user_count");
+        System.out.println(ops.get("user_count"));
 
 //        2.JSON
 //        ObjectMapper objectMapper = new ObjectMapper();
@@ -164,6 +191,29 @@ public class RedisTest {
         ops.put("people", "sex", "男");
 
 //        ops.putAll();
+    }
+}
+
+class TestChild implements Serializable {
+    private String name;
+
+    public TestChild(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "TestChild{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
 

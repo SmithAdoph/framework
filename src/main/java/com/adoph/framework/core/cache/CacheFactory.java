@@ -18,7 +18,7 @@ public class CacheFactory {
     /**
      * Redis缓存
      */
-    private static volatile CacheService redisCache;
+    private static volatile CacheService<String, Object> redisCache;
 
     /**
      * 获取Redis缓存
@@ -30,7 +30,7 @@ public class CacheFactory {
         if (redisCache == null) {
             synchronized (CacheFactory.class) {
                 if (redisCache == null) {
-                    redisCache = new RedisCache();
+                    redisCache = new RedisCache<>();
                 }
             }
         }

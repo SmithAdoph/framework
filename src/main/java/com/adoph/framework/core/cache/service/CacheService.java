@@ -1,7 +1,5 @@
 package com.adoph.framework.core.cache.service;
 
-import org.omg.CORBA.OBJ_ADAPTER;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -71,4 +69,29 @@ public interface CacheService<K, V> {
      * @param hashKey hash键
      */
     void delete(K key, Object... hashKey);
+
+    /**
+     * 缓存递增
+     *
+     * @param key   键
+     * @param delta 递增值
+     */
+    Long increment(K key, long delta);
+
+    /**
+     * 缓存递增
+     *
+     * @param key   键
+     * @param delta 递增值
+     */
+    Double increment(K key, double delta);
+
+    /**
+     * 设置缓存过期时间
+     *
+     * @param key     键
+     * @param timeout 过期时间
+     * @param unit    时间单位
+     */
+    void expire(K key, long timeout, TimeUnit unit);
 }

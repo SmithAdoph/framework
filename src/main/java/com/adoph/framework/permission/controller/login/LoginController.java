@@ -55,7 +55,7 @@ public class LoginController {
     public BaseResponse doLogin(@RequestParam("loginId") String loginId, @RequestParam("userName") String userName,
                                 @RequestParam("password") String password, HttpServletRequest request) {
         BaseResponse<LoginVO> response = new BaseResponse<>();
-        Integer failCount = LoginManager.getFailCount(loginId);
+        Long failCount = LoginManager.getFailCount(loginId);
         if (failCount != null) {
             if (failCount >= LoginManager.FAIL_COUNT_MAX) {
                 String verifyCode = request.getParameter("verifyCode");

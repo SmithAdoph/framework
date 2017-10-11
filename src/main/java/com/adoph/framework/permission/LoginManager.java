@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
+import java.security.Key;
 import java.security.KeyPair;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,11 +32,6 @@ public class LoginManager {
     private static CacheService redisCache = CacheFactory.getRedisCache();
 
     /**
-     * 用户登录密钥对
-     */
-//    private static Map<String, KeyPair> keyPairMap = new ConcurrentHashMap<>();
-
-    /**
      * 用户登录失败计数
      */
     private static Map<String, Integer> loginCountMap = new ConcurrentHashMap<>();
@@ -51,9 +47,19 @@ public class LoginManager {
     public final static int FAIL_COUNT_MAX = 3;
 
     /**
-     * 用户登录密钥对缓存，默认有效时间5分钟
+     * 用户登录密钥对缓存key前缀，默认有效时间5分钟
      */
     private final static String KEY_PAIR_TAG = "LOGIN_KEY_PAIR";
+
+    /**
+     * 用户登录失败次数缓存key前缀
+     */
+    private final static String LOGIN_FAIL_TAG = "LOGIN_FAIL_COUNT";
+
+    /**
+     * 间隔
+     */
+    private static final String UNDERLINE = "_";
 
     /**
      * 登录失败
@@ -61,13 +67,13 @@ public class LoginManager {
      * @param loginId 登录id
      * @return Integer
      */
-    private static Integer fail(String loginId) {
-        Integer failCount = loginCountMap.get(loginId);
-        if (failCount == null) {
-            failCount = 0;
+    private static Long fail(String loginId) {
+        String key = LOGIN_FAIL_TAG + UNDERLINE + loginId;
+        Long count = redisCache.increment(key, 1L);
+        if (count == 1) {
+            redisCache.expire(key, 5L, TimeUnit.MINUTES);
         }
-        loginCountMap.put(loginId, failCount + 1);
-        return loginCountMap.get(loginId);
+        return count;
     }
 
     /**
@@ -76,8 +82,9 @@ public class LoginManager {
      * @param loginId 登录id
      * @return Integer
      */
-    public static Integer getFailCount(String loginId) {
-        return loginCountMap.get(loginId);
+    public static Long getFailCount(String loginId) {
+        String key = LOGIN_FAIL_TAG + UNDERLINE + loginId;
+        return (Long) redisCache.get(key);
     }
 
     /**
@@ -86,7 +93,7 @@ public class LoginManager {
      * @param loginId 登录id
      */
     private static void removeFailCount(String loginId) {
-        loginCountMap.remove(loginId);
+        redisCache.delete(LOGIN_FAIL_TAG + UNDERLINE + loginId);
     }
 
     /**
@@ -97,8 +104,7 @@ public class LoginManager {
      */
     public static KeyPair addKey(String loginId) {
         KeyPair keyPair = RSAEncryptUtils.genKeyPair();
-//        keyPairMap.put(loginId, keyPair);
-        redisCache.add(KEY_PAIR_TAG + loginId, keyPair, 5, TimeUnit.MINUTES);
+        redisCache.add(KEY_PAIR_TAG + UNDERLINE + loginId, keyPair, 5, TimeUnit.MINUTES);
         return keyPair;
     }
 
@@ -108,8 +114,16 @@ public class LoginManager {
      * @param loginId 登录id
      */
     private static void removeKey(String loginId) {
-//        keyPairMap.remove(loginId);
-        redisCache.delete(KEY_PAIR_TAG + loginId, loginId);
+        redisCache.delete(KEY_PAIR_TAG + UNDERLINE + loginId);
+    }
+
+    /**
+     * 获取密钥
+     *
+     * @param loginId 登录id
+     */
+    private static KeyPair getKey(String loginId) {
+        return (KeyPair) redisCache.get(KEY_PAIR_TAG + UNDERLINE + loginId);
     }
 
     /**
@@ -162,10 +176,8 @@ public class LoginManager {
      */
     public static OnlineUser login(String loginId, String userName, String password) {
         LoginService loginService = SpringUtils.getBean("loginService", LoginService.class);
-//        KeyPair keyPair = keyPairMap.get(loginId);
-        KeyPair keyPair = (KeyPair) redisCache.get(KEY_PAIR_TAG + loginId);
-        if (keyPair == null) {
-            // 非法登录
+        KeyPair keyPair = getKey(loginId);
+        if (keyPair == null) {// 非法登录
             log.warn("{非法登录！loginId=" + loginId + "失效！}");
             return null;
         }
@@ -179,7 +191,7 @@ public class LoginManager {
             redisCache.add(loginId, online);//缓存用户
             return online;
         } else {
-            log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//登录失败记录次数
+            log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//记录登录失败次数
         }
         return null;
     }
