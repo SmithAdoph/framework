@@ -21,6 +21,11 @@ public class CacheFactory {
     private static volatile CacheService<String, Object> redisCache;
 
     /**
+     * Redis 字符串缓存
+     */
+    private static volatile CacheService<String, String> stringRedisCache;
+
+    /**
      * 获取Redis缓存
      *
      * @return CacheService
@@ -30,11 +35,28 @@ public class CacheFactory {
         if (redisCache == null) {
             synchronized (CacheFactory.class) {
                 if (redisCache == null) {
-                    redisCache = new RedisCache<>();
+                    redisCache = new RedisCache<>(false);
                 }
             }
         }
         return redisCache;
+    }
+
+    /**
+     * 获取Redis缓存
+     *
+     * @return CacheService
+     */
+    public static CacheService getStringRedisCache() {
+        // 双重检查
+        if (stringRedisCache == null) {
+            synchronized (CacheFactory.class) {
+                if (stringRedisCache == null) {
+                    stringRedisCache = new RedisCache<>(true);
+                }
+            }
+        }
+        return stringRedisCache;
     }
 
 }

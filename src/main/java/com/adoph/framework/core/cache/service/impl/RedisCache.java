@@ -2,7 +2,11 @@ package com.adoph.framework.core.cache.service.impl;
 
 import com.adoph.framework.core.cache.service.CacheService;
 import com.adoph.framework.util.SpringUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.util.concurrent.TimeUnit;
@@ -21,10 +25,14 @@ public class RedisCache<K, V> implements CacheService<K, V> {
      */
     private RedisTemplate<K, V> redisTemplate;
 
-    public RedisCache() {
-        redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
-        //默认key都是String类型
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+    public RedisCache(boolean stringRedisTemplate) {
+        if (stringRedisTemplate) {
+            redisTemplate = SpringUtils.getBean("stringRedisTemplate", RedisTemplate.class);
+        } else {
+            redisTemplate = SpringUtils.getBean("redisTemplate", RedisTemplate.class);
+            //默认key都是String类型
+            redisTemplate.setKeySerializer(new StringRedisSerializer());
+        }
     }
 
     @Override
@@ -75,6 +83,29 @@ public class RedisCache<K, V> implements CacheService<K, V> {
     @Override
     public void expire(K key, long timeout, TimeUnit unit) {
         redisTemplate.expire(key, timeout, unit);
+    }
+
+    /**
+     * 获取递增的值
+     *
+     * @param key 键
+     * @return Long
+     */
+    public Long get(final String key) {
+        return redisTemplate.execute(new RedisCallback<Long>() {
+            @Override
+            public Long doInRedis(RedisConnection connection) throws DataAccessException {
+                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+                byte[] b1 = serializer.serialize(key);
+                byte[] b2 = connection.get(b1);
+                try {
+                    String val = serializer.deserialize(b2);
+                    return Long.parseLong(val);
+                } catch (Exception e) {
+                    return 0L;
+                }
+            }
+        });
     }
 }
 

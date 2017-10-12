@@ -94,4 +94,5 @@ public interface CacheService<K, V> {
      * @param unit    时间单位
      */
     void expire(K key, long timeout, TimeUnit unit);
+
 }

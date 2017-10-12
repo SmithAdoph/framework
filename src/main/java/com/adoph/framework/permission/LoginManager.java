@@ -2,6 +2,7 @@ package com.adoph.framework.permission;
 
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
+import com.adoph.framework.permission.constant.LoginConstant;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.LoginService;
 import com.adoph.framework.util.*;
@@ -9,11 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
-import java.security.Key;
 import java.security.KeyPair;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
+import static com.adoph.framework.permission.constant.LoginConstant.*;
 
 /**
  * 在线用户管理
@@ -32,34 +32,9 @@ public class LoginManager {
     private static CacheService redisCache = CacheFactory.getRedisCache();
 
     /**
-     * 用户登录失败计数
+     *  string redis 缓存
      */
-    private static Map<String, Integer> loginCountMap = new ConcurrentHashMap<>();
-
-    /**
-     * 用户登录验证码
-     */
-    private static Map<String, String> loginVerifyCodeMap = new ConcurrentHashMap<>();
-
-    /**
-     * 登录失败最大次数
-     */
-    public final static int FAIL_COUNT_MAX = 3;
-
-    /**
-     * 用户登录密钥对缓存key前缀，默认有效时间5分钟
-     */
-    private final static String KEY_PAIR_TAG = "LOGIN_KEY_PAIR";
-
-    /**
-     * 用户登录失败次数缓存key前缀
-     */
-    private final static String LOGIN_FAIL_TAG = "LOGIN_FAIL_COUNT";
-
-    /**
-     * 间隔
-     */
-    private static final String UNDERLINE = "_";
+    private static CacheService strRedisCache = CacheFactory.getStringRedisCache();
 
     /**
      * 登录失败
@@ -71,7 +46,7 @@ public class LoginManager {
         String key = LOGIN_FAIL_TAG + UNDERLINE + loginId;
         Long count = redisCache.increment(key, 1L);
         if (count == 1) {
-            redisCache.expire(key, 5L, TimeUnit.MINUTES);
+            redisCache.expire(key, LOGIN_COMMON_TIMEOUT, TimeUnit.MINUTES);
         }
         return count;
     }
@@ -84,7 +59,7 @@ public class LoginManager {
      */
     public static Long getFailCount(String loginId) {
         String key = LOGIN_FAIL_TAG + UNDERLINE + loginId;
-        return (Long) redisCache.get(key);
+        return redisCache.increment(key, 0L);
     }
 
     /**
@@ -104,7 +79,7 @@ public class LoginManager {
      */
     public static KeyPair addKey(String loginId) {
         KeyPair keyPair = RSAEncryptUtils.genKeyPair();
-        redisCache.add(KEY_PAIR_TAG + UNDERLINE + loginId, keyPair, 5, TimeUnit.MINUTES);
+        redisCache.add(KEY_PAIR_TAG + UNDERLINE + loginId, keyPair, LOGIN_COMMON_TIMEOUT, TimeUnit.MINUTES);
         return keyPair;
     }
 
@@ -133,7 +108,7 @@ public class LoginManager {
      * @param verifyCode 验证码
      */
     private static void addVerifyCode(String loginId, String verifyCode) {
-        loginVerifyCodeMap.put(loginId, verifyCode);
+        strRedisCache.add(VERIFY_CODE_TAG + UNDERLINE + loginId, verifyCode, LOGIN_COMMON_TIMEOUT, TimeUnit.MINUTES);
     }
 
     /**
@@ -142,7 +117,7 @@ public class LoginManager {
      * @param loginId 登录id
      */
     private static void removeVerifyCode(String loginId) {
-        loginVerifyCodeMap.remove(loginId);
+        strRedisCache.delete(VERIFY_CODE_TAG + UNDERLINE + loginId);
     }
 
     /**
@@ -152,7 +127,7 @@ public class LoginManager {
      * @return String
      */
     private static String getVerifyCode(String loginId) {
-        return loginVerifyCodeMap.get(loginId);
+        return (String) strRedisCache.get(VERIFY_CODE_TAG + UNDERLINE + loginId);
     }
 
     /**
@@ -164,6 +139,44 @@ public class LoginManager {
      */
     public static boolean verifyCode(String loginId, String verifyCode) {
         return getVerifyCode(loginId).equalsIgnoreCase(verifyCode);
+    }
+
+    /**
+     * 缓存登录用户
+     *
+     * @param loginId 登录id
+     * @param online  登录用户
+     */
+    private static void addUser(String loginId, OnlineUser online) {
+        redisCache.add(LOGIN_ONLINE_TAG + UNDERLINE + loginId, online, LOGIN_ONLINE_TIMEOUT, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 重置会话时间
+     *
+     * @param loginId 登录id
+     */
+    public static void reset(String loginId) {
+        redisCache.expire(LOGIN_ONLINE_TAG + UNDERLINE + loginId, LOGIN_ONLINE_TIMEOUT, TimeUnit.MINUTES);
+    }
+
+    /**
+     * 获取登录用户
+     *
+     * @param loginId 登录id
+     * @return OnlineUser
+     */
+    public static OnlineUser getUser(String loginId) {
+        return (OnlineUser) redisCache.get(LOGIN_ONLINE_TAG + UNDERLINE + loginId);
+    }
+
+    /**
+     * 删除登录用户
+     *
+     * @param loginId 登录id
+     */
+    public static void removeUser(String loginId) {
+        redisCache.delete(LOGIN_ONLINE_TAG + UNDERLINE + loginId);
     }
 
     /**
@@ -186,9 +199,9 @@ public class LoginManager {
             // TODO 记住用户时，不能移除密钥对
             removeKey(loginId);//移除密钥对
             removeFailCount(loginId);//移除登录失败记录
-            removeVerifyCode(loginId);//基础验证码
+            removeVerifyCode(loginId);//移除验证码
             OnlineUser online = new OnlineUser(loginId, user);
-            redisCache.add(loginId, online);//缓存用户
+            addUser(loginId, online);//缓存登录用户
             return online;
         } else {
             log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//记录登录失败次数

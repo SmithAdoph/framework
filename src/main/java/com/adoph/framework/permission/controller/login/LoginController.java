@@ -2,8 +2,8 @@ package com.adoph.framework.permission.controller.login;
 
 import com.adoph.framework.permission.LoginManager;
 import com.adoph.framework.permission.OnlineUser;
-import com.adoph.framework.permission.vo.LoginVO;
 import com.adoph.framework.permission.service.LoginService;
+import com.adoph.framework.permission.vo.LoginVO;
 import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.web.response.BaseResponse;
 import org.slf4j.Logger;
@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.KeyPair;
 import java.util.UUID;
+
+import static com.adoph.framework.permission.constant.LoginConstant.FAIL_COUNT_MAX;
 
 /**
  * 用户登录控制器
@@ -57,7 +59,7 @@ public class LoginController {
         BaseResponse<LoginVO> response = new BaseResponse<>();
         Long failCount = LoginManager.getFailCount(loginId);
         if (failCount != null) {
-            if (failCount >= LoginManager.FAIL_COUNT_MAX) {
+            if (failCount >= FAIL_COUNT_MAX) {
                 String verifyCode = request.getParameter("verifyCode");
                 if (!LoginManager.verifyCode(loginId, verifyCode)) {
                     response.error("验证码输入错误！");
@@ -75,7 +77,7 @@ public class LoginController {
                     log.warn("{非法登录！loginId=" + loginId + "失效！}");
                     response.error("登录异常，请联系管理员！");
                 } else {
-                    if (failCount >= LoginManager.FAIL_COUNT_MAX) {
+                    if (failCount >= FAIL_COUNT_MAX) {
                         LoginVO vo = new LoginVO();
                         vo.setShowVerifyCode(1);
                         response.setData(vo);
@@ -83,7 +85,6 @@ public class LoginController {
                     response.error("用户名或者密码错误！");
                 }
             } else {
-                // TODO 登录成功，保存用户session
                 response.success("登录成功！");
             }
         } catch (Exception e) {
