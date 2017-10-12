@@ -55,7 +55,7 @@ public class LoginManager {
      * 获取登录失败次数
      *
      * @param loginId 登录id
-     * @return Integer
+     * @return Long
      */
     public static Long getFailCount(String loginId) {
         String key = LOGIN_FAIL_TAG + UNDERLINE + loginId;

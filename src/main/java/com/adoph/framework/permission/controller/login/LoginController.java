@@ -95,6 +95,23 @@ public class LoginController {
     }
 
     /**
+     * 后台管理首页
+     *
+     * @param loginId 登录id
+     * @return ModelAndView
+     */
+    @RequestMapping(value = "index.do", method = RequestMethod.GET)
+    public ModelAndView index(@RequestParam("loginId") String loginId) {
+        ModelAndView index = new ModelAndView("admin/index");
+        OnlineUser online = LoginManager.getUser(loginId);
+        if (online == null) {
+            return login();
+        }
+        index.addObject("online", online);
+        return index;
+    }
+
+    /**
      * 获取验证码
      *
      * @param loginId  登录id

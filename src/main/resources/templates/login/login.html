@@ -74,6 +74,7 @@
         form.on('submit(login)', function (data) {
             var params = data.field;
             var url = "/login/doLogin.do";
+            var loginId = params.loginId;
 
             // 加密
             params.password = encrypt(params.password);
@@ -85,6 +86,8 @@
                 success: function (r) {
                     if ($req.isSuccess(r.status)) {
                         layer.msg(r.msg, {icon: 1});
+                        //调整后台管理首页
+                        window.location = "/login/index.do?loginId=" + loginId;
                     } else {
                         layer.open({
                             title: '系统提示',

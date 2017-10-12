@@ -39,4 +39,8 @@ public class OnlineUser implements Serializable {
     public void setSysUser(SysUser sysUser) {
         this.sysUser = sysUser;
     }
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
 }
