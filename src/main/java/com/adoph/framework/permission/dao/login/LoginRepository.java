@@ -1,4 +1,4 @@
-package com.adoph.framework.permission.dao;
+package com.adoph.framework.permission.dao.login;
 
 import com.adoph.framework.permission.pojo.SysUser;
 import org.springframework.data.repository.CrudRepository;
@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 /**
- * 用户登录Repository
+ * 用户登录
  *
  * @author Adoph
  * @version v1.0

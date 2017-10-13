@@ -2,7 +2,7 @@ package com.adoph.framework.permission.controller.login;
 
 import com.adoph.framework.permission.LoginManager;
 import com.adoph.framework.permission.OnlineUser;
-import com.adoph.framework.permission.service.LoginService;
+import com.adoph.framework.permission.service.login.LoginService;
 import com.adoph.framework.permission.vo.LoginVO;
 import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.web.response.BaseResponse;

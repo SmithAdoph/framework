@@ -2,9 +2,8 @@ package com.adoph.framework.permission;
 
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
-import com.adoph.framework.permission.constant.LoginConstant;
 import com.adoph.framework.permission.pojo.SysUser;
-import com.adoph.framework.permission.service.LoginService;
+import com.adoph.framework.permission.service.login.LoginService;
 import com.adoph.framework.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

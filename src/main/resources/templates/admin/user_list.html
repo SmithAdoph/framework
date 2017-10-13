@@ -1,0 +1,42 @@
+<!--
+    系统用户管理
+    User: Adoph
+    Date: 2017/10/13
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>系统用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!--layui start-->
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/layui/layui.js" charset="utf-8"></script>
+    <!--layui end-->
+</head>
+<body>
+<table class="layui-table" lay-data="{height:332, url:'/demo/table/user/', page:true, id:'idTest'}" lay-filter="demo">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id', width:80, sort: true, fixed: true}">ID</th>
+        <th lay-data="{field:'username', width:80}">用户名</th>
+        <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+        <th lay-data="{field:'city', width:80}">城市</th>
+        <th lay-data="{field:'sign', width:177}">签名</th>
+        <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
+        <th lay-data="{field:'score', width:80, sort: true}">评分</th>
+        <th lay-data="{field:'classify', width:80}">职业</th>
+        <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
+        <th lay-data="{fixed: 'right', width:160, align:'center', toolbar: '#barDemo'}"></th>
+    </tr>
+    </thead>
+</table>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+</body>
+</html>
