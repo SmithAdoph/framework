@@ -1,0 +1,26 @@
+<!--
+    公共静态资源引入
+    User: Adoph
+    Date: 2017/10/16
+-->
+<head th:fragment="common_header(title,scripts,links)" xmlns:th="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8"/>
+    <title th:replace="${title}">未知标题</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+   <!--favicon-->
+    <link rel="shortcut icon" href="/image/icon/favicon.ico">
+
+    <!--layui start-->
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="/layui/layui.js" charset="utf-8"></script>
+    <!--layui end-->
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}" />
+
+    <!--/* Per-page placeholder for additional scripts */-->
+    <th:block th:replace="${scripts}" />
+</head>
