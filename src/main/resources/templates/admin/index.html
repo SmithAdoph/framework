@@ -56,7 +56,7 @@
                 <li class="layui-nav-item"><a href="">资源管理</a></li>
                 <li class="layui-nav-item"><a href="">角色管理</a></li>
                 <li class="layui-nav-item" id="sysUser" lay-filter="sysUser">
-                    <a target-url="/admin/user_list.html">用户管理</a>
+                    <a target-url="/sysUser/index.do">用户管理</a>
                 </li>
             </ul>
         </div>
@@ -131,14 +131,20 @@
         //一些事件监听
         element.on('nav(left)', function (data) {
             var targetUrl = data.find("a").attr("target-url");
-//            console.log(data);
-            debugger;
-            element.tabAdd('content', {
-                title: '用户管理',
-                content: targetUrl, //支持传入html
-                id: 'test'
+            $.ajax({
+                url: targetUrl,
+                type: "GET",
+                success: function (r) {
+                    debugger;
+                    element.tabAdd('content', {
+                        title: '用户管理',
+                        content: r, //支持传入html
+                        id: 'test'
+                    });
+                    element.tabChange('content', 'test');
+                }
             });
-            element.tabChange('content', 'test');
+
         });
     });
 </script>
