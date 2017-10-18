@@ -2,6 +2,7 @@ package com.adoph.framework.permission.controller.sys;
 
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.sys.SysUserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,12 +37,16 @@ public class SysUserController {
 
     @RequestMapping("list")
     @ResponseBody
-    public void list() {
+    public String list() {
+        JSONObject json = new JSONObject();
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(0, 15, sort);
         Page<SysUser> page = sysUserService.findAll("admin", pageable);
         List<SysUser> list = page.getContent();
-//        return object;
+        json.put("count", page.getTotalElements());
+        json.put("data", page.getContent());
+        json.put("code", 0);
+        return json.toString();
     }
 
 }
