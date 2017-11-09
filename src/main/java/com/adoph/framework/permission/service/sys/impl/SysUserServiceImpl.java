@@ -6,6 +6,7 @@ import com.adoph.framework.permission.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +23,7 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserRepository sysUserRepository;
 
     @Override
-    public Page<SysUser> findAll(String userName, Pageable pageable) {
-        return sysUserRepository.findAll(pageable);
+    public Page<SysUser> findByUserName(String userName, Pageable pageable) {
+        return sysUserRepository.findByUserNameLike(userName, pageable);
     }
 }

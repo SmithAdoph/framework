@@ -1,5 +1,5 @@
 <!--
-    公共静态资源引入
+    公共静态资源
     User: Adoph
     Date: 2017/10/16
 -->
@@ -17,6 +17,9 @@
     <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
     <script type="text/javascript" th:src="@{/layui/layui.js}" charset="utf-8"></script>
     <!--layui end-->
+
+    <!--系统库-->
+    <script type="text/javascript" th:src="@{/sys/core.js}" charset="utf-8"></script>
 
     <!--/* Per-page placeholder for additional links */-->
     <th:block th:replace="${links}" />

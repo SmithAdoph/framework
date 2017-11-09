@@ -1,5 +1,7 @@
 package com.adoph.framework.permission.pojo;
 
+import com.adoph.framework.pojo.BasePojo;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,7 +15,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "sys_user")
-public class SysUser implements Serializable {
+public class SysUser extends BasePojo implements Serializable {
 
     /**
      * 主键
@@ -31,26 +33,6 @@ public class SysUser implements Serializable {
      * 密码
      */
     private String password;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 创建人ID
-     */
-    private Long createBy;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
-     * 修改人ID
-     */
-    private Long updateBy;
 
     public Long getId() {
         return id;
@@ -76,35 +58,12 @@ public class SysUser implements Serializable {
         this.password = password;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Long createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Long getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(Long updateBy) {
-        this.updateBy = updateBy;
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

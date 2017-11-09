@@ -9,63 +9,75 @@
     <title>系统用户管理</title>
 </head>
 <body>
-<div class="container">
-    <div class="layui-collapse" lay-filter="userQueryForm" style="margin-top: 5px">
-        <div class="layui-colla-item">
-            <h2 class="layui-colla-title">查询表单</h2>
-            <div class="layui-colla-content layui-show">
-                <form class="layui-form" action="" style="">
+<div class="layui-collapse" lay-filter="userQueryForm" style="margin-top: 5px">
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">查询表单</h2>
+        <div class="layui-colla-content layui-show">
+            <form class="layui-form" action="" style="">
+                <div class="layui-row">
                     <div class="layui-row">
-                        <div class="layui-row">
-                            <div class="layui-col-md9">
-                                <label class="layui-form-label">用户名</label>
-                                <input type="text" name="userName" required lay-verify="required" placeholder="请输入用户名"
-                                       autocomplete="off"
-                                       class="layui-input" style="width: 275px">
-                            </div>
-                            <div class="layui-col-md3">
-                                <button class="layui-btn" lay-submit lay-filter="query">查询</button>
-                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-                            </div>
+                        <div class="layui-col-md9">
+                            <label class="layui-form-label">用户名</label>
+                            <input type="text" name="userName" required lay-verify="required" placeholder="请输入用户名"
+                                   autocomplete="off"
+                                   class="layui-input" style="width: 275px">
+                        </div>
+                        <div class="layui-col-md3">
+                            <button class="layui-btn" lay-submit lay-filter="query">查询</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="layui-btn-group" style="margin-top: 5px">
-        <button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>增加</button>
-        <button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe642;</i>编辑</button>
-        <button class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i>删除</button>
-    </div>
-    <table class="layui-table" lay-data="{height:'full-335', url:'/sysUser/list.do', page:true, id:'userTable'}"
-           lay-filter="userTable">
-        <thead>
-        <tr>
-            <th lay-data="{field:'id', width:80, sort: true, fixed: true, align:'center'}">ID</th>
-            <th lay-data="{field:'userName', width:180, align:'center'}">用户名</th>
-        </tr>
-        </thead>
-    </table>
 </div>
+<div class="layui-btn-group" style="margin-top: 5px">
+    <button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe654;</i>增加</button>
+    <!--<button class="layui-btn layui-btn-normal"><i class="layui-icon">&#xe642;</i>编辑</button>-->
+    <!--<button class="layui-btn layui-btn-danger"><i class="layui-icon">&#xe640;</i>删除</button>-->
+</div>
+<table class="layui-table" id="userTable" lay-filter="userTable">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id', width:80, sort: true, fixed: true, align:'center'}">ID</th>
+        <th lay-data="{field:'userName', width:180, align:'center'}">用户名</th>
+        <th lay-data="{field:'createTime', width:180, align:'center'}">创建时间</th>
+        <th lay-data="{width:200, align:'center', toolbar: '#barDemo'}">操作</th>
+    </tr>
+    </thead>
+</table>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-small" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-small" lay-event="del">删除</a>
 </script>
+
 
 <script>
     layui.use(['laypage', 'layer', 'table', 'element'], function () {
-        var laypage = layui.laypage,//分页
-            layer = layui.layer, //弹层
+        var layer = layui.layer, //弹层
             table = layui.table,//表格
             element = layui.element; //元素操作
 
-        //监听Tab切换
-        element.on('tab(userTable)', function (data) {
-            layer.msg('切换了：' + this.innerHTML);
-            console.log(data);
+        //静态转动态表格
+        table.init('userTable', {
+            url: '/sysUser/list.do',
+            limit: 10,
+            page: true,
+            height: 600,
+            where: {},
+            request: {
+                pageName: 'page',
+                limitName: 'pageSize'
+            },
+            response: {
+                dataName: 'rows',
+                countName: 'count',
+                statusName: 'status',
+                statusCode: 'success'
+            }
         });
 
         //监听工具条

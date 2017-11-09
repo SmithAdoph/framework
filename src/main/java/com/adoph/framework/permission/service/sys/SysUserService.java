@@ -20,5 +20,5 @@ public interface SysUserService {
      * @param pageable 分页
      * @return Page<SysUser>
      */
-    Page<SysUser> findAll(String userName, Pageable pageable);
+    Page<SysUser> findByUserName(String userName, Pageable pageable);
 }

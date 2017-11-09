@@ -79,6 +79,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>android-json</artifactId>
+                    <groupId>com.vaadin.external.google</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsonassert</artifactId>
+                    <groupId>org.skyscreamer</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -102,6 +112,12 @@
             <artifactId>json</artifactId>
             <version>20170516</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>framework</finalName>

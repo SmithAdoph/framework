@@ -7,10 +7,9 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head th:replace="/common/header :: common_header(~{::title},~{::script},~{::link})">
     <title>Framework用户登录</title>
-    <!--系统库 start-->
-    <script type="text/javascript" th:src="@{/sys/core.js}" charset="utf-8"></script>
+    <!--RSA加密 start-->
     <script type="text/javascript" th:src="@{/js/encrypt/jsencrypt.min.js}" charset="utf-8"></script>
-    <!--系统库 end-->
+    <!--RSA加密 end-->
 
     <!--登录界面样式-->
     <link rel="stylesheet" th:href="@{/css/login/login.css}">
