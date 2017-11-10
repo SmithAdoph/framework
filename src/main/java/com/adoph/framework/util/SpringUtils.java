@@ -41,10 +41,10 @@ public class SpringUtils implements ApplicationContextAware {
      * 取得Bean
      *
      * @param clazz 类型
-     * @return T
+     * @return Object
      */
     public static <T> T getBean(Class<T> clazz) {
-        return (T) context.getBean(clazz);
+        return context.getBean(clazz);
     }
 
     /**
@@ -55,7 +55,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return T
      */
     public static <T> T getBean(String id, Class<T> clazz) {
-        return (T) context.getBean(id, clazz);
+        return context.getBean(id, clazz);
     }
 
     /**
@@ -75,7 +75,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return Object
      */
     public static <T> T createBean(Class<T> clazz) {
-        return (T) createBean(clazz, StringUtils.firstCharLowerCase(clazz.getSimpleName()));
+        return createBean(clazz, StringUtils.firstCharLowerCase(clazz.getSimpleName()));
     }
 
     /**
@@ -86,7 +86,7 @@ public class SpringUtils implements ApplicationContextAware {
      * @return Object
      */
     public static <T> T createBean(Class<T> clazz, String id) {
-        return (T) createBean(clazz, id, new HashMap<String, Object>());
+        return createBean(clazz, id, new HashMap<>());
     }
 
     /**
