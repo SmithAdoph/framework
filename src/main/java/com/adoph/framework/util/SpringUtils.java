@@ -107,4 +107,3 @@ public class SpringUtils implements ApplicationContextAware {
         return getBean(id, clazz);
     }
 }
-
