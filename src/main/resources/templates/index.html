@@ -1,10 +1,24 @@
+<!--
+    Framework入口
+    User: Adoph
+    Date: 2017/8/18
+-->
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
-<head lang="en">
-    <meta charset="UTF-8" />
-    <title></title>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="/common/header :: common_header(~{::title},~{::script},_)">
+    <title>Framework用户登录</title>
+    <!--RSA加密-->
+    <script type="text/javascript" th:src="@{/js/encrypt/jsencrypt.min.js}" charset="utf-8"></script>
+    <!--Application入口-->
+    <script type="text/javascript" th:src="@{/app/Application.js}"></script>
+    <script type="text/javascript">
+        Ext.Loader.setConfig({
+            enabled: true, //开启异步加载模式
+            paths: {
+                Framework: 'app' //声明文件的位置
+            }
+        });
+        Ext.application('Framework.Application');
+    </script>
 </head>
-<body>
-<h1 th:text="${host}">Hello World</h1>
-</body>
 </html>

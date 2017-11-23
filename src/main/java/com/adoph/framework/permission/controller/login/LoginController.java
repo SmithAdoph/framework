@@ -37,7 +37,7 @@ import static com.adoph.framework.permission.constant.LoginConstant.FAIL_COUNT_M
 @RequestMapping("login")
 public class LoginController {
 
-    private final Logger log = LoggerFactory.getLogger(LoginController.class);
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private LoginService loginService;

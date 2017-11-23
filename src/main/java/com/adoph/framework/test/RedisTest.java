@@ -1,7 +1,10 @@
 package com.adoph.framework.test;
 
 import com.adoph.framework.util.RSAEncryptUtils;
+import com.adoph.framework.util.SysUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.KeyPair;
 import java.util.ArrayList;
@@ -31,9 +35,14 @@ public class RedisTest {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Before
+    public void setRedisSerializer() {
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+    }
 
     /**
      * Redis序列化方式：
@@ -48,7 +57,7 @@ public class RedisTest {
 //        2.TestUser
 //        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
 //        redisTemplate.setKeySerializer(stringSerializer);
-        ValueOperations ops = redisTemplate.opsForValue();
+        ValueOperations opsForValue = redisTemplate.opsForValue();
 //        TestUser user = new TestUser("TDD", 12);
 //        ops.set("user3", user);
 //        ops.set("user4", "xxx");
@@ -64,13 +73,29 @@ public class RedisTest {
 //        System.out.println(ops.get("user5"));
 //        System.out.println(ops.get("key"));
 
-        ops.increment("user_count", 1);
+//        ops.increment("user_count", 1);
 //        Long user_count = (Long) ops.get("user_count");
-        System.out.println(ops.get("user_count"));
+//        System.out.println(ops.get("user_count"));
 
 //        2.JSON
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.
+        ObjectMapper objectMapper = new ObjectMapper();
+        TestChild child1 = new TestChild("test1");
+        TestChild child2 = new TestChild("test2");
+        try {
+            List<TestChild> childList = new ArrayList<>();
+            childList.add(child1);
+            childList.add(child2);
+            ListOperations opsForList = redisTemplate.opsForList();
+            opsForList.leftPushAll("test_ops_list", childList);
+//            从左往后，自上而下
+            TestChild c1 = (TestChild) opsForList.leftPop("test_ops_list");
+//            从右往左，自下而上
+            TestChild c2 = (TestChild) opsForList.rightPop("test_ops_list");
+            SysUtils.print(c1);
+            SysUtils.print(c2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
