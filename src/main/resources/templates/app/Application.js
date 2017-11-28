@@ -10,9 +10,7 @@ Ext.define('Framework.Application', {
     views: ['login.Login'],
 
     launch: function () {
-        var loggedIn;
-        loggedIn = localStorage.getItem("TutorialLoggedIn");
-        console.count();
+        var loggedIn = false;
         Ext.create({
             xtype: loggedIn ? 'app-main' : 'login'
         });

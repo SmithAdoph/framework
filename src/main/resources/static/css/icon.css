@@ -1,0 +1,14 @@
+/*异常*/
+.error-icon {
+    background-image: url(../image/icon/error_icon16.png) !important;
+}
+
+/*信息*/
+.info-icon {
+    background-image: url(../image/icon/info_icon16.png) !important;
+}
+
+/*正确*/
+.right-icon {
+    background-image: url(../image/icon/right_icon16.png) !important;
+}

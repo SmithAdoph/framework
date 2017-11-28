@@ -5,11 +5,15 @@
 -->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="/common/header :: common_header(~{::title},~{::script},_)">
+<head th:replace="/common/header :: common_header(~{::title},~{::script},~{::link})">
     <title>Framework用户登录</title>
+    <!--公共icon样式-->
+    <link rel="stylesheet" th:href="@{/css/icon.css}">
     <!--RSA加密-->
     <script type="text/javascript" th:src="@{/js/encrypt/jsencrypt.min.js}" charset="utf-8"></script>
-    <!--Application入口-->
+    <!--UUID-->
+    <script type="text/javascript" th:src="@{/js/uuid.js}"></script>
+    <!--ExtJs APP ENTRANCE-->
     <script type="text/javascript" th:src="@{/app/Application.js}"></script>
     <script type="text/javascript">
         Ext.Loader.setConfig({

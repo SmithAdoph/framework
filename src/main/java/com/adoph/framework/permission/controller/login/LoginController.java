@@ -52,6 +52,13 @@ public class LoginController {
         return loginMav;
     }
 
+    @RequestMapping("authPubKey.do")
+    @ResponseBody
+    public String authPubKey(@RequestParam("loginId") String loginId) {
+        KeyPair keyPair = LoginManager.addKey(loginId);
+        return RSAEncryptUtils.getPublicKey(keyPair);
+    }
+
     @RequestMapping(value = "doLogin.do", method = RequestMethod.POST)
     @ResponseBody
     public BaseResponse doLogin(@RequestParam("loginId") String loginId, @RequestParam("userName") String userName,
@@ -61,7 +68,7 @@ public class LoginController {
         if (failCount != null) {
             if (failCount >= FAIL_COUNT_MAX) {
                 String verifyCode = request.getParameter("verifyCode");
-                if (!LoginManager.verifyCode(loginId, verifyCode)) {
+                if (verifyCode == null || !LoginManager.verifyCode(loginId, verifyCode)) {
                     response.error("验证码输入错误！");
                     return response;
                 }
