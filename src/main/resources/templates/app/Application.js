@@ -10,7 +10,8 @@ Ext.define('Framework.Application', {
     views: ['login.Login'],
 
     launch: function () {
-        var loggedIn = false;
+        localStorage.removeItem(Constant.LOGIN_ID_TAG);
+        var loggedIn = localStorage.getItem(Constant.LOGGED_IN_TAG);
         Ext.create({
             xtype: loggedIn ? 'app-main' : 'login'
         });

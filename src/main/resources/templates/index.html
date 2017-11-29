@@ -9,6 +9,8 @@
     <title>Framework用户登录</title>
     <!--公共icon样式-->
     <link rel="stylesheet" th:href="@{/css/icon.css}">
+    <!--核心JS库-->
+    <script type="text/javascript" th:src="@{/sys/core.js}" charset="utf-8"></script>
     <!--RSA加密-->
     <script type="text/javascript" th:src="@{/js/encrypt/jsencrypt.min.js}" charset="utf-8"></script>
     <!--UUID-->
@@ -19,7 +21,8 @@
         Ext.Loader.setConfig({
             enabled: true, //开启异步加载模式
             paths: {
-                Framework: 'app' //声明文件的位置
+                'Framework': 'app',
+                'Ext.ux': '/ext/packages/ux/classic/src'
             }
         });
         Ext.application('Framework.Application');

@@ -28,13 +28,44 @@ Ext.define('Framework.view.login.Login', {
             allowBlank: false,
             fieldLabel: '用户名',
             name: 'userName',
-            emptyText: '请输入用户名！'
+            emptyText: '请输入用户名！',
+            height: 30
         }, {
             allowBlank: false,
             fieldLabel: '密　码',
             name: 'password',
             emptyText: '请输入密码！',
-            inputType: 'password'
+            inputType: 'password',
+            height: 30
+        }, {
+            xtype: 'panel',
+            reference: 'verifyCodePanel',
+            hidden: true,
+            border: false,
+            defaults: {
+                border: false,
+                xtype: 'panel',
+                flex: 1,
+                layout: 'anchor'
+            },
+            layout: 'hbox',
+            items: [{
+                items: [{
+                    xtype: 'textfield',
+                    fieldLabel: '验证码',
+                    allowBlank: false,
+                    disabled: true,
+                    name: 'verifyCode',
+                    reference: 'verifyCode',
+                    labelWidth: 90,
+                    width: 190,
+                    height: 30
+                }]
+            }, {
+                padding: '0 0 0 10',
+                reference: 'verifyCodeImg',
+                html: '<img class="codeImage" width="130" height="30" src="" id="verifyCodeImg"/>'
+            }]
         }],
         buttons: [{
             text: '登录',

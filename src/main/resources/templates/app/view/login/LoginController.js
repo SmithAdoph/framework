@@ -7,12 +7,14 @@
 Ext.define('Framework.view.login.LoginController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.login',
+    requires: ['Framework.view.main.Main'],
+    // views: ['main.Main'],
 
     onLoginClick: function () {
-        var LOGIN_ID_TAG = "FRAMEWORK_LOGIN_ID";
-        var loginId = localStorage.getItem(LOGIN_ID_TAG);
+        var loginId = localStorage.getItem(Constant.LOGIN_ID_TAG);
         if (!loginId) {
-            localStorage.setItem(LOGIN_ID_TAG, uuidv4());
+            loginId = uuidv4();
+            localStorage.setItem(Constant.LOGIN_ID_TAG, loginId);
         }
         this.authPubKey(loginId);
     },
@@ -26,7 +28,6 @@ Ext.define('Framework.view.login.LoginController', {
                 this.doLogin(loginId, response.responseText);
             },
             failure: function (response, opts) {
-                debugger;
                 Ext.Msg.alert("系统提示", "登录异常，请联系管理员！");
             },
             scope: this
@@ -35,6 +36,7 @@ Ext.define('Framework.view.login.LoginController', {
 
     //登录
     doLogin: function (loginId, pubKey) {
+        var me = this;
         var url = "/login/doLogin.do";
         var form = this.lookup('form').getForm();
         var params = form.getFieldValues();
@@ -43,13 +45,9 @@ Ext.define('Framework.view.login.LoginController', {
         Ext.Ajax.request({
             url: url,
             params: params,
-            // extraParams: {
-            //     loginId: loginId
-            // },
             success: function (response, opts) {
                 var r = Ext.decode(response.responseText);
-                debugger;
-                if (r.status == 'success') {
+                if (r.status === 'success') {
                     Ext.toast({
                         html: '登录成功！',
                         closable: false,
@@ -60,12 +58,23 @@ Ext.define('Framework.view.login.LoginController', {
                         title: '登录提示',
                         autoCloseDelay: 4000
                     });
-                    // localStorage.setItem("TutorialLoggedIn", true);
-                    // this.getView().destroy();
-                    // Ext.create({
-                    //     xtype: 'app-main'
-                    // });
+                    localStorage.setItem(Constant.LOGGED_IN_TAG, '1');
+                    me.getView().destroy();
+                    Ext.create({
+                        xtype: 'app-main'
+                    })
                 } else {
+                    if (r.data && r.data['showVerifyCode'] === 1) {
+                        var verifyCodePanel = me.lookup('verifyCodePanel');
+                        var verifyCode = verifyCodePanel.query('textfield[name=verifyCode]')[0];
+                        if (verifyCodePanel.isVisible()) {
+                            verifyCode.setValue();
+                        } else {
+                            verifyCodePanel.show();
+                            verifyCode.enable();
+                        }
+                        me.refreshCode(loginId);
+                    }
                     Ext.toast({
                         html: r.msg,
                         closable: false,
@@ -79,7 +88,6 @@ Ext.define('Framework.view.login.LoginController', {
                 }
             },
             failure: function (response, opts) {
-                debugger;
                 Ext.Msg.alert("系统提示", "登录异常，请联系管理员！");
             },
             scope: this
@@ -91,5 +99,12 @@ Ext.define('Framework.view.login.LoginController', {
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey(pubKey);
         return encrypt.encrypt(password);
+    },
+
+    //刷新验证码
+    refreshCode: function (loginId) {
+        var second = new Date().getTime();
+        var verifyCodeImg = Ext.get("verifyCodeImg");
+        verifyCodeImg.dom.src = "/login/verifyCode.do?loginId=" + loginId + "&uuid=" + second;
     }
 });

@@ -1,107 +1,69 @@
 /**
- *
+ * Framework主页
  */
 Ext.define('Framework.view.main.Main', {
-    extend: 'Ext.tab.Panel',
+    extend: 'Ext.panel.Panel',
     xtype: 'app-main',
-
     requires: [
         'Ext.plugin.Viewport',
-        'Ext.window.MessageBox',
+        'Ext.layout.container.Border',
+        ['Ext.Menu'],
+        'Ext.ux.BoxReorderer',
 
         'Framework.view.main.MainController'
-        // 'Framework.view.main.MainModel',
-        // 'Framework.view.main.List'
     ],
-
     controller: 'main',
-    viewModel: 'main',
+    layout: 'border',
     plugins: 'viewport',
-
-    ui: 'navigation',
-
-    tabBarHeaderPosition: 1,
-    titleRotation: 0,
-    tabRotation: 0,
-
-    header: {
-        layout: {
-            align: 'stretchmax'
-        },
-        title: {
-            bind: {
-                text: '{name}'
-            },
-            flex: 0
-        },
-        iconCls: 'fa-th-list',
-        items: [{
-            xtype: 'button',
-            text: 'Logout',
-            margin: '10 0',
-            handler: 'onClickButton'
-        }]
-    },
-
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },
-
-    responsiveConfig: {
-        tall: {
-            headerPosition: 'top'
-        },
-        wide: {
-            headerPosition: 'left'
-        }
-    },
-
     defaults: {
-        bodyPadding: 20,
-        tabConfig: {
-            plugins: 'responsive',
-            responsiveConfig: {
-                wide: {
-                    iconAlign: 'left',
-                    textAlign: 'left'
-                },
-                tall: {
-                    iconAlign: 'top',
-                    textAlign: 'center',
-                    width: 120
-                }
-            }
-        }
+        collapsible: true,
+        split: true,
+        bodyPadding: 10,
+        xtype: 'panel'
     },
-
     items: [{
-        title: 'Home',
-        iconCls: 'fa-home',
-        // The following grid shares a store with the classic version's grid as well!
+        title: 'Framework后台管理系统',
+        region: 'north',
+        height: 100,
+        minHeight: 75,
+        maxHeight: 150,
+        fullscreen: true,
         items: [{
-            xtype: 'mainlist'
+            xtype: 'menu',
+            width: 100,
+            plain: true,
+            floating: false,  // usually you want this set to True (default)
+            renderTo: Ext.getBody(),  // usually rendered by it's containing component
+            items: [{
+                text: 'plain item 1'
+            },{
+                text: 'plain item 2'
+            },{
+                text: 'plain item 3'
+            }]
         }]
     }, {
-        title: 'Users',
-        iconCls: 'fa-user',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        title: 'Footer',
+        region: 'south',
+        height: 100,
+        minHeight: 75,
+        maxHeight: 150,
+        html: '<p>Footer content</p>'
     }, {
-        title: 'Groups',
-        iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        title: 'Navigation',
+        region: 'west',
+        margin: '5 0 0 0',
+        width: 125,
+        minWidth: 100,
+        maxWidth: 250,
+        html: '<p>Secondary content like navigation links could go here</p>',
     }, {
-        title: 'Settings',
-        iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
-    }]
-});
+        title: 'Main Content',
+        collapsible: false,
+        region: 'center',
+        margin: '5 0 0 0',
+        html: '<h2>Main Page</h2><p>This is where the main content would go</p>'
+    }
+    ]
+})
+;

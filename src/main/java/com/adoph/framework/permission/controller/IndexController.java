@@ -26,11 +26,6 @@ public class IndexController {
      */
     @RequestMapping(value = "index.do")
     public ModelAndView index() {
-        ModelAndView mav = new ModelAndView("index");
-        String loginId = UUID.randomUUID().toString();
-        KeyPair keyPair = LoginManager.addKey(loginId);
-        mav.addObject("loginId", loginId);
-        mav.addObject("publicKey", RSAEncryptUtils.getPublicKey(keyPair));
-        return mav;
+        return new ModelAndView("index");
     }
 }
