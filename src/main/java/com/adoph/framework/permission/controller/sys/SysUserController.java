@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 系统用户管理控制层
@@ -31,24 +32,17 @@ public class SysUserController {
     @Resource
     private SysUserService sysUserService;
 
-    @GetMapping("index")
-    public String index() {
-        return "/admin/user_list";
-    }
-
     @RequestMapping("list")
     @ResponseBody
-    public String list(HttpServletRequest request) {
+    public BaseResponse<Page<SysUser>> list(HttpServletRequest request) {
+        BaseResponse<Page<SysUser>> response = new BaseResponse<>();
         int page = Integer.parseInt(request.getParameter("page"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        JSONObject json = new JSONObject();
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(page - 1, pageSize, sort);
         Page<SysUser> userPage = sysUserService.findByUserName("admin%", pageable);
-        json.put("count", userPage.getTotalElements());
-        json.put("rows", userPage.getContent());
-        json.put("status", "success");
-        return json.toString();
+        response.setData(userPage);
+        return response;
     }
 
 }
