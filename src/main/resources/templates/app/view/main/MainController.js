@@ -1,8 +1,7 @@
 Ext.define('Framework.view.main.MainController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main',
-    views: ['user.User'],
-
+    // stores: ['admin.user.User'],
     listen: {
         controller: {
             '#': {

@@ -11,7 +11,8 @@ Ext.define('Framework.view.main.Main', {
         'Framework.view.main.MainController',
         'Framework.view.main.MainContainerWrap',
         'Framework.view.pages.ErrorBase',
-        'Framework.view.pages.Error404Window'
+        'Framework.view.pages.Error404Window',
+        'Framework.view.admin.user.User'
     ],
 
     controller: 'main',
@@ -91,7 +92,8 @@ Ext.define('Framework.view.main.Main', {
                                     text: ' 用户管理',
                                     leaf: true,
                                     iconCls: 'x-fa fa-user-plus',
-                                    routeId: 'user-grid'
+                                    // routeId: 'user-grid',
+                                    viewType: 'user-grid'
                                 }, {
                                     text: ' 菜单管理',
                                     leaf: true,
@@ -115,7 +117,7 @@ Ext.define('Framework.view.main.Main', {
                     }
                 },
                 {
-                    margin: '20 20 0 20',
+                    margin: '20 20 20 20',
                     xtype: 'container',
                     flex: 1,
                     reference: 'mainCardPanel',

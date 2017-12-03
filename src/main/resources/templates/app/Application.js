@@ -7,6 +7,7 @@
 Ext.define('Framework.Application', {
     extend: 'Ext.app.Application',
     name: 'Framework',
+    appFolder: 'app',
     views: ['login.Login'],
 
     launch: function () {

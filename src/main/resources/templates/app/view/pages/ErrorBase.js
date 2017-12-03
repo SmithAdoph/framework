@@ -13,7 +13,7 @@ Ext.define('Framework.view.pages.ErrorBase', {
     autoShow: true,
     cls: 'error-page-container',
     closable: false,
-    title: 'Sencha',
+    title: 'Framework后台管理系统',
     titleAlign: 'center',
     maximized: true,
     modal: true,

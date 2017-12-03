@@ -4,23 +4,57 @@
  * @author Adoph
  * @since 2017/11/30
  */
+Ext.create('Ext.data.Store', {
+    storeId: 'userStore',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'userName', type: 'string'}
+    ],
+    pageSize: 5,
+    proxy: {
+        type: 'ajax',
+        method: 'POST',
+        url: '/sysUser/list.do',
+        reader: {
+            type: 'json',
+            rootProperty: 'content',
+            totalProperty: 'totalElements'
+        }
+    },
+    autoLoad: true
+});
 Ext.define('Framework.view.admin.user.User', {
     extend: 'Ext.grid.Panel',
-    requires: ['Framework.store.admin.user.User'],
     xtype: 'user-grid',
     title: '用户列表',
-    width: 750,
-    height: 350,
-    store: 'admin.user.User',
+    store: 'userStore',
+    columnLines: true,
     columns: [{
+        xtype: 'rownumberer'
+    }, {
         text: 'id',
-        flex: 1,
+        width: 65,
         sortable: false,
-        dataIndex: 'id'
+        dataIndex: 'id',
+        align: 'center'
     }, {
         text: '用户名',
         width: 95,
         sortable: true,
-        dataIndex: 'userName'
-    }]
+        dataIndex: 'userName',
+        align: 'center'
+    }],
+    bbar: {
+        xtype: 'pagingtoolbar',
+        displayInfo: true
+    },
+    tbar: [{
+        xtype: 'button',
+        text: '新增',
+        iconCls: 'x-fa fa-close'
+    }, {xtype: 'button', text: '编辑'},
+        '-',
+        {xtype: 'button', text: '删除'}
+    ]
+
 });

@@ -1,7 +1,15 @@
 Ext.define('Framework.store.admin.user.User', {
     extend: 'Ext.data.Store',
-    requires: ['Framework.model.admin.user.User'],
-    model: 'admin.user.User',
+    alias: 'store.user',
+    storeId: 'userStore',
+    fields: [
+        {name: 'id', type: 'int'},
+        {name: 'userName', type: 'string'}
+    ],
+    data: [
+        {id: 1, userName: 'admin'},
+        {id: 2, userName: 'test'}
+    ],
     // proxy: {
     //     type: 'ajax',
     //     url: '/sysUser/list.do',
@@ -10,5 +18,5 @@ Ext.define('Framework.store.admin.user.User', {
     //         rootProperty: 'data'
     //     }
     // },
-    autoLoad: false
+    autoLoad: true
 });

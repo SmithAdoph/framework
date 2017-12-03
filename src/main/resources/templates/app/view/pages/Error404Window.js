@@ -29,7 +29,7 @@ Ext.define('Framework.view.pages.Error404Window', {
                 {
                     xtype: 'label',
                     cls: 'error-page-desc',
-                    html: '<div>Seems you\'ve hit a wall!</div><div>Try going back to our <a href="#dashboard"> Home page </a></div>'
+                    html: '<div>未找到该页面!</div><div> 返回 <a href="/index.do"> 首 页 </a></div>'
                 },
                 {
                     xtype: 'tbspacer',
