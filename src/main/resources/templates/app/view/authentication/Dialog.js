@@ -8,13 +8,12 @@ Ext.define('Framework.view.authentication.Dialog', {
     xtype: 'authdialog',
 
     requires: [
-        'Framework.view.authentication.AuthenticationController',
-        'Ext.form.Panel'
+        'Framework.view.authentication.AuthenticationController'
     ],
 
     controller: 'authentication',
     viewModel: {
-        type: 'authentication'
+        // type: 'authentication'
     },
 
     /*

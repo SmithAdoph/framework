@@ -72,6 +72,7 @@ public class LoginController {
                 String verifyCode = request.getParameter("verifyCode");
                 if (verifyCode == null || !LoginManager.verifyCode(loginId, verifyCode)) {
                     response.error("验证码输入错误！");
+                    response.setData(new LoginVO(1));
                     return response;
                 }
             }
@@ -87,9 +88,7 @@ public class LoginController {
                     response.error("登录异常，请联系管理员！");
                 } else {
                     if (failCount >= FAIL_COUNT_MAX) {
-                        LoginVO vo = new LoginVO();
-                        vo.setShowVerifyCode(1);
-                        response.setData(vo);
+                        response.setData(new LoginVO(1));
                     }
                     response.error("用户名或者密码错误！");
                 }

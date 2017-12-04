@@ -8,7 +8,12 @@ Ext.define('Framework.Application', {
     extend: 'Ext.app.Application',
     name: 'Framework',
     appFolder: 'app',
-    views: ['login.Login'],
+    views: [
+        'pages.ErrorBase',
+        'pages.Error404Window',
+        'authentication.Login',
+        'main.Main'
+    ],
 
     launch: function () {
         localStorage.removeItem(Constant.LOGIN_ID_TAG);

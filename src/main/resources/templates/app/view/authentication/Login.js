@@ -1,50 +1,55 @@
+/**
+ * 登录视图
+ *
+ * @author Adoph
+ * @since 2017/12/4
+ */
 Ext.define('Framework.view.authentication.Login', {
     extend: 'Framework.view.authentication.LockingWindow',
     xtype: 'login',
 
     requires: [
         'Framework.view.authentication.Dialog',
-        'Ext.container.Container',
-        'Ext.form.field.Text',
-        'Ext.form.field.Checkbox',
-        'Ext.button.Button'
+        'Framework.view.authentication.AuthenticationController'
     ],
 
-    title: 'Let\'s Log In',
-    defaultFocus: 'authdialog', // Focus the Auth Form to force field focus as well
+    header: false,
+    border: false,
+    defaultFocus: 'authdialog',
+    controller: 'authentication',
 
     items: [
         {
             xtype: 'authdialog',
-            defaultButton : 'loginButton',
+            reference: 'loginForm',
+            defaultButton: 'loginButton',
             autoComplete: true,
             bodyPadding: '20 20',
             cls: 'auth-dialog-login',
-            header: false,
+            title: 'Framework后台管理系统',
             width: 415,
             layout: {
                 type: 'vbox',
                 align: 'stretch'
             },
 
-            defaults : {
-                margin : '5 0'
+            defaults: {
+                margin: '5 0'
             },
 
             items: [
                 {
                     xtype: 'label',
-                    text: 'Sign into your account'
+                    text: '请登录你的账户'
                 },
                 {
                     xtype: 'textfield',
                     cls: 'auth-textbox',
-                    name: 'userid',
-                    bind: '{userid}',
+                    name: 'userName',
                     height: 55,
                     hideLabel: true,
-                    allowBlank : false,
-                    emptyText: 'user id',
+                    allowBlank: false,
+                    emptyText: '请输入用户名',
                     triggers: {
                         glyphed: {
                             cls: 'trigger-glyph-noop auth-email-trigger'
@@ -56,11 +61,10 @@ Ext.define('Framework.view.authentication.Login', {
                     cls: 'auth-textbox',
                     height: 55,
                     hideLabel: true,
-                    emptyText: 'Password',
+                    emptyText: '请输入密码',
                     inputType: 'password',
                     name: 'password',
-                    bind: '{password}',
-                    allowBlank : false,
+                    allowBlank: false,
                     triggers: {
                         glyphed: {
                             cls: 'trigger-glyph-noop auth-password-trigger'
@@ -68,22 +72,32 @@ Ext.define('Framework.view.authentication.Login', {
                     }
                 },
                 {
-                    xtype: 'container',
-                    layout: 'hbox',
-                    items: [
-                        {
-                            xtype: 'checkboxfield',
-                            flex : 1,
-                            cls: 'form-panel-font-color rememberMeCheckbox',
-                            height: 30,
-                            bind: '{persist}',
-                            boxLabel: 'Remember me'
-                        },
-                        {
-                            xtype: 'box',
-                            html: '<a href="#passwordreset" class="link-forgot-password"> Forgot Password ?</a>'
-                        }
-                    ]
+                    xtype: 'panel',
+                    reference: 'verifyCodePanel',
+                    hidden: true,
+                    border: false,
+                    layout: {
+                        type: 'hbox',
+                        pack: 'start',
+                        align: 'stretch'
+                    },
+                    items: [{
+                        flex: 1,
+                        xtype: 'textfield',
+                        allowBlank: false,
+                        disabled: true,
+                        name: 'verifyCode',
+                        reference: 'verifyCode',
+                        emptyText: '请输入验证码'
+                    }, {
+                        padding: '0 0 0 10',
+                        width: 140,
+                        xtype: 'panel',
+                        height: 56,
+                        reference: 'verifyCodeImg',
+                        cls: 'verifyCode',
+                        html: '<img width="130" height="56" src="" alt="点击刷新" id="verifyCodeImg"/>'
+                    }]
                 },
                 {
                     xtype: 'button',
@@ -92,49 +106,17 @@ Ext.define('Framework.view.authentication.Login', {
                     ui: 'soft-green',
                     iconAlign: 'right',
                     iconCls: 'x-fa fa-angle-right',
-                    text: 'Login',
+                    text: '登录',
                     formBind: true,
                     listeners: {
-                        click: 'onLoginButton'
-                    }
-                },
-                {
-                    xtype: 'box',
-                    html: '<div class="outer-div"><div class="seperator">OR</div></div>',
-                    margin: '10 0'
-                },
-                {
-                    xtype: 'button',
-                    scale: 'large',
-                    ui: 'facebook',
-                    iconAlign: 'right',
-                    iconCls: 'x-fa fa-facebook',
-                    text: 'Login with Facebook',
-                    listeners: {
-                        click: 'onFaceBookLogin'
-                    }
-                },
-                {
-                    xtype: 'box',
-                    html: '<div class="outer-div"><div class="seperator">OR</div></div>',
-                    margin: '10 0'
-                },
-                {
-                    xtype: 'button',
-                    scale: 'large',
-                    ui: 'gray',
-                    iconAlign: 'right',
-                    iconCls: 'x-fa fa-user-plus',
-                    text: 'Create Account',
-                    listeners: {
-                        click: 'onNewAccount'
+                        click: 'onLoginClick'
                     }
                 }
             ]
         }
     ],
 
-    initComponent: function() {
+    initComponent: function () {
         this.addCls('user-login-register-container');
         this.callParent(arguments);
     }

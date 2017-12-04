@@ -8,11 +8,9 @@ Ext.define('Framework.view.main.Main', {
         'Ext.button.Segmented',
         'Ext.list.Tree',
 
-        'Framework.view.main.MainController',
         'Framework.view.main.MainContainerWrap',
-        'Framework.view.pages.ErrorBase',
-        'Framework.view.pages.Error404Window',
-        'Framework.view.admin.user.User'
+        'Framework.view.admin.user.User',
+        'Framework.view.main.MainController'
     ],
 
     controller: 'main',

@@ -51,10 +51,14 @@ Ext.define('Framework.view.admin.user.User', {
     tbar: [{
         xtype: 'button',
         text: '新增',
-        iconCls: 'x-fa fa-close'
-    }, {xtype: 'button', text: '编辑'},
-        '-',
-        {xtype: 'button', text: '删除'}
-    ]
-
+        iconCls: 'x-fa fa-plus'
+    }, {
+        xtype: 'button',
+        text: '编辑',
+        iconCls: 'x-fa fa-edit'
+    }, '-', {
+        xtype: 'button',
+        text: '删除',
+        iconCls: 'x-fa fa-minus-square'
+    }]
 });

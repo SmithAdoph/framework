@@ -14,6 +14,13 @@ public class LoginVO {
      */
     private int showVerifyCode = 0;
 
+    public LoginVO() {
+    }
+
+    public LoginVO(int showVerifyCode) {
+        this.showVerifyCode = showVerifyCode;
+    }
+
     public int getShowVerifyCode() {
         return showVerifyCode;
     }
