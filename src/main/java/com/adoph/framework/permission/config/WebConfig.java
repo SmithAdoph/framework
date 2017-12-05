@@ -16,7 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @since 2017/11/22
  */
 @Configuration
-public class WebAppAdapter extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
     /**
      * 静态资源路径配置
      *

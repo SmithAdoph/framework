@@ -55,7 +55,7 @@ Ext.define('Framework.view.authentication.AuthenticationController', {
                     Ext.ComponentQuery.query('login')[0].destroy();
                     Ext.create({
                         xtype: 'app-main'
-                    })
+                    });
                 } else {
                     if (r.data && r.data['showVerifyCode'] === 1) {
                         var verifyCodePanel = me.lookup('verifyCodePanel');

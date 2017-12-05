@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * web启动配置
@@ -14,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @since 2017/8/11
  */
 @SpringBootApplication
+@EnableRedisHttpSession
 @ServletComponentScan
 public class Application implements EmbeddedServletContainerCustomizer {
 
