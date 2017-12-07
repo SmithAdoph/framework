@@ -1,6 +1,7 @@
 package com.adoph.framework.permission.filter;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.session.web.http.HttpSessionManager;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

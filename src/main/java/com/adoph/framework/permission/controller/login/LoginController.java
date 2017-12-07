@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,6 +27,8 @@ import java.security.KeyPair;
 import java.util.UUID;
 
 import static com.adoph.framework.permission.constant.LoginConstant.FAIL_COUNT_MAX;
+import static com.adoph.framework.permission.constant.LoginConstant.LOGIN_ONLINE_TAG;
+import static com.adoph.framework.permission.constant.LoginConstant.UNDERLINE;
 
 /**
  * 用户登录控制器
@@ -93,6 +96,9 @@ public class LoginController {
                     response.error("用户名或者密码错误！");
                 }
             } else {
+                HttpSession session = request.getSession();
+                session.setAttribute(LOGIN_ONLINE_TAG, user);
+                session.setMaxInactiveInterval(60 * 30);//默认session有效时间30分钟
                 response.success("登录成功！");
             }
         } catch (Exception e) {

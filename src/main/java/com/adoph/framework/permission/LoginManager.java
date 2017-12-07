@@ -200,7 +200,7 @@ public class LoginManager {
             removeFailCount(loginId);//移除登录失败记录
             removeVerifyCode(loginId);//移除验证码
             OnlineUser online = new OnlineUser(loginId, user);
-            addUser(loginId, online);//缓存登录用户
+//            addUser(loginId, online);//缓存登录用户
             return online;
         } else {
             log.warn("{用户登录失败次数：loginId=" + loginId + "," + fail(loginId) + "次}");//记录登录失败次数

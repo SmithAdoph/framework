@@ -23,8 +23,20 @@
         Ext.Loader.setConfig({
             enabled: true, //开启异步加载模式
             paths: {
-                // 'Framework': '/app',
                 'Ext.ux': '/ext/packages/ux/classic/src'
+            }
+        });
+        Ext.Ajax.on('requestexception', function (conn, response) {
+            //会话超时处理
+            if (response.status === 520) {
+                Ext.Msg.alert('系统提示', '会话超时，请重新登录!', function () {
+                    //清除缓存
+                    localStorage.clear();
+                    //清除cookie
+                    // Ext.util.Cookies.destroyMembers ("SESSION", "JSESSIONID");
+                    //跳转登录页面
+                    this.location.href = "/index.do";
+                });
             }
         });
         Ext.application('Framework.Application');

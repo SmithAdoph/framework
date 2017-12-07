@@ -24,8 +24,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/**").addResourceLocations("classpath:/public/");
-//        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/app/**").addResourceLocations("classpath:/templates/app/");
         super.addResourceHandlers(registry);
     }
@@ -37,8 +35,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("forward:/index.do");
-//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        registry.addViewController("/").setViewName("forward:/index.do");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
         super.addViewControllers(registry);
     }
 
@@ -49,9 +47,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new IndexInterceptor())
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/index");
+        registry.addInterceptor(new IndexInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns("/index.do", "/login/**");
         super.addInterceptors(registry);
     }
 }

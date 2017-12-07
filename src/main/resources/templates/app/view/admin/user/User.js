@@ -21,7 +21,7 @@ Ext.create('Ext.data.Store', {
             totalProperty: 'totalElements'
         }
     },
-    autoLoad: true
+    autoLoad: false
 });
 Ext.define('Framework.view.admin.user.User', {
     extend: 'Ext.grid.Panel',
@@ -51,14 +51,17 @@ Ext.define('Framework.view.admin.user.User', {
     tbar: [{
         xtype: 'button',
         text: '新增',
+        cls: 'font-color-add',
         iconCls: 'x-fa fa-plus'
     }, {
         xtype: 'button',
         text: '编辑',
+        cls: 'font-color-edit',
         iconCls: 'x-fa fa-edit'
     }, '-', {
         xtype: 'button',
         text: '删除',
-        iconCls: 'x-fa fa-minus-square'
+        cls: 'font-color-remove',
+        iconCls: 'x-fa fa-times'
     }]
 });

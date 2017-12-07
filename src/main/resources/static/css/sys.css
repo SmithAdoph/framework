@@ -1,0 +1,14 @@
+/*删除*/
+.font-color-remove .x-fa {
+    color: #ff0000;
+}
+
+/*添加*/
+.font-color-add .x-fa {
+    color: #35baf6;
+}
+
+/*编辑*/
+.font-color-edit .x-fa {
+    color: #0e7602;
+}
