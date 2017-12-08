@@ -4,3 +4,4 @@
 #src/main/java/com/adoph/framework/core/
 src/main/java/com/adoph/framework/web/controller/test/
 target/
+logs

@@ -8,7 +8,9 @@ Ext.create('Ext.data.Store', {
     storeId: 'userStore',
     fields: [
         {name: 'id', type: 'int'},
-        {name: 'userName', type: 'string'}
+        {name: 'userName', type: 'string'},
+        {name: 'createTime', type: 'number'},
+        {name: 'updateTime', type: 'number'}
     ],
     pageSize: 5,
     proxy: {
@@ -32,17 +34,29 @@ Ext.define('Framework.view.admin.user.User', {
     columns: [{
         xtype: 'rownumberer'
     }, {
-        text: 'id',
-        width: 65,
-        sortable: false,
-        dataIndex: 'id',
-        align: 'center'
-    }, {
         text: '用户名',
         width: 95,
         sortable: true,
         dataIndex: 'userName',
         align: 'center'
+    }, {
+        text: '创建时间',
+        width: 95,
+        sortable: true,
+        dataIndex: 'createTime',
+        align: 'center',
+        renderer: function (val) {
+            debugger;
+            Ext.util.Format.date(val);
+        }
+    }, {
+        text: '修改时间',
+        xtype: 'datecolumn',
+        width: 95,
+        sortable: true,
+        dataIndex: 'updateTime',
+        align: 'center',
+        format:'Y-m-d'
     }],
     bbar: {
         xtype: 'pagingtoolbar',

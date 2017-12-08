@@ -1,7 +1,9 @@
 package com.adoph.framework.pojo;
 
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 公共pojo
@@ -10,7 +12,8 @@ import java.util.Date;
  * @version v1.0
  * @since 2017/11/3
  */
-public class BasePojo implements Serializable {
+@MappedSuperclass
+public class BasePojo implements Serializable, Cloneable {
 
     /**
      * 创建时间
@@ -68,22 +71,17 @@ public class BasePojo implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         BasePojo basePojo = (BasePojo) o;
-
-        if (createTime != null ? !createTime.equals(basePojo.createTime) : basePojo.createTime != null) return false;
-        if (createBy != null ? !createBy.equals(basePojo.createBy) : basePojo.createBy != null) return false;
-        if (updateTime != null ? !updateTime.equals(basePojo.updateTime) : basePojo.updateTime != null) return false;
-        return updateBy != null ? updateBy.equals(basePojo.updateBy) : basePojo.updateBy == null;
+        return Objects.equals(createTime, basePojo.createTime) &&
+                Objects.equals(createBy, basePojo.createBy) &&
+                Objects.equals(updateTime, basePojo.updateTime) &&
+                Objects.equals(updateBy, basePojo.updateBy);
     }
 
     @Override
     public int hashCode() {
-        int result = createTime != null ? createTime.hashCode() : 0;
-        result = 31 * result + (createBy != null ? createBy.hashCode() : 0);
-        result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
-        result = 31 * result + (updateBy != null ? updateBy.hashCode() : 0);
-        return result;
+
+        return Objects.hash(createTime, createBy, updateTime, updateBy);
     }
 
     @Override
