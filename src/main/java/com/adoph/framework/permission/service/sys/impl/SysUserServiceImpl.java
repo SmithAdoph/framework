@@ -3,11 +3,18 @@ package com.adoph.framework.permission.service.sys.impl;
 import com.adoph.framework.permission.dao.sys.SysUserRepository;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.sys.SysUserService;
+import com.adoph.framework.permission.vo.UserRequest;
+import com.adoph.framework.util.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
 /**
  * 系统用户管理实现类
@@ -23,7 +30,13 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserRepository sysUserRepository;
 
     @Override
-    public Page<SysUser> findByUserName(String userName, Pageable pageable) {
-        return sysUserRepository.findByUserNameLike(userName, pageable);
+    public Page<SysUser> findAllByUserExample(UserRequest request, Pageable pageable) {
+        SysUser queryUser = new SysUser();
+        BeanUtils.copyProperties(request, queryUser);
+        ExampleMatcher m = ExampleMatcher.matching()
+                .withIgnoreCase(false)
+                .withMatcher("userName", endsWith());
+        Example<SysUser> e = Example.of(queryUser, m);
+        return sysUserRepository.findAll(e, pageable);
     }
 }

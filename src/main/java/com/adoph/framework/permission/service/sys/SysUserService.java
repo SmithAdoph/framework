@@ -1,6 +1,7 @@
 package com.adoph.framework.permission.service.sys;
 
 import com.adoph.framework.permission.pojo.SysUser;
+import com.adoph.framework.permission.vo.UserRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,12 +14,5 @@ import org.springframework.data.domain.Pageable;
  */
 public interface SysUserService {
 
-    /**
-     * 根据用户名查询用户列表
-     *
-     * @param userName 用户名
-     * @param pageable 分页
-     * @return Page<SysUser>
-     */
-    Page<SysUser> findByUserName(String userName, Pageable pageable);
+    Page<SysUser> findAllByUserExample(UserRequest request, Pageable pageable);
 }

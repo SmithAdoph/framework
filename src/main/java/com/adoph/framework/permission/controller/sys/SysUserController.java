@@ -33,7 +33,7 @@ public class SysUserController {
     public Page<SysUser> list(UserRequest user) {
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(user.getPage() - 1, user.getLimit(), sort);
-        return sysUserService.findByUserName("admin%", pageable);
+        return sysUserService.findAllByUserExample(user, pageable);
     }
 
 }

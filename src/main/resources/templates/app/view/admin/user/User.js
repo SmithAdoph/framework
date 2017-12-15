@@ -46,17 +46,17 @@ Ext.define('Framework.view.admin.user.User', {
         dataIndex: 'createTime',
         align: 'center',
         renderer: function (val) {
-            debugger;
-            Ext.util.Format.date(val);
+            return Ext.util.Format.date(new Date(val), 'Y-m-d');
         }
     }, {
         text: '修改时间',
-        xtype: 'datecolumn',
         width: 95,
         sortable: true,
         dataIndex: 'updateTime',
         align: 'center',
-        format:'Y-m-d'
+        renderer: function (val) {
+            return Ext.util.Format.date(new Date(val), 'Y-m-d');
+        }
     }],
     bbar: {
         xtype: 'pagingtoolbar',
