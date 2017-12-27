@@ -80,7 +80,6 @@ public class BasePojo implements Serializable, Cloneable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(createTime, createBy, updateTime, updateBy);
     }
 
