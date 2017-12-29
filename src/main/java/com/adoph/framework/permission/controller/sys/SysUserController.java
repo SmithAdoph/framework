@@ -30,7 +30,7 @@ public class SysUserController {
 
     @RequestMapping("list")
     @ResponseBody
-    public Page<SysUser> list(UserRequest user) {
+    public Page<SysUser> list(UserRequest user) throws Exception {
         Sort sort = new Sort(Sort.Direction.ASC, "id");
         Pageable pageable = new PageRequest(user.getPage() - 1, user.getLimit(), sort);
         return sysUserService.findAllByUserExample(user, pageable);

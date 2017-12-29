@@ -14,5 +14,5 @@ import org.springframework.data.domain.Pageable;
  */
 public interface SysUserService {
 
-    Page<SysUser> findAllByUserExample(UserRequest userReq, Pageable pageable);
+    Page<SysUser> findAllByUserExample(UserRequest userReq, Pageable pageable) throws Exception;
 }

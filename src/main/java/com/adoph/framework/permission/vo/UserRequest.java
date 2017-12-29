@@ -18,11 +18,37 @@ public class UserRequest extends BasePageRequest implements Serializable {
      */
     private String userName;
 
+    /**
+     * 开始创建日期
+     */
+    private Long startCreateDate;
+
+    /**
+     * 结束创建日期
+     */
+    private Long endCreateDate;
+
     public String getUserName() {
         return userName;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Long getStartCreateDate() {
+        return startCreateDate;
+    }
+
+    public void setStartCreateDate(Long startCreateDate) {
+        this.startCreateDate = startCreateDate;
+    }
+
+    public Long getEndCreateDate() {
+        return endCreateDate;
+    }
+
+    public void setEndCreateDate(Long endCreateDate) {
+        this.endCreateDate = endCreateDate;
     }
 }

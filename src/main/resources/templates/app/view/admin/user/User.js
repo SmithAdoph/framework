@@ -27,14 +27,17 @@ Ext.create('Ext.data.Store', {
 });
 Ext.define('Framework.view.admin.user.User', {
     extend: 'Ext.panel.Panel',
+    requires: ['Framework.view.admin.user.UserController'],
     xtype: 'user-grid',
+    controller: 'user',
     title: '用户列表',
     border: false,
     height: 300,
     layout: 'border',
     items: [{
         region: 'north',
-        xtype: 'panel',
+        xtype: 'form',
+        reference: 'userQueryForm',
         border: false,
         bodyPadding: '5 5 5 5',
         layout: 'hbox',
@@ -69,15 +72,19 @@ Ext.define('Framework.view.admin.user.User', {
             xtype: 'button',
             text: '查询',
             iconCls: 'x-fa fa-search',
-            width: 69
+            width: 69,
+            itemId: 'query',
+            handler: 'queryUser'
         }]
     }, {
         region: 'center',
         xtype: 'grid',
+        reference: 'userGrid',
         store: 'userStore',
         columnLines: true,
         columns: [{
-            xtype: 'rownumberer'
+            xtype: 'rownumberer',
+            width: 40
         }, {
             text: '用户名',
             width: 95,
@@ -110,15 +117,21 @@ Ext.define('Framework.view.admin.user.User', {
         tbar: [{
             text: '新增',
             cls: 'font-color-add',
-            iconCls: 'x-fa fa-plus'
+            iconCls: 'x-fa fa-plus',
+            itemId: 'add',
+            handler: 'addUser'
         }, {
             text: '编辑',
             cls: 'font-color-edit',
-            iconCls: 'x-fa fa-edit'
+            iconCls: 'x-fa fa-edit',
+            itemId: 'edit',
+            handler: 'editUser'
         }, '-', {
             text: '删除',
             cls: 'font-color-remove',
-            iconCls: 'x-fa fa-times'
+            iconCls: 'x-fa fa-times',
+            itemId: 'del',
+            handler: 'delUser'
         }]
     }]
 });

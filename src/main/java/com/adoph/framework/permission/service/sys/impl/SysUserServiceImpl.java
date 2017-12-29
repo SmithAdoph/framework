@@ -30,13 +30,19 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserRepository sysUserRepository;
 
     @Override
-    public Page<SysUser> findAllByUserExample(UserRequest userReq, Pageable pageable) {
+    public Page<SysUser> findAllByUserExample(UserRequest userReq, Pageable pageable) throws Exception {
         SysUser queryUser = new SysUser();
         BeanUtils.copyProperties(userReq, queryUser);
         ExampleMatcher m = ExampleMatcher.matching()
                 .withIgnoreCase(false);
         if (StringUtils.isNotEmpty(userReq.getUserName())) {
             m.withMatcher("userName", endsWith());
+        }
+        if (userReq.getStartCreateDate() != null) {
+
+        }
+        if (userReq.getEndCreateDate() != null) {
+
         }
         Example<SysUser> e = Example.of(queryUser, m);
         return sysUserRepository.findAll(e, pageable);

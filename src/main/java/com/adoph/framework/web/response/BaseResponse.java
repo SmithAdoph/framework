@@ -1,5 +1,7 @@
 package com.adoph.framework.web.response;
 
+import java.io.Serializable;
+
 /**
  * 统一返回前端包装实体
  *
@@ -7,7 +9,7 @@ package com.adoph.framework.web.response;
  * @version v1.0
  * @since 2017/9/13
  */
-public class BaseResponse<T> {
+public class BaseResponse<T> implements Serializable {
     /**
      * 返回状态值(默认：成功)
      *

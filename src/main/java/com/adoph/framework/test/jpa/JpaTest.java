@@ -1,5 +1,6 @@
 package com.adoph.framework.test.jpa;
 
+import com.adoph.framework.exception.bean.Error;
 import com.adoph.framework.permission.dao.sys.SysUserRepository;
 import com.adoph.framework.permission.pojo.SysUser;
 import org.json.JSONException;
@@ -56,6 +57,13 @@ public class JpaTest {
 //        SysUser one = sysUserRepository.findOne(e);
         print(sysUserRepository.findAll(e));
 
+    }
+
+    @Test
+    public void testParseObjectToJson() {
+        Error<String> r = new Error<>();
+        r.setUrl("http://112");
+        print(r);
     }
 
     private void print(Object o) {
