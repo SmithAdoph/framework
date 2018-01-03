@@ -1,10 +1,10 @@
-package com.adoph.framework.pojo.layui;
+package com.adoph.framework.pojo;
 
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * 基于layui的分页POJO
+ * 分页
  *
  * @author Adoph
  * @version v1.0
@@ -12,60 +12,71 @@ import java.util.List;
  */
 public class Page<T> implements Serializable {
 
+    public Page() {
+    }
+
+    public Page(long page, int limit, long count, List<T> rows) {
+        this.page = page;
+        this.limit = limit;
+        this.count = count;
+        this.rows = rows;
+        this.totalPages = count / limit + (count % limit > 0 ? 1 : 0);
+    }
+
     /**
      * 当前第几页
      */
-    private int page;
+    private long page;
 
     /**
      * 每页显示条数
      */
-    private int pageSize;
+    private int limit;
 
     /**
      * 总页数
      */
-    private int totalPages;
+    private long totalPages;
 
     /**
      * 总条数
      */
-    private int count;
+    private long count;
 
     /**
      * 当前页数据
      */
     private List<T> rows;
 
-    public int getPage() {
+    public long getPage() {
         return page;
     }
 
-    public void setPage(int page) {
+    public void setPage(long page) {
         this.page = page;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getLimit() {
+        return limit;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
-    public int getTotalPages() {
+    public long getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(long totalPages) {
         this.totalPages = totalPages;
     }
 
-    public int getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
@@ -81,7 +92,7 @@ public class Page<T> implements Serializable {
     public String toString() {
         return "Page{" +
                 "page=" + page +
-                ", pageSize=" + pageSize +
+                ", limit=" + limit +
                 ", totalPages=" + totalPages +
                 ", count=" + count +
                 '}';

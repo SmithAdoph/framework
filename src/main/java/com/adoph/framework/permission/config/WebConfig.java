@@ -49,7 +49,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new IndexInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/index.do", "/login/**");
+                .excludePathPatterns("/index.do", "/login/**", "/error");
         super.addInterceptors(registry);
     }
 }

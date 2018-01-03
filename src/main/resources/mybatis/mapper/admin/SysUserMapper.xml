@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adoph.framework.permission.dao.sys.SysUserMapper">
+    <select id="queryUserList" parameterType="com.adoph.framework.permission.vo.UserRequest"
+            resultType="com.adoph.framework.permission.pojo.SysUser">
+        SELECT id, user_name, create_time, update_time FROM sys_user
+        WHERE
+        <include refid="WHERE_CLAUSE"/>
+        ORDER BY id ASC
+        LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="countUsers" parameterType="com.adoph.framework.permission.vo.UserRequest" resultType="java.lang.Long">
+        SELECT COUNT(1)
+        FROM sys_user
+    </select>
+
+
+    <sql id="WHERE_CLAUSE">
+        1 = 1
+        <if test="userName != null and userName != ''">
+            AND user_name LIKE concat(${userName}, '%')
+        </if>
+        <if test="startCreateTime != null and startCreateTime != ''">
+            AND UNIX_TIMESTAMP(create_time)*1000 >= #{startCreateTime}
+        </if>
+        <if test="endCreateTime != null and endCreateTime != ''">
+            AND UNIX_TIMESTAMP(create_time)*1000 <![CDATA[<=]]> #{endCreateTime}
+        </if>
+    </sql>
+
+    <select id="queryUserByName" parameterType="java.lang.String"
+            resultType="com.adoph.framework.permission.pojo.SysUser">
+        SELECT *
+        FROM SYS_USER
+        WHERE user_name = #{userName}
+    </select>
+</mapper>

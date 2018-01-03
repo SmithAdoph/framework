@@ -1,12 +1,12 @@
 package com.adoph.framework.permission.service.login.impl;
 
-import com.adoph.framework.permission.dao.login.LoginRepository;
+import com.adoph.framework.permission.dao.sys.SysUserMapper;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.login.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.Objects;
 
 /**
  * 用户登录
@@ -18,16 +18,17 @@ import java.util.List;
 @Service("loginService")
 public class LoginServiceImpl implements LoginService {
 
-    @Autowired
-    private LoginRepository loginRepository;
+    @Resource
+    private SysUserMapper userMapper;
 
     @Override
     public SysUser login(String userName, String password) {
-        List<SysUser> sysUserList = loginRepository.findByUserName(userName);
-        for (SysUser user : sysUserList) {
-            if (user.getPassword().equals(password)) {
-                return user;
-            }
+        SysUser user = userMapper.queryUserByName(userName);
+        if (user == null) {
+            return null;
+        }
+        if (Objects.equals(password, user.getPassword())) {
+            return user;
         }
         return null;
     }

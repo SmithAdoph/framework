@@ -19,8 +19,9 @@ Ext.create('Ext.data.Store', {
         url: '/sysUser/list.do',
         reader: {
             type: 'json',
-            rootProperty: 'content',
-            totalProperty: 'totalElements'
+            rootProperty: 'data.rows',
+            totalProperty: 'data.count',
+            idProperty: 'id'
         }
     },
     autoLoad: false
@@ -38,6 +39,7 @@ Ext.define('Framework.view.admin.user.User', {
         region: 'north',
         xtype: 'form',
         reference: 'userQueryForm',
+        itemId: 'userQueryForm',
         border: false,
         bodyPadding: '5 5 5 5',
         layout: 'hbox',
@@ -54,19 +56,24 @@ Ext.define('Framework.view.admin.user.User', {
             layout: 'hbox',
             items: [{
                 xtype: 'datefield',
-                name: 'startCreateDate',
+                name: 'startCreateTime',
                 fieldLabel: '创建日期',
+                maxDate: new Date(),
                 labelWidth: 60,
-                editable: false
-
+                dateFormat: 'Y年m月d日',
+                submitFormat: 'Y-m-d',
+                editable: true
             }, {
                 xtype: 'displayfield',
                 value: '至',
                 padding: '0 5 0 5'
             }, {
                 xtype: 'datefield',
-                name: 'endCreateDate',
-                editable: false
+                name: 'endCreateTime',
+                maxDate: new Date(),
+                dateFormat: 'Y-m-d',
+                submitFormat: 'Y-m-d',
+                editable: true
             }]
         }, {
             xtype: 'button',
@@ -74,6 +81,7 @@ Ext.define('Framework.view.admin.user.User', {
             iconCls: 'x-fa fa-search',
             width: 69,
             itemId: 'query',
+            formBind: true,
             handler: 'queryUser'
         }]
     }, {

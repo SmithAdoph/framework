@@ -2,8 +2,7 @@ package com.adoph.framework.permission.service.sys;
 
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.vo.UserRequest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.adoph.framework.pojo.Page;
 
 /**
  * 系统用户管理
@@ -14,5 +13,12 @@ import org.springframework.data.domain.Pageable;
  */
 public interface SysUserService {
 
-    Page<SysUser> findAllByUserExample(UserRequest userReq, Pageable pageable) throws Exception;
+    /**
+     * 分页查询用户列表
+     *
+     * @param userReq 请求参数
+     * @return Page<SysUser>
+     * @throws Exception
+     */
+    Page<SysUser> queryUserList(UserRequest userReq) throws Exception;
 }

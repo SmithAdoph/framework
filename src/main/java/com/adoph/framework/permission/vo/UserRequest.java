@@ -1,6 +1,7 @@
 package com.adoph.framework.permission.vo;
 
 import com.adoph.framework.web.request.BasePageRequest;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 
@@ -21,12 +22,14 @@ public class UserRequest extends BasePageRequest implements Serializable {
     /**
      * 开始创建日期
      */
-    private Long startCreateDate;
+    @DateTimeFormat
+    private Long startCreateTime;
 
     /**
      * 结束创建日期
      */
-    private Long endCreateDate;
+    @DateTimeFormat
+    private Long endCreateTime;
 
     public String getUserName() {
         return userName;
@@ -36,19 +39,19 @@ public class UserRequest extends BasePageRequest implements Serializable {
         this.userName = userName;
     }
 
-    public Long getStartCreateDate() {
-        return startCreateDate;
+    public Long getStartCreateTime() {
+        return startCreateTime;
     }
 
-    public void setStartCreateDate(Long startCreateDate) {
-        this.startCreateDate = startCreateDate;
+    public void setStartCreateTime(Long startCreateTime) {
+        this.startCreateTime = startCreateTime;
     }
 
-    public Long getEndCreateDate() {
-        return endCreateDate;
+    public Long getEndCreateTime() {
+        return endCreateTime;
     }
 
-    public void setEndCreateDate(Long endCreateDate) {
-        this.endCreateDate = endCreateDate;
+    public void setEndCreateTime(Long endCreateTime) {
+        this.endCreateTime = endCreateTime;
     }
 }

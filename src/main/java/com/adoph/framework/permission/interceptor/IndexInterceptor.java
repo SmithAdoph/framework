@@ -34,7 +34,8 @@ public class IndexInterceptor implements HandlerInterceptor {
             if (!StringUtils.isEmpty(requestType) && requestType.equalsIgnoreCase("XMLHttpRequest")) {
                 // ajax请求
                 response.setHeader("SessionStatus", "timeout");
-                response.sendError(520, "session timeout.");
+//                response.sendError(520, "session timeout.");
+                response.setStatus(520);
             } else {
                 // 非ajax，直接跳转登录页面
                 response.sendRedirect("index.do");

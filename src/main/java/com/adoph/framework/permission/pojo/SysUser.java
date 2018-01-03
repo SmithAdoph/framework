@@ -1,10 +1,9 @@
 package com.adoph.framework.permission.pojo;
 
 import com.adoph.framework.pojo.BasePojo;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 系统用户
@@ -13,15 +12,11 @@ import java.util.Date;
  * @version v1.0
  * @since 2017/9/14
  */
-@Entity
-@Table(name = "sys_user")
 public class SysUser extends BasePojo implements Serializable {
 
     /**
      * 主键
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     /**

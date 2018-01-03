@@ -1,6 +1,5 @@
 package com.adoph.framework.pojo;
 
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -12,7 +11,6 @@ import java.util.Objects;
  * @version v1.0
  * @since 2017/11/3
  */
-@MappedSuperclass
 public class BasePojo implements Serializable, Cloneable {
 
     /**

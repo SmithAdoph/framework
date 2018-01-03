@@ -1,5 +1,6 @@
 package com.adoph.framework;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
@@ -15,6 +16,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  */
 @SpringBootApplication
 @ServletComponentScan
+@MapperScan("com.adoph.framework.permission.dao.sys")
 public class Application implements EmbeddedServletContainerCustomizer {
 
     public static void main(String[] args) {

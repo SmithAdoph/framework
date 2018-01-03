@@ -30,8 +30,9 @@ public class WebExceptionHandler {
         String requestType = request.getHeader("X-Requested-With");
         boolean ajax = requestType != null && requestType.equalsIgnoreCase("XMLHttpRequest");
         if (ajax || accept.contains("json")) {//ajax请求或者请求端接受json数据
-            response.setHeader("SessionStatus", "system exception");
-            response.sendError(500, "The system throws an exception!");
+            response.setHeader("SystemException", "system exception");
+//            response.sendError(500, "The system throws an exception!");
+            response.setStatus(500);
             Error<String> r = new Error<>();
             r.error(e.getMessage());
             r.setUrl(request.getRequestURL().toString());

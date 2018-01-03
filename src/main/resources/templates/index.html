@@ -26,19 +26,49 @@
                 'Ext.ux': '/ext/packages/ux/classic/src'
             }
         });
-        Ext.Ajax.on('requestexception', function (conn, response) {
+        //异常处理
+        Ext.Ajax.on('requestexception', function (conn, response, options, eOpts) {
             //会话超时处理
             if (response.status === 520) {
-                Ext.Msg.alert('系统提示', '会话超时，请重新登录!', function () {
-                    //清除缓存
-                    localStorage.clear();
-                    //清除cookie
-                    // Ext.util.Cookies.destroyMembers ("SESSION", "JSESSIONID");
-                    //跳转登录页面
-                    this.location.href = "/index.do";
+                Ext.Msg.show({
+                    title: '系统提示',
+                    message: '会话超时，请重新登录！',
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.INFO,
+                    fn: function (btn) {
+                        //清除缓存
+                        localStorage.clear();
+                        //清除cookie
+                        // Ext.util.Cookies.destroyMembers ("SESSION", "JSESSIONID");
+                        //跳转登录页面
+                        this.location.href = "/index.do";
+                    }
+                });
+            }
+            //服务端异常
+            if (response.status === 500) {
+                Ext.Msg.show({
+                    title: '系统提示',
+                    message: '服务端异常，请联系管理员！',
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR
                 });
             }
         });
+        //日期标准格式化
+        Ext.Date.patterns = {
+            ISO8601Long: "Y-m-d H:i:s",
+            ISO8601Short: "Y-m-d",
+            ShortDate: "n/j/Y",
+            LongDate: "l, F d, Y",
+            FullDateTime: "l, F d, Y g:i:s A",
+            MonthDay: "F d",
+            ShortTime: "g:i A",
+            LongTime: "g:i:s A",
+            SortableDateTime: "Y-m-d\\TH:i:s",
+            UniversalSortableDateTime: "Y-m-d H:i:sO",
+            YearMonth: "F, Y"
+        };
         Ext.application('Framework.Application');
     </script>
 </head>
