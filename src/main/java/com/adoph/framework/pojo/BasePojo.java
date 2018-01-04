@@ -21,7 +21,7 @@ public class BasePojo implements Serializable, Cloneable {
     /**
      * 创建人ID
      */
-    private Long createBy;
+    private Long createdBy;
 
     /**
      * 修改时间
@@ -31,7 +31,7 @@ public class BasePojo implements Serializable, Cloneable {
     /**
      * 修改人ID
      */
-    private Long updateBy;
+    private Long updatedBy;
 
     public Date getCreateTime() {
         return createTime;
@@ -41,12 +41,12 @@ public class BasePojo implements Serializable, Cloneable {
         this.createTime = createTime;
     }
 
-    public Long getCreateBy() {
-        return createBy;
+    public Long getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateBy(Long createBy) {
-        this.createBy = createBy;
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Date getUpdateTime() {
@@ -57,12 +57,12 @@ public class BasePojo implements Serializable, Cloneable {
         this.updateTime = updateTime;
     }
 
-    public Long getUpdateBy() {
-        return updateBy;
+    public Long getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setUpdateBy(Long updateBy) {
-        this.updateBy = updateBy;
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     @Override
@@ -71,23 +71,23 @@ public class BasePojo implements Serializable, Cloneable {
         if (o == null || getClass() != o.getClass()) return false;
         BasePojo basePojo = (BasePojo) o;
         return Objects.equals(createTime, basePojo.createTime) &&
-                Objects.equals(createBy, basePojo.createBy) &&
+                Objects.equals(createdBy, basePojo.createdBy) &&
                 Objects.equals(updateTime, basePojo.updateTime) &&
-                Objects.equals(updateBy, basePojo.updateBy);
+                Objects.equals(updatedBy, basePojo.updatedBy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(createTime, createBy, updateTime, updateBy);
+        return Objects.hash(createTime, createdBy, updateTime, updatedBy);
     }
 
     @Override
     public String toString() {
         return "BasePojo{" +
                 "createTime=" + createTime +
-                ", createBy=" + createBy +
+                ", createdBy=" + createdBy +
                 ", updateTime=" + updateTime +
-                ", updateBy=" + updateBy +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 }

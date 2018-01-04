@@ -16,6 +16,51 @@ Ext.define('Framework.view.main.MainController', {
 
     lastView: null,
 
+    //登出
+    logout: function () {
+        Ext.Msg.show({
+            title: '系统提示',
+            message: '确定退出系统！',
+            buttons: Ext.Msg.OKCANCEL,
+            icon: Ext.Msg.QUESTION,
+            closable: false,
+            fn: function (btn) {
+                if (btn === 'ok') {
+                    var logoutMask = new Ext.LoadMask({
+                        msg: '正在注销登录...',
+                        target: Ext.ComponentQuery.query('app-main')[0]
+                    });
+                    logoutMask.show();
+                    Ext.Ajax.request({
+                        url: '/login/logout.do',
+                        async: false,
+                        success: function (response) {
+                            var r = Ext.decode(response.responseText);
+                            if (r.status === 'success') {
+                                //清除缓存
+                                localStorage.clear();
+                                //跳转登录页面
+                                this.location.href = "/index.do";
+                            } else {
+                                Ext.toast({
+                                    html: r.msg,
+                                    closable: false,
+                                    align: 't',
+                                    slideInDuration: 400,
+                                    minWidth: 350,
+                                    iconCls: 'error-icon',
+                                    title: '系统提示',
+                                    autoCloseDelay: 3000
+                                });
+                            }
+                            logoutMask.hide();
+                        }
+                    });
+                }
+            }
+        });
+    },
+
     setCurrentView: function (hashTag) {
         hashTag = (hashTag || '').toLowerCase();
 

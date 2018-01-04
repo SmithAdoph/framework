@@ -52,7 +52,11 @@ Ext.define('Framework.view.authentication.AuthenticationController', {
                         autoCloseDelay: 3000
                     });
                     localStorage.setItem(Constant.LOGGED_IN_TAG, '1');
+                    //销毁登录页面
                     Ext.ComponentQuery.query('login')[0].destroy();
+                    //存储登录用户信息
+                    localStorage.setItem($Constant.LOGIN_ONLINE, Ext.encode(r.data.online));
+                    //进入首页
                     Ext.create({
                         xtype: 'app-main'
                     });

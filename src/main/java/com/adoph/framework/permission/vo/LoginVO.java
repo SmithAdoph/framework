@@ -1,5 +1,7 @@
 package com.adoph.framework.permission.vo;
 
+import com.adoph.framework.permission.OnlineUser;
+
 /**
  * 用户登录VO
  *
@@ -14,11 +16,17 @@ public class LoginVO {
      */
     private int showVerifyCode = 0;
 
+    private OnlineUser online;
+
     public LoginVO() {
     }
 
     public LoginVO(int showVerifyCode) {
         this.showVerifyCode = showVerifyCode;
+    }
+
+    public LoginVO(OnlineUser online) {
+        this.online = online;
     }
 
     public int getShowVerifyCode() {
@@ -27,5 +35,13 @@ public class LoginVO {
 
     public void setShowVerifyCode(int showVerifyCode) {
         this.showVerifyCode = showVerifyCode;
+    }
+
+    public OnlineUser getOnline() {
+        return online;
+    }
+
+    public void setOnline(OnlineUser online) {
+        this.online = online;
     }
 }

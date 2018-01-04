@@ -12,6 +12,9 @@ Ext.define('Framework.view.main.Main', {
         'Framework.view.admin.user.User',
         'Framework.view.main.MainController'
     ],
+    viewModel: {
+        data: Sys.getOnline()
+    },
 
     controller: 'main',
 
@@ -53,8 +56,16 @@ Ext.define('Framework.view.main.Main', {
                     tooltip: 'See your profile'
                 },
                 {
+                    iconCls: 'x-fa fa-sign-out',
+                    ui: 'header',
+                    // href: '#profile',
+                    // hrefTarget: '_self',
+                    handler: 'logout',
+                    tooltip: '注销登录'
+                },
+                {
                     xtype: 'tbtext',
-                    text: 'Smith Adoph',
+                    bind: '{userName}',
                     cls: 'top-user-name'
                 },
                 {

@@ -28,7 +28,6 @@ import java.util.UUID;
 
 import static com.adoph.framework.permission.constant.LoginConstant.FAIL_COUNT_MAX;
 import static com.adoph.framework.permission.constant.LoginConstant.LOGIN_ONLINE_TAG;
-import static com.adoph.framework.permission.constant.LoginConstant.UNDERLINE;
 
 /**
  * 用户登录控制器
@@ -99,6 +98,7 @@ public class LoginController {
                 HttpSession session = request.getSession();
                 session.setAttribute(LOGIN_ONLINE_TAG, user);
                 session.setMaxInactiveInterval(60 * 30);//默认session有效时间30分钟
+                response.setData(new LoginVO(user));//返回登录用户信息
                 response.success("登录成功！");
             }
         } catch (Exception e) {
@@ -109,20 +109,22 @@ public class LoginController {
     }
 
     /**
-     * 后台管理首页
+     * 注销登录
      *
-     * @param loginId 登录id
-     * @return ModelAndView
+     * @param request 请求信息
+     * @return BaseResponse<Integer>
      */
-    @RequestMapping(value = "index.do", method = RequestMethod.GET)
-    public ModelAndView index(@RequestParam("loginId") String loginId) {
-        ModelAndView index = new ModelAndView("admin/index");
-        OnlineUser online = LoginManager.getUser(loginId);
-        if (online == null) {
-            return login();
+    @RequestMapping(value = "logout.do", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResponse logout(HttpServletRequest request) {
+        BaseResponse resp = new BaseResponse<>();
+        try {
+            request.getSession().setMaxInactiveInterval(0);
+        } catch (Exception e) {
+            resp.error("注销登录失败，请重试！");
+            log.error("{注销登录失败!}", e);
         }
-        index.addObject("online", online);
-        return index;
+        return resp;
     }
 
     /**
@@ -133,21 +135,30 @@ public class LoginController {
      * @param response HttpServletResponse
      */
     @RequestMapping(value = "verifyCode.do", method = RequestMethod.GET)
-    public void verifyCode(@RequestParam("loginId") String loginId, HttpServletRequest request, HttpServletResponse response) {
+    public void verifyCode(@RequestParam("loginId") String loginId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ByteArrayInputStream is = null;
+        OutputStream os = null;
         try {
-            ByteArrayInputStream is = LoginManager.getVerifyCodeImage(loginId);
+            is = LoginManager.getVerifyCodeImage(loginId);
             response.addHeader("Content-Disposition", "attachment;filename=verifyCode.jpeg");
             response.setContentType("image/jpeg");
-            OutputStream os = response.getOutputStream();  //创建输出流
+            os = response.getOutputStream();  //创建输出流
             byte[] b = new byte[1024];
             while (is.read(b) != -1) {
                 os.write(b);
             }
-            is.close();
-            os.flush();
-            os.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("{获取验证码异常!}", e);
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.flush();
+            }
+            if (os != null) {
+                os.close();
+            }
         }
     }
 
