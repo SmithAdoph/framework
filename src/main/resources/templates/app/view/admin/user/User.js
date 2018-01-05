@@ -41,7 +41,7 @@ Ext.define('Framework.view.admin.user.User', {
         reference: 'userQueryForm',
         itemId: 'userQueryForm',
         border: false,
-        bodyPadding: '5 5 5 5',
+        bodyPadding: '5 5 0 5',
         layout: 'hbox',
         defaults: {
             margin: '0 20 0 0'
@@ -100,6 +100,23 @@ Ext.define('Framework.view.admin.user.User', {
             dataIndex: 'userName',
             align: 'center'
         }, {
+            text: '最后登录地址',
+            width: 160,
+            sortable: true,
+            dataIndex: 'lastLoginHost',
+            align: 'center'
+        }, {
+            text: '最后登录时间',
+            width: 160,
+            sortable: true,
+            dataIndex: 'lastLoginTime',
+            align: 'center',
+            renderer: function (val) {
+                if (val) {
+                    return Ext.util.Format.date(new Date(val), Ext.Date.patterns.ISO8601Long);
+                }
+            }
+        }, {
             text: '创建时间',
             width: 95,
             sortable: true,
@@ -115,7 +132,9 @@ Ext.define('Framework.view.admin.user.User', {
             dataIndex: 'updateTime',
             align: 'center',
             renderer: function (val) {
-                return Ext.util.Format.date(new Date(val), 'Y-m-d');
+                if (val) {
+                    return Ext.util.Format.date(new Date(val), 'Y-m-d');
+                }
             }
         }],
         bbar: {

@@ -13,7 +13,7 @@ Ext.define('Framework.view.main.Main', {
         'Framework.view.main.MainController'
     ],
     viewModel: {
-        data: Sys.getOnline()
+        data: {userName: null}
     },
 
     controller: 'main',
@@ -48,21 +48,20 @@ Ext.define('Framework.view.main.Main', {
                     handler: 'onToggleNavigationSize'
                 },
                 '->',
-                {
-                    iconCls: 'x-fa fa-th-large',
-                    ui: 'header',
-                    href: '#profile',
-                    hrefTarget: '_self',
-                    tooltip: 'See your profile'
-                },
+                // {
+                //     iconCls: 'x-fa fa-th-large',
+                //     ui: 'header',
+                //     href: '#profile',
+                //     hrefTarget: '_self',
+                //     tooltip: 'See your profile'
+                // },
                 {
                     iconCls: 'x-fa fa-sign-out',
                     ui: 'header',
-                    // href: '#profile',
-                    // hrefTarget: '_self',
                     handler: 'logout',
                     tooltip: '注销登录'
                 },
+                '-',
                 {
                     xtype: 'tbtext',
                     bind: '{userName}',

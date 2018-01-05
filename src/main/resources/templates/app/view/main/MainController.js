@@ -1,12 +1,16 @@
 Ext.define('Framework.view.main.MainController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.main',
-    // stores: ['admin.user.User'],
     listen: {
         controller: {
             '#': {
                 unmatchedroute: 'onRouteChange'
             }
+        }
+    },
+    control: {
+        'app-main': {
+            afterrender: 'onAfterrender'
         }
     },
 
@@ -15,6 +19,12 @@ Ext.define('Framework.view.main.MainController', {
     },
 
     lastView: null,
+
+    //动态绑定用户名
+    onAfterrender: function () {
+        var online = Sys.getOnline();
+        this.getViewModel().set('userName', online.userName);
+    },
 
     //登出
     logout: function () {

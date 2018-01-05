@@ -32,4 +32,9 @@ public class LoginServiceImpl implements LoginService {
         }
         return null;
     }
+
+    @Override
+    public void updateLoginInfo(SysUser user) {
+        userMapper.updateLoginInfo(user);
+    }
 }

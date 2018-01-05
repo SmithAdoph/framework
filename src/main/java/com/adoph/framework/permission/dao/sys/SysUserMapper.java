@@ -36,4 +36,11 @@ public interface SysUserMapper {
      * @return SysUser
      */
     SysUser queryUserByName(String userName);
+
+    /**
+     * 更新用户登录信息
+     *
+     * @param user 用户信息
+     */
+    void updateLoginInfo(SysUser user);
 }

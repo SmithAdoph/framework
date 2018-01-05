@@ -2,8 +2,10 @@ package com.adoph.framework.permission.controller.login;
 
 import com.adoph.framework.permission.LoginManager;
 import com.adoph.framework.permission.OnlineUser;
+import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.login.LoginService;
 import com.adoph.framework.permission.vo.LoginVO;
+import com.adoph.framework.util.HttpUtils;
 import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.web.response.BaseResponse;
 import org.slf4j.Logger;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.KeyPair;
-import java.util.UUID;
+import java.util.Date;
 
 import static com.adoph.framework.permission.constant.LoginConstant.FAIL_COUNT_MAX;
 import static com.adoph.framework.permission.constant.LoginConstant.LOGIN_ONLINE_TAG;
@@ -45,16 +46,12 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @RequestMapping("login.do")
-    public ModelAndView login() {
-        ModelAndView loginMav = new ModelAndView("login/login");
-        String loginId = UUID.randomUUID().toString();
-        KeyPair keyPair = LoginManager.addKey(loginId);
-        loginMav.addObject("loginId", loginId);
-        loginMav.addObject("publicKey", RSAEncryptUtils.getPublicKey(keyPair));
-        return loginMav;
-    }
-
+    /**
+     * 获取公钥
+     *
+     * @param loginId 登录id
+     * @return String
+     */
     @RequestMapping("authPubKey.do")
     @ResponseBody
     public String authPubKey(@RequestParam("loginId") String loginId) {
@@ -63,10 +60,19 @@ public class LoginController {
         return RSAEncryptUtils.getPublicKey(keyPair);
     }
 
+    /**
+     * 登录
+     *
+     * @param loginId  登录id
+     * @param userName 用户名
+     * @param password 密码
+     * @param request  HttpServletRequest
+     * @return BaseResponse<LoginVO>
+     */
     @RequestMapping(value = "doLogin.do", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResponse doLogin(@RequestParam("loginId") String loginId, @RequestParam("userName") String userName,
-                                @RequestParam("password") String password, HttpServletRequest request) {
+    public BaseResponse<LoginVO> doLogin(@RequestParam("loginId") String loginId, @RequestParam("userName") String userName,
+                                         @RequestParam("password") String password, HttpServletRequest request) {
         BaseResponse<LoginVO> response = new BaseResponse<>();
         Long failCount = LoginManager.getFailCount(loginId);
         if (failCount != null) {
@@ -79,10 +85,10 @@ public class LoginController {
                 }
             }
         }
-        OnlineUser user;
+        OnlineUser online;
         try {
-            user = LoginManager.login(loginId, userName, password);
-            if (user == null) {
+            online = LoginManager.login(loginId, userName, password);
+            if (online == null) {
                 failCount = LoginManager.getFailCount(loginId);
                 if (failCount == null) {
                     // 非法登录
@@ -96,9 +102,15 @@ public class LoginController {
                 }
             } else {
                 HttpSession session = request.getSession();
-                session.setAttribute(LOGIN_ONLINE_TAG, user);
+                session.setAttribute(LOGIN_ONLINE_TAG, online);
                 session.setMaxInactiveInterval(60 * 30);//默认session有效时间30分钟
-                response.setData(new LoginVO(user));//返回登录用户信息
+                String host = HttpUtils.getRemoteHost(request);//请求地址
+                SysUser user = online.getSysUser();
+                user.setLastLoginHost(host);
+                user.setLastLoginTime(new Date());
+                loginService.updateLoginInfo(user);//更新用户登录信息
+                user.setPassword(null);//清空密码
+                response.setData(new LoginVO(online));//返回登录用户信息
                 response.success("登录成功！");
             }
         } catch (Exception e) {

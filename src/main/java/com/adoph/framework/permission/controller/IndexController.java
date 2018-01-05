@@ -1,13 +1,8 @@
 package com.adoph.framework.permission.controller;
 
-import com.adoph.framework.permission.LoginManager;
-import com.adoph.framework.util.RSAEncryptUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.security.KeyPair;
-import java.util.UUID;
 
 /**
  * 默认控制器

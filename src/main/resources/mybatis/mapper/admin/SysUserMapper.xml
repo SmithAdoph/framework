@@ -2,7 +2,7 @@
 <mapper namespace="com.adoph.framework.permission.dao.sys.SysUserMapper">
     <select id="queryUserList" parameterType="com.adoph.framework.permission.vo.UserRequest"
             resultType="com.adoph.framework.permission.pojo.SysUser">
-        SELECT id, user_name, create_time, update_time FROM sys_user
+        SELECT id, user_name, create_time, update_time, last_login_host, last_login_time FROM sys_user
         WHERE
         <include refid="WHERE_CLAUSE"/>
         ORDER BY id ASC
@@ -34,4 +34,11 @@
         FROM SYS_USER
         WHERE user_name = #{userName}
     </select>
+    
+    <update id="updateLoginInfo" parameterType="com.adoph.framework.permission.pojo.SysUser">
+        UPDATE SYS_USER SET
+            last_login_host = #{lastLoginHost},
+            last_login_time = #{lastLoginTime}
+        WHERE id = #{id}
+    </update>
 </mapper>

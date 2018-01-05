@@ -4,6 +4,7 @@ import com.adoph.framework.pojo.BasePojo;
 import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 系统用户
@@ -29,6 +30,16 @@ public class SysUser extends BasePojo implements Serializable {
      */
     private String password;
 
+    /**
+     * 最后登录地址
+     */
+    private String lastLoginHost;
+
+    /**
+     * 最后登录时间
+     */
+    private Date lastLoginTime;
+
     public Long getId() {
         return id;
     }
@@ -53,12 +64,30 @@ public class SysUser extends BasePojo implements Serializable {
         this.password = password;
     }
 
+    public String getLastLoginHost() {
+        return lastLoginHost;
+    }
+
+    public void setLastLoginHost(String lastLoginHost) {
+        this.lastLoginHost = lastLoginHost;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
     @Override
     public String toString() {
         return "SysUser{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", lastLoginHost='" + lastLoginHost + '\'' +
+                ", lastLoginTime=" + lastLoginTime +
                 '}';
     }
 }
