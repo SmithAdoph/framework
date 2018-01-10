@@ -57,8 +57,10 @@ Ext.define('Framework.view.authentication.AuthenticationController', {
                     //存储登录用户信息
                     localStorage.setItem($Constant.LOGIN_ONLINE, Ext.encode(r.data.online));
                     //进入首页
-                    Ext.create({
-                        xtype: 'app-main'
+                    Ext.require('Framework.view.main.Main', function () {
+                        Ext.create({
+                            xtype: 'app-main'
+                        });
                     });
                 } else {
                     if (r.data && r.data['showVerifyCode'] === 1) {

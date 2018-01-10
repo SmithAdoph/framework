@@ -31,6 +31,18 @@ public class UserRequest extends BasePageRequest implements Serializable {
     @DateTimeFormat
     private Long endCreateTime;
 
+    /**
+     * 开始最后登录时间
+     */
+    @DateTimeFormat
+    private Long startLastLoginTime;
+
+    /**
+     * 结束最后登录时间
+     */
+    @DateTimeFormat
+    private Long endLastLoginTime;
+
     public String getUserName() {
         return userName;
     }
@@ -53,5 +65,21 @@ public class UserRequest extends BasePageRequest implements Serializable {
 
     public void setEndCreateTime(Long endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public Long getStartLastLoginTime() {
+        return startLastLoginTime;
+    }
+
+    public void setStartLastLoginTime(Long startLastLoginTime) {
+        this.startLastLoginTime = startLastLoginTime;
+    }
+
+    public Long getEndLastLoginTime() {
+        return endLastLoginTime;
+    }
+
+    public void setEndLastLoginTime(Long endLastLoginTime) {
+        this.endLastLoginTime = endLastLoginTime;
     }
 }

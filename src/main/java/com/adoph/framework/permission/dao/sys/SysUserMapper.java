@@ -43,4 +43,18 @@ public interface SysUserMapper {
      * @param user 用户信息
      */
     void updateLoginInfo(SysUser user);
+
+    /**
+     * 新增用户
+     *
+     * @param user 用户信息
+     */
+    void insertUser(SysUser user);
+
+    /**
+     * 更新用户信息
+     *
+     * @param user 用户信息
+     */
+    void updateUser(SysUser user);
 }

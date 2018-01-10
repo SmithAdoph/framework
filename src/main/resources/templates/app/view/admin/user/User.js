@@ -56,10 +56,10 @@ Ext.define('Framework.view.admin.user.User', {
             layout: 'hbox',
             items: [{
                 xtype: 'datefield',
-                name: 'startCreateTime',
-                fieldLabel: '创建日期',
+                name: 'startLastLoginTime',
+                fieldLabel: '最后登录时间',
                 maxDate: new Date(),
-                labelWidth: 60,
+                labelWidth: 100,
                 dateFormat: 'Y年m月d日',
                 submitFormat: 'Y-m-d',
                 editable: true
@@ -69,7 +69,7 @@ Ext.define('Framework.view.admin.user.User', {
                 padding: '0 5 0 5'
             }, {
                 xtype: 'datefield',
-                name: 'endCreateTime',
+                name: 'endLastLoginTime',
                 maxDate: new Date(),
                 dateFormat: 'Y-m-d',
                 submitFormat: 'Y-m-d',
@@ -123,7 +123,7 @@ Ext.define('Framework.view.admin.user.User', {
             dataIndex: 'createTime',
             align: 'center',
             renderer: function (val) {
-                return Ext.util.Format.date(new Date(val), 'Y-m-d');
+                return Ext.util.Format.date(new Date(val), Ext.Date.patterns.ISO8601Short);
             }
         }, {
             text: '修改时间',
@@ -133,7 +133,7 @@ Ext.define('Framework.view.admin.user.User', {
             align: 'center',
             renderer: function (val) {
                 if (val) {
-                    return Ext.util.Format.date(new Date(val), 'Y-m-d');
+                    return Ext.util.Format.date(new Date(val), Ext.Date.patterns.ISO8601Short);
                 }
             }
         }],

@@ -19,7 +19,7 @@ Ext.define('Framework.Application', {
         console.log("Application launch!");
         var loggedIn = localStorage.getItem(Constant.LOGGED_IN_TAG);
         if (!loggedIn) {
-            localStorage.removeItem(Constant.LOGIN_ID_TAG);
+            localStorage.clear();
         }
         Ext.create({
             xtype: loggedIn ? 'app-main' : 'login'

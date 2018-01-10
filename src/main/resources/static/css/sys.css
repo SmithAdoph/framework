@@ -12,3 +12,13 @@
 .font-color-edit .x-fa {
     color: #0e7602;
 }
+
+/*保存*/
+.font-color-save .x-fa {
+    color: #21b2ff;
+}
+
+/*取消*/
+.font-color-cancel .x-fa {
+    color: #ff0000;
+}

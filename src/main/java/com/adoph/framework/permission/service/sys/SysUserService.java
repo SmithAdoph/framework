@@ -21,4 +21,11 @@ public interface SysUserService {
      * @throws Exception
      */
     Page<SysUser> queryUserList(UserRequest userReq) throws Exception;
+
+    /**
+     * 新增或更新用户信息
+     *
+     * @param user 用户信息
+     */
+    void saveUser(SysUser user);
 }

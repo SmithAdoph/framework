@@ -5,6 +5,8 @@ import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.sys.SysUserService;
 import com.adoph.framework.permission.vo.UserRequest;
 import com.adoph.framework.pojo.Page;
+import com.adoph.framework.util.SecurityUtils;
+import com.adoph.framework.util.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,9 +26,23 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserMapper sysUserMapper;
 
     @Override
-    public Page<SysUser> queryUserList(UserRequest userReq) {
+    public Page<SysUser> queryUserList(UserRequest userReq) throws Exception {
         List<SysUser> userList = sysUserMapper.queryUserList(userReq);
         Long count = sysUserMapper.countUsers(userReq);
         return new Page<>(userReq.getPage(), userReq.getLimit(), count, userList);
+    }
+
+    @Override
+    public void saveUser(SysUser user) {
+        Long id = user.getId();
+        String password = user.getPassword();
+        if (StringUtils.isNotEmpty(password)) {
+            user.setPassword(SecurityUtils.MD5(password));
+        }
+        if (id != null) {
+            sysUserMapper.updateUser(user);
+        } else {
+            sysUserMapper.insertUser(user);
+        }
     }
 }

@@ -18,6 +18,11 @@ public class BaseResponse<T> implements Serializable {
     private String status = ResponseStatus.SUCCESS_VALUE;
 
     /**
+     * 适配ExtJS表单提交，返回json必须包含"{success:true}"
+     */
+    private boolean success = true;
+
+    /**
      * 返回消息
      */
     private String msg;
@@ -33,6 +38,14 @@ public class BaseResponse<T> implements Serializable {
 
     private void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public String getMsg() {

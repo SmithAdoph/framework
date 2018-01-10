@@ -26,6 +26,12 @@
         <if test="endCreateTime != null and endCreateTime != ''">
             AND UNIX_TIMESTAMP(create_time)*1000 <![CDATA[<=]]> #{endCreateTime}
         </if>
+        <if test="startLastLoginTime != null and startLastLoginTime != ''">
+            AND UNIX_TIMESTAMP(last_login_time)*1000 >= #{startLastLoginTime}
+        </if>
+        <if test="endLastLoginTime != null and endLastLoginTime != ''">
+            AND UNIX_TIMESTAMP(last_login_time)*1000 <![CDATA[<=]]> #{endLastLoginTime}
+        </if>
     </sql>
 
     <select id="queryUserByName" parameterType="java.lang.String"
@@ -34,11 +40,26 @@
         FROM SYS_USER
         WHERE user_name = #{userName}
     </select>
-    
+
     <update id="updateLoginInfo" parameterType="com.adoph.framework.permission.pojo.SysUser">
-        UPDATE SYS_USER SET
+        UPDATE SYS_USER
+        SET
             last_login_host = #{lastLoginHost},
             last_login_time = #{lastLoginTime}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertUser" parameterType="com.adoph.framework.permission.pojo.SysUser">
+        INSERT INTO SYS_USER (user_name, password, created_by) VALUES (#{userName}, #{password}, #{createdBy})
+    </insert>
+
+    <update id="updateUser" parameterType="com.adoph.framework.permission.pojo.SysUser">
+        UPDATE SYS_USER
+        SET
+            user_name   = #{userName},
+            password    = #{password},
+            updated_by  = #{updatedBy},
+            update_time = NOW()
         WHERE id = #{id}
     </update>
 </mapper>
