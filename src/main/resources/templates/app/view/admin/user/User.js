@@ -90,6 +90,13 @@ Ext.define('Framework.view.admin.user.User', {
         reference: 'userGrid',
         store: 'userStore',
         columnLines: true,
+        selModel: Ext.create("Ext.selection.CheckboxModel", {
+            injectCheckbox: 0,//checkbox位于哪一列，默认值为0
+            mode: "single",//multi,simple,single；默认为多选multi
+            checkOnly: false,//如果值为true，则只用点击checkbox列才能选中此条记录
+            allowDeselect: true,//如果值true，并且mode值为单选（single）时，可以通过点击checkbox取消对其的选择
+            enableKeyNav: true
+        }),
         columns: [{
             xtype: 'rownumberer',
             width: 40

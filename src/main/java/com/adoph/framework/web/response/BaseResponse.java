@@ -79,6 +79,7 @@ public class BaseResponse<T> implements Serializable {
     public void error(String errorMsg) {
         setStatus(ResponseStatus.ERROR_VALUE);
         setMsg(errorMsg);
+        setSuccess(false);
     }
 
     /**

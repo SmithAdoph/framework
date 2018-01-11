@@ -27,5 +27,12 @@ public interface SysUserService {
      *
      * @param user 用户信息
      */
-    void saveUser(SysUser user);
+    Integer saveUser(SysUser user);
+
+    /**
+     * 删除用户
+     *
+     * @param id 主键
+     */
+    void delUser(Long id);
 }

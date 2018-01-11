@@ -9,8 +9,8 @@ Ext.define('Framework.view.admin.user.EditUserController', {
 
     //保存
     onFormSubmit: function () {
-        var me = this;
-        var formPanel = me.lookupReference('editUserForm'),
+        var me = this,
+            formPanel = me.lookupReference('editUserForm'),
             form = formPanel.getForm();
 
         if (form.isValid()) {
@@ -20,7 +20,24 @@ Ext.define('Framework.view.admin.user.EditUserController', {
                 success: function () {
                     me.getView('edit-user').close();
                     Ext.ComponentQuery.query('user-grid grid')[0].getStore().reload();
-                    Ext.Msg.alert('系统提示!', '保存成功！');
+                    Ext.toast({
+                        title: '系统提示',
+                        html: '保存成功！',
+                        closable: false,
+                        align: 't',
+                        slideInDuration: 400,
+                        minWidth: 350,
+                        iconCls: 'right-icon',
+                        autoCloseDelay: 2500
+                    });
+                },
+                failure: function (form, action) {
+                    Ext.Msg.show({
+                        title: '系统提示',
+                        message: action.result.msg,
+                        buttons: Ext.Msg.OK,
+                        icon: Ext.Msg.ERROR
+                    });
                 }
             });
         }

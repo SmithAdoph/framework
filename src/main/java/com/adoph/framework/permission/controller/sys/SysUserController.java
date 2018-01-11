@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
+import static com.adoph.framework.permission.constant.SysUserConstant.SAVE_USER_REPEAT;
+
 /**
  * 系统用户管理控制层
  *
@@ -68,7 +70,31 @@ public class SysUserController extends BaseController {
             OnlineUser online = online();
             user.setCreatedBy(online.getSysUser().getId());
             user.setUpdatedBy(online.getSysUser().getId());
-            sysUserService.saveUser(user);
+            Integer r = sysUserService.saveUser(user);
+            if (r == SAVE_USER_REPEAT) {
+                response.error("保存失败，用户名重复！");
+            }
+        } catch (Exception e) {
+            logger.error(err, e);
+            response.error(err);
+        }
+        return response;
+    }
+
+    /**
+     * 删除用户
+     *
+     * @param id 用户id
+     * @return BaseResponse
+     * @throws Exception
+     */
+    @RequestMapping("del.do")
+    @ResponseBody
+    public BaseResponse saveUser(Long id) throws Exception {
+        String err = "删除失败，请联系管理员！";
+        BaseResponse response = new BaseResponse();
+        try {
+            sysUserService.delUser(id);
         } catch (Exception e) {
             logger.error(err, e);
             response.error(err);

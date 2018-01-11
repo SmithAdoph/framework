@@ -20,12 +20,14 @@
     <!--ExtJs APP ENTRANCE-->
     <script type="text/javascript" th:src="@{/app/Application.js}"></script>
     <script type="text/javascript">
+        <!--设置异步加载-->
         Ext.Loader.setConfig({
             enabled: true, //开启异步加载模式
             paths: {
                 'Ext.ux': '/ext/packages/ux/classic/src'
             }
         });
+
         //异常处理
         Ext.Ajax.on('requestexception', function (conn, response, options, eOpts) {
             //会话超时处理
@@ -55,6 +57,7 @@
                 });
             }
         });
+
         //日期标准格式化
         Ext.Date.patterns = {
             ISO8601Long: "Y-m-d H:i:s",
@@ -69,6 +72,8 @@
             UniversalSortableDateTime: "Y-m-d H:i:sO",
             YearMonth: "F, Y"
         };
+
+        //初始化
         Ext.application('Framework.Application');
     </script>
 </head>

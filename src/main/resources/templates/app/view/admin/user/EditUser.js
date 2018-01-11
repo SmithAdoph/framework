@@ -7,10 +7,11 @@
 Ext.define('Framework.view.admin.user.EditUser', {
     extend: 'Ext.window.Window',
     xtype: 'edit-user',
-    reference: 'editUserWin',
+    // reference: 'editUserWin',
     requires: ['Framework.view.admin.user.EditUserController'],
     controller: 'edit-user',
     width: 500,
+    closeAction: 'destroy',
     scrollable: false,
     bodyPadding: 10,
     constrain: true,
@@ -39,6 +40,10 @@ Ext.define('Framework.view.admin.user.EditUser', {
             allowBlank: false
         },
         items: [{
+            xtype: 'hiddenfield',
+            name: 'id',
+            fieldLabel: 'id'
+        }, {
             name: 'userName',
             fieldLabel: '用户名',
             bind: '{userName}'

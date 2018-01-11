@@ -4,6 +4,7 @@ import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.vo.UserRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户DAO
@@ -57,4 +58,19 @@ public interface SysUserMapper {
      * @param user 用户信息
      */
     void updateUser(SysUser user);
+
+    /**
+     * 查询是否存在用户名
+     *
+     * @param user id(可选)，userName
+     * @return Integer 0,否；1,是；
+     */
+    Integer containUserName(SysUser user);
+
+    /**
+     * 删除用户
+     *
+     * @param id 主键
+     */
+    void deleteUser(Long id);
 }

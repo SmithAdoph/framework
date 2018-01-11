@@ -8,9 +8,12 @@ import com.adoph.framework.pojo.Page;
 import com.adoph.framework.util.SecurityUtils;
 import com.adoph.framework.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static com.adoph.framework.permission.constant.SysUserConstant.*;
 
 /**
  * 系统用户管理实现类
@@ -33,8 +36,12 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void saveUser(SysUser user) {
+    public Integer saveUser(SysUser user) {
         Long id = user.getId();
+        Integer r = sysUserMapper.containUserName(user);
+        if (r == 1) {
+            return SAVE_USER_REPEAT;
+        }
         String password = user.getPassword();
         if (StringUtils.isNotEmpty(password)) {
             user.setPassword(SecurityUtils.MD5(password));
@@ -44,5 +51,12 @@ public class SysUserServiceImpl implements SysUserService {
         } else {
             sysUserMapper.insertUser(user);
         }
+        return SAVE_USER_SUCCESS;
+    }
+
+    @Override
+    public void delUser(Long id) {
+        Assert.notNull(id, "id不能为空！");
+        sysUserMapper.deleteUser(id);
     }
 }

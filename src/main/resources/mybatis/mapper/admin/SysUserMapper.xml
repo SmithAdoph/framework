@@ -62,4 +62,21 @@
             update_time = NOW()
         WHERE id = #{id}
     </update>
+
+    <select id="containUserName" parameterType="com.adoph.framework.permission.pojo.SysUser"
+            resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE 1 = 1
+        <if test="id != null and id != ''">
+            AND id <![CDATA[<>]]> #{id}
+        </if>
+        AND user_name = #{userName}
+    </select>
+
+    <delete id="deleteUser" parameterType="java.lang.Long">
+        DELETE
+        FROM sys_user
+        WHERE id = #{0}
+    </delete>
 </mapper>
