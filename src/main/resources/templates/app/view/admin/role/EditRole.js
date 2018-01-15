@@ -1,14 +1,14 @@
 /**
- * 新增或者编辑用户
+ * 新增或者编辑角色
  *
  * @author Adoph
  * @since 2018/1/8
  */
-Ext.define('Framework.view.admin.user.EditUser', {
+Ext.define('Framework.view.admin.role.EditRole', {
     extend: 'Ext.window.Window',
-    xtype: 'edit-user',
-    requires: ['Framework.view.admin.user.EditUserController'],
-    controller: 'edit-user',
+    xtype: 'edit-role',
+    requires: ['Framework.view.admin.role.EditRoleController'],
+    controller: 'edit-role',
     width: 500,
     closeAction: 'destroy',
     scrollable: false,
@@ -18,14 +18,9 @@ Ext.define('Framework.view.admin.user.EditUser', {
     resizable: false,
     draggable: false,
     modal: true,
-    viewModel: {
-        data: {
-            userName: ''
-        }
-    },
     items: [{
         xtype: 'form',
-        reference: 'editUserForm',
+        reference: 'editRoleForm',
         border: false,
         layout: {
             type: 'vbox',
@@ -42,15 +37,8 @@ Ext.define('Framework.view.admin.user.EditUser', {
             name: 'id',
             fieldLabel: 'id'
         }, {
-            name: 'userName',
-            fieldLabel: '用户名',
-            bind: '{userName}'
-        }, {
-            name: 'password',
-            allowBlank: true,
-            fieldLabel: '默认密码',
-            bind: '{userName}_123',
-            editable: false
+            name: 'roleName',
+            fieldLabel: '角色名称'
         }]
     }],
     bbar: ['->', {

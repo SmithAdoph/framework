@@ -3,7 +3,6 @@ package com.adoph.framework.permission.pojo;
 import com.adoph.framework.pojo.BasePojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 系统角色

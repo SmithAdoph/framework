@@ -10,6 +10,7 @@ Ext.define('Framework.view.main.Main', {
 
         'Framework.view.main.MainContainerWrap',
         'Framework.view.admin.user.User',
+        'Framework.view.admin.role.Role',
         'Framework.view.main.MainController'
     ],
     viewModel: {
@@ -109,7 +110,8 @@ Ext.define('Framework.view.main.Main', {
                                 }, {
                                     text: ' 角色管理',
                                     leaf: true,
-                                    iconCls: 'x-fa fa-user-secret'
+                                    iconCls: 'x-fa fa-user-secret',
+                                    viewType: 'role-grid'
                                 }, {
                                     text: ' 权限管理',
                                     leaf: true,

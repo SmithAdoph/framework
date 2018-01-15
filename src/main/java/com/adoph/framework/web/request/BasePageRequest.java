@@ -13,7 +13,7 @@ public class BasePageRequest implements Serializable {
     /**
      * 当前第几页：默认第1页
      */
-    private int page = 1;
+    private long page = 1;
 
     /**
      * 从第几条开始
@@ -25,7 +25,7 @@ public class BasePageRequest implements Serializable {
      */
     private int limit = 15;
 
-    public int getPage() {
+    public long getPage() {
         return page;
     }
 
