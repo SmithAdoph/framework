@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static com.adoph.framework.permission.constant.SysUserConstant.*;
+import static com.adoph.framework.permission.constant.Operation.*;
 
 /**
  * 系统用户管理实现类
@@ -40,7 +40,7 @@ public class SysUserServiceImpl implements SysUserService {
         Long id = user.getId();
         Integer r = sysUserMapper.containUserName(user);
         if (r == 1) {
-            return SAVE_USER_REPEAT;
+            return REPEAT_PROPERTIES;
         }
         String password = user.getPassword();
         if (StringUtils.isNotEmpty(password)) {
@@ -51,7 +51,7 @@ public class SysUserServiceImpl implements SysUserService {
         } else {
             sysUserMapper.insertUser(user);
         }
-        return SAVE_USER_SUCCESS;
+        return SUCCESS;
     }
 
     @Override

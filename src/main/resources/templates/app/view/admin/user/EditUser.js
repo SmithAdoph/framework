@@ -48,9 +48,41 @@ Ext.define('Framework.view.admin.user.EditUser', {
         }, {
             name: 'password',
             allowBlank: true,
-            fieldLabel: '默认密码',
+            fieldLabel: '密　码',
             bind: '{userName}_123',
             editable: false
+        }, {
+            xtype: 'fieldset',
+            title: '用户角色',
+            items: [{
+                xtype: 'checkboxgroup',
+                columns: 4,
+                listeners: {
+                    render: function (obj, opt) {
+                        Ext.Ajax.request({
+                            url: 'sysRole/queryAllRoles.do',
+                            method: 'GET',
+                            success: function (response, opts) {
+                                var r = Ext.decode(response.responseText),
+                                    data = r.data;
+                                var items = [];
+                                for (var index in data) {
+                                    var item = data[index];
+                                    items.push(Ext.create({
+                                        xtype: 'checkbox',
+                                        name: 'roles',
+                                        boxLabel: item.roleName,
+                                        inputValue: item.id
+                                    }));
+                                }
+                                this.items.addAll(items);
+                                this.updateLayout();//重新布局
+                            },
+                            scope: this
+                        });
+                    }
+                }
+            }]
         }]
     }],
     bbar: ['->', {

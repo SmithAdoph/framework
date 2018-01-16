@@ -1,6 +1,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.adoph.framework.permission.dao.sys.SysRoleMapper">
-
     <select id="queryRoleList" parameterType="com.adoph.framework.permission.vo.RoleRequest"
             resultType="com.adoph.framework.permission.pojo.SysRole">
         SELECT
@@ -11,6 +10,16 @@
         <include refid="WHERE_CLAUSE"/>
         ORDER BY id ASC
         LIMIT #{start}, #{limit}
+    </select>
+
+    <select id="queryAllRoles" resultType="com.adoph.framework.permission.pojo.SysRole">
+        SELECT
+        id,
+        role_name
+        FROM sys_role
+        WHERE 1 = 1
+        <include refid="WHERE_CLAUSE"/>
+        ORDER BY id ASC
     </select>
 
     <select id="countRoles" parameterType="com.adoph.framework.permission.vo.RoleRequest" resultType="java.lang.Long">
@@ -25,4 +34,32 @@
         </if>
     </sql>
 
+    <insert id="insertRole" parameterType="com.adoph.framework.permission.pojo.SysRole">
+        INSERT sys_role (role_name, create_time, created_by) VALUES (#{roleName}, now(), #{createdBy})
+    </insert>
+
+    <select id="containRoleName" parameterType="com.adoph.framework.permission.pojo.SysRole"
+            resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM sys_role
+        WHERE 1 = 1
+        AND role_name = #{roleName}
+        <if test="id != null and id != ''">
+            AND id <![CDATA[<>]]> #{id}
+        </if>
+    </select>
+
+    <update id="updateRole" parameterType="com.adoph.framework.permission.pojo.SysRole">
+        UPDATE sys_role
+        SET
+            role_name   = #{roleName},
+            update_time = now(),
+            updated_by  = #{updatedBy}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delRole" parameterType="java.lang.Long">
+        DELETE FROM sys_role
+        WHERE id = #{0}
+    </delete>
 </mapper>

@@ -79,7 +79,7 @@ Ext.define('Framework.view.admin.role.RoleController', {
     //删除
     del: function () {
         var me = this,
-            grid = me.lookupReference('userGrid'),
+            grid = me.lookupReference('roleGrid'),
             row = grid.getSelection()[0];
         if (row) {
             Ext.Msg.show({
@@ -96,7 +96,7 @@ Ext.define('Framework.view.admin.role.RoleController', {
                         });
                         logoutMask.show();
                         Ext.Ajax.request({
-                            url: 'sysUser/del.do',
+                            url: 'sysRole/del.do',
                             params: {
                                 id: row.data.id
                             },

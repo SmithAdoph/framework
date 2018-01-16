@@ -60,7 +60,7 @@ Ext.define('Framework.view.admin.role.Role', {
     }, {
         region: 'center',
         xtype: 'grid',
-        reference: 'userGrid',
+        reference: 'roleGrid',
         store: 'roleStore',
         columnLines: true,
         selModel: Ext.create("Ext.selection.CheckboxModel", {

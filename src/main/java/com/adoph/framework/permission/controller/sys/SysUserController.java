@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
-import static com.adoph.framework.permission.constant.SysUserConstant.SAVE_USER_REPEAT;
+import static com.adoph.framework.permission.constant.Operation.REPEAT_PROPERTIES;
 
 /**
  * 系统用户管理控制层
@@ -71,7 +71,7 @@ public class SysUserController extends BaseController {
             user.setCreatedBy(online.getSysUser().getId());
             user.setUpdatedBy(online.getSysUser().getId());
             Integer r = sysUserService.saveUser(user);
-            if (r == SAVE_USER_REPEAT) {
+            if (r == REPEAT_PROPERTIES) {
                 response.error("保存失败，用户名重复！");
             }
         } catch (Exception e) {

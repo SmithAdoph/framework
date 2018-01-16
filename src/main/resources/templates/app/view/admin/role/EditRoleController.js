@@ -19,7 +19,7 @@ Ext.define('Framework.view.admin.role.EditRoleController', {
                 method: 'POST',
                 success: function () {
                     me.getView('edit-role').close();
-                    Ext.ComponentQuery.query('user-role grid')[0].getStore().reload();
+                    Ext.ComponentQuery.query('role-grid grid')[0].getStore().reload();
                     Ext.toast({
                         title: '系统提示',
                         html: '保存成功！',
