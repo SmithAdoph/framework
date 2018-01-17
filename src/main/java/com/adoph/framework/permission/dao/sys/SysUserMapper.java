@@ -1,5 +1,6 @@
 package com.adoph.framework.permission.dao.sys;
 
+import com.adoph.framework.permission.pojo.SysRole;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.vo.UserRequest;
 
@@ -73,4 +74,26 @@ public interface SysUserMapper {
      * @param id 主键
      */
     void deleteUser(Long id);
+
+    /**
+     * 查询用户角色
+     *
+     * @param userId 用户id
+     * @return List
+     */
+    List<SysRole> selectUserRoles(Long userId);
+
+    /**
+     * 保存用户角色
+     *
+     * @param params 角色信息
+     */
+    void insertUserRoles(Map<String, Object> params);
+
+    /**
+     * 清空用户角色
+     *
+     * @param userId 用户id
+     */
+    void delUserRoles(Long userId);
 }

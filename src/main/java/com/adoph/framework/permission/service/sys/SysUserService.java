@@ -1,8 +1,12 @@
 package com.adoph.framework.permission.service.sys;
 
+import com.adoph.framework.permission.pojo.SysRole;
 import com.adoph.framework.permission.pojo.SysUser;
+import com.adoph.framework.permission.vo.SysUserVO;
 import com.adoph.framework.permission.vo.UserRequest;
 import com.adoph.framework.pojo.Page;
+
+import java.util.List;
 
 /**
  * 系统用户管理
@@ -27,7 +31,7 @@ public interface SysUserService {
      *
      * @param user 用户信息
      */
-    Integer saveUser(SysUser user);
+    Integer saveUser(SysUserVO user);
 
     /**
      * 删除用户
@@ -35,4 +39,12 @@ public interface SysUserService {
      * @param id 主键
      */
     void delUser(Long id);
+
+    /**
+     * 获取用户角色
+     *
+     * @param userId 用户id
+     * @return List
+     */
+    List<SysRole> queryUserRoles(Long userId);
 }

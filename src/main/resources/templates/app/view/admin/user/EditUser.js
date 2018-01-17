@@ -4,6 +4,27 @@
  * @author Adoph
  * @since 2018/1/8
  */
+var getRoleItems = function () {
+    var items = [];
+    Ext.Ajax.request({
+        url: 'sysRole/queryAllRoles.do',
+        method: 'GET',
+        async: false,
+        success: function (response, opts) {
+            var r = Ext.decode(response.responseText),
+                data = r.data;
+            for (var index in data) {
+                var item = data[index];
+                items.push({
+                    name: 'sysRoles',
+                    boxLabel: item.roleName,
+                    inputValue: item.id
+                });
+            }
+        }
+    });
+    return items;
+};
 Ext.define('Framework.view.admin.user.EditUser', {
     extend: 'Ext.window.Window',
     xtype: 'edit-user',
@@ -54,34 +75,12 @@ Ext.define('Framework.view.admin.user.EditUser', {
         }, {
             xtype: 'fieldset',
             title: '用户角色',
+            instructions: '用户访问权限配置',
             items: [{
                 xtype: 'checkboxgroup',
+                reference: 'userRoles',
                 columns: 4,
-                listeners: {
-                    render: function (obj, opt) {
-                        Ext.Ajax.request({
-                            url: 'sysRole/queryAllRoles.do',
-                            method: 'GET',
-                            success: function (response, opts) {
-                                var r = Ext.decode(response.responseText),
-                                    data = r.data;
-                                var items = [];
-                                for (var index in data) {
-                                    var item = data[index];
-                                    items.push(Ext.create({
-                                        xtype: 'checkbox',
-                                        name: 'roles',
-                                        boxLabel: item.roleName,
-                                        inputValue: item.id
-                                    }));
-                                }
-                                this.items.addAll(items);
-                                this.updateLayout();//重新布局
-                            },
-                            scope: this
-                        });
-                    }
-                }
+                items: getRoleItems()
             }]
         }]
     }],

@@ -2,7 +2,6 @@ package com.adoph.framework.permission.dao.sys;
 
 import com.adoph.framework.permission.pojo.SysRole;
 import com.adoph.framework.permission.vo.RoleRequest;
-import com.adoph.framework.permission.vo.UserRequest;
 
 import java.util.List;
 

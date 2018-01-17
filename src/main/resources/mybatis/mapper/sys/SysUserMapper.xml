@@ -49,7 +49,8 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="insertUser" parameterType="com.adoph.framework.permission.pojo.SysUser">
+    <insert id="insertUser" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.adoph.framework.permission.pojo.SysUser">
         INSERT INTO SYS_USER (user_name, password, created_by) VALUES (#{userName}, #{password}, #{createdBy})
     </insert>
 
@@ -79,4 +80,26 @@
         FROM sys_user
         WHERE id = #{0}
     </delete>
+
+    <select id="selectUserRoles" parameterType="java.lang.Long"
+            resultType="com.adoph.framework.permission.pojo.SysRole">
+        SELECT
+            b.id,
+            b.role_name
+        FROM sys_user_role a
+            JOIN sys_role b ON a.role_id = b.id
+        WHERE a.user_id = #{0}
+    </select>
+
+    <delete id="delUserRoles" parameterType="java.lang.Long">
+        DELETE FROM sys_user_role
+        WHERE user_id = #{userId}
+    </delete>
+
+    <insert id="insertUserRoles" parameterType="java.util.Map">
+        <foreach item="roleId" index="index" collection="roleIds" separator=";">
+            insert into sys_user_role (user_id, role_id, create_time, created_by) values
+            (#{userId}, #{roleId}, now(), #{createdBy})
+        </foreach>
+    </insert>
 </mapper>

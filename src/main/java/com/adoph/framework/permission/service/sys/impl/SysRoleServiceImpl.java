@@ -1,6 +1,5 @@
 package com.adoph.framework.permission.service.sys.impl;
 
-import com.adoph.framework.permission.constant.Operation;
 import com.adoph.framework.permission.dao.sys.SysRoleMapper;
 import com.adoph.framework.permission.pojo.SysRole;
 import com.adoph.framework.permission.service.sys.SysRoleService;
@@ -9,10 +8,10 @@ import com.adoph.framework.pojo.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
-import static com.adoph.framework.permission.constant.Operation.*;
+import static com.adoph.framework.permission.constant.Operation.REPEAT_PROPERTIES;
+import static com.adoph.framework.permission.constant.Operation.SUCCESS;
 
 /**
  * 系统角色管理

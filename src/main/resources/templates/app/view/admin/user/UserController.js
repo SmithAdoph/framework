@@ -67,8 +67,30 @@ Ext.define('Framework.view.admin.user.UserController', {
                     title: '编辑用户'
                 });
                 editUserWin.show();
-                var form = editUserWin.lookup('editUserForm');
+                var form = editUserWin.lookupReference('editUserForm');
                 form.loadRecord(row);
+                Ext.Ajax.request({
+                    url: 'sysUser/queryUserRoles.do',
+                    async: false,
+                    params: {
+                        userId: row.data.id
+                    },
+                    success: function (response) {
+                        var r = Ext.decode(response.responseText);
+                        var userRolesGroup = this.lookup('userRoles');
+                        if (r.data.length > 0) {
+                            var values = [];
+                            for (var i in r.data) {
+                                values.push(r.data[i].id);
+                            }
+                            debugger;
+                            userRolesGroup.setValue({
+                                sysRoles: values
+                            });
+                        }
+                    },
+                    scope: editUserWin
+                });
             });
         } else {
             Ext.Msg.show({

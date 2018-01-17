@@ -1,8 +1,10 @@
 package com.adoph.framework.permission.controller.sys;
 
 import com.adoph.framework.permission.OnlineUser;
+import com.adoph.framework.permission.pojo.SysRole;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.sys.SysUserService;
+import com.adoph.framework.permission.vo.SysUserVO;
 import com.adoph.framework.permission.vo.UserRequest;
 import com.adoph.framework.pojo.Page;
 import com.adoph.framework.web.controller.BaseController;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 import static com.adoph.framework.permission.constant.Operation.REPEAT_PROPERTIES;
 
@@ -57,20 +61,20 @@ public class SysUserController extends BaseController {
     /**
      * 新增或更新用户信息
      *
-     * @param user 用户信息
+     * @param userVO 用户信息
      * @return BaseResponse
      * @throws Exception
      */
     @RequestMapping("save.do")
     @ResponseBody
-    public BaseResponse saveUser(SysUser user) throws Exception {
+    public BaseResponse saveUser(SysUserVO userVO) throws Exception {
         String err = "保存用户信息异常，请联系管理员！";
         BaseResponse response = new BaseResponse();
         try {
             OnlineUser online = online();
-            user.setCreatedBy(online.getSysUser().getId());
-            user.setUpdatedBy(online.getSysUser().getId());
-            Integer r = sysUserService.saveUser(user);
+            userVO.setCreatedBy(online.getSysUser().getId());
+            userVO.setUpdatedBy(online.getSysUser().getId());
+            Integer r = sysUserService.saveUser(userVO);
             if (r == REPEAT_PROPERTIES) {
                 response.error("保存失败，用户名重复！");
             }
@@ -98,6 +102,25 @@ public class SysUserController extends BaseController {
         } catch (Exception e) {
             logger.error(err, e);
             response.error(err);
+        }
+        return response;
+    }
+
+    /**
+     * 获取用户角色
+     *
+     * @param userId 用户id
+     * @return BaseResponse
+     */
+    @RequestMapping("queryUserRoles.do")
+    @ResponseBody
+    public BaseResponse<List<SysRole>> queryUserRoles(Long userId) {
+        BaseResponse<List<SysRole>> response = new BaseResponse<>();
+        try {
+            response.setData(sysUserService.queryUserRoles(userId));
+        } catch (Exception e) {
+            logger.error("获取用户角色异常，请联系管理员！", e);
+            response.error("获取用户角色异常，请联系管理员！");
         }
         return response;
     }
