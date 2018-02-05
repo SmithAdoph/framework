@@ -1,0 +1,46 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adoph.framework.permission.dao.sys.SysMenuMapper">
+    <select id="selectMenus" resultType="com.adoph.framework.permission.pojo.SysMenu">
+        SELECT *
+        FROM sys_menu
+        ORDER BY sort ASC
+    </select>
+
+    <select id="selectMenuById" parameterType="java.lang.Long" resultType="com.adoph.framework.permission.pojo.SysMenu">
+        SELECT *
+        FROM sys_menu
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertMenu" parameterType="com.adoph.framework.permission.pojo.SysMenu">
+        INSERT INTO sys_menu (
+            pid, type, text, icon_cls, expanded, leaf, sort, route_id, view_type, create_time, created_by
+        )
+        VALUES (
+            #{pid}, #{type}, #{text}, #{iconCls}, #{expanded}, #{leaf}, #{sort}, #{routeId}, #{viewType}, now(),
+                    #{createdBy}
+        )
+    </insert>
+
+    <update id="updateMenu" parameterType="com.adoph.framework.permission.pojo.SysMenu">
+        UPDATE sys_menu
+        SET
+            pid         = #{pid},
+            type        = #{type},
+            text        = #{text},
+            icon_cls    = #{iconCls},
+            expanded    = #{expanded},
+            leaf        = #{leaf},
+            sort        = #{sort},
+            route_id    = #{routeId},
+            view_type   = #{viewType},
+            updated_by  = #{updatedBy},
+            update_time = now()
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMenu" parameterType="java.lang.Long">
+        DELETE FROM sys_menu
+        WHERE id = #{id}
+    </delete>
+</mapper>

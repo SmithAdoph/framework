@@ -3,6 +3,7 @@ package com.adoph.framework.permission.pojo;
 import com.adoph.framework.pojo.BasePojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 系统菜单表
@@ -62,6 +63,11 @@ public class SysMenu extends BasePojo implements Serializable {
      * 关联ExtJS xtype
      */
     private String viewType;
+
+    /**
+     * 子节点
+     */
+    private List<SysMenu> children;
 
     public Long getId() {
         return id;
@@ -141,5 +147,13 @@ public class SysMenu extends BasePojo implements Serializable {
 
     public void setViewType(String viewType) {
         this.viewType = viewType;
+    }
+
+    public List<SysMenu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<SysMenu> children) {
+        this.children = children;
     }
 }
