@@ -3,11 +3,12 @@ package com.adoph.framework.permission.service.sys.impl;
 import com.adoph.framework.permission.dao.sys.SysMenuMapper;
 import com.adoph.framework.permission.pojo.SysMenu;
 import com.adoph.framework.permission.service.sys.SysMenuService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
  * @version v1.0
  * @since 2018/1/30
  */
+@Service("sysMenuService")
 public class SysMenuServiceImpl implements SysMenuService {
 
     @Resource
@@ -27,8 +29,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         List<SysMenu> menus = new ArrayList<>();
         //1.查出所有菜单
         List<SysMenu> sysMenus = sysMenuMapper.selectMenus();//所有菜单
-        List<SysMenu> remainMenus = new ArrayList<>();//二级菜单
-        Collections.copy(remainMenus, sysMenus);
+        List<SysMenu> remainMenus = new ArrayList<>(sysMenus);
         //2.组装树形结构
         for (SysMenu item : sysMenus) {
             if (item.getLeaf() == 0) {
@@ -51,6 +52,12 @@ public class SysMenuServiceImpl implements SysMenuService {
     }
 
     @Override
+    public List<SysMenu> queryMenusByPid(Long pid) {
+        return sysMenuMapper.selectMenusByPid(pid);
+    }
+
+    @Transactional
+    @Override
     public void saveMenu(SysMenu menu) {
         Long id = menu.getId();
         if (id == null) {
@@ -60,6 +67,7 @@ public class SysMenuServiceImpl implements SysMenuService {
         }
     }
 
+    @Transactional
     @Override
     public void delMenu(Long id) {
         Assert.notNull(id, "id不能为空！");

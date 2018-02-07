@@ -6,6 +6,13 @@
         ORDER BY sort ASC
     </select>
 
+    <select id="selectMenusByPid" resultType="com.adoph.framework.permission.pojo.SysMenu">
+        SELECT *
+        FROM sys_menu
+        WHERE pid = #{pid}
+        ORDER BY sort ASC
+    </select>
+
     <select id="selectMenuById" parameterType="java.lang.Long" resultType="com.adoph.framework.permission.pojo.SysMenu">
         SELECT *
         FROM sys_menu

@@ -21,6 +21,14 @@ public interface SysMenuMapper {
     List<SysMenu> selectMenus();
 
     /**
+     * 异步加载菜单树
+     *
+     * @param pid 父节点id
+     * @return List
+     */
+    List<SysMenu> selectMenusByPid(Long pid);
+
+    /**
      * 查询菜单信息
      *
      * @param id 主键

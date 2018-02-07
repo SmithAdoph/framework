@@ -11,6 +11,8 @@ Ext.define('Framework.view.main.Main', {
         'Framework.view.main.MainContainerWrap',
         'Framework.view.admin.user.User',
         'Framework.view.admin.role.Role',
+        'Framework.view.admin.menu.Menu',
+
         'Framework.view.main.MainController'
     ],
     viewModel: {
@@ -106,7 +108,8 @@ Ext.define('Framework.view.main.Main', {
                                 }, {
                                     text: ' 菜单管理',
                                     leaf: true,
-                                    iconCls: 'x-fa fa-bars'
+                                    iconCls: 'x-fa fa-bars',
+                                    viewType: 'menu-grid'
                                 }, {
                                     text: ' 角色管理',
                                     leaf: true,

@@ -21,6 +21,14 @@ public interface SysMenuService {
     List<SysMenu> queryMenus();
 
     /**
+     * 异步加载菜单树
+     *
+     * @param pid 父节点id
+     * @return List
+     */
+    List<SysMenu> queryMenusByPid(Long pid);
+
+    /**
      * 新增或者更新菜单
      *
      * @param menu 菜单信息
