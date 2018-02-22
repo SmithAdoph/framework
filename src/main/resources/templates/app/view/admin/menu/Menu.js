@@ -8,7 +8,6 @@ Ext.create('Ext.data.TreeStore', {
     storeId: 'menuStore',
     proxy: {
         type: 'ajax',
-        method: 'POST',
         url: '/menu/queryMenusByPid.do',
         reader: {
             type: 'json',
@@ -18,18 +17,19 @@ Ext.create('Ext.data.TreeStore', {
     },
     nodeParam: 'pid',
     root: {
-        text: 'Framework基础服务',
+        text: 'Framework菜单管理',
         id: 0,
-        expanded: true
-    }
+        expanded: false
+    },
+    autoLoad: false
 });
 Ext.define('Framework.view.admin.menu.Menu', {
     extend: 'Ext.tree.Panel',
-    // requires: ['Framework.view.admin.role.RoleController'],
+    requires: ['Framework.view.admin.menu.MenuController'],
     xtype: 'menu-grid',
-    // controller: 'role',
+    controller: 'menu',
     title: '菜单列表',
-    rootVisible: false,
+    rootVisible: true,
     border: false,
     height: 300,
     store: 'menuStore',

@@ -1,11 +1,11 @@
 /**
  * 菜单管理控制器
  */
-Ext.define('Framework.view.admin.menut.MenuController', {
+Ext.define('Framework.view.admin.menu.MenuController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.menu',
 
-    //添加
+    //添加根节点
     addRoot: function () {
         Ext.require('Framework.view.admin.menu.EditMenu', function () {
             Ext.create({

@@ -14,7 +14,6 @@ Ext.define('Framework.Application', {
         'authentication.Login',
         'main.Main'
     ],
-
     launch: function () {
         console.log("Application launch!");
         var loggedIn = localStorage.getItem(Constant.LOGGED_IN_TAG);

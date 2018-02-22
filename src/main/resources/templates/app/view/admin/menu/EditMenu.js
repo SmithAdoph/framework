@@ -7,8 +7,8 @@
 Ext.define('Framework.view.admin.menu.EditMenu', {
     extend: 'Ext.window.Window',
     xtype: 'edit-menu',
-    requires: ['Framework.view.admin.role.EditMenuController'],
-    controller: 'edit-menu',
+    // requires: ['Framework.view.admin.menu.EditMenuController'],
+    // controller: 'edit-menu',
     width: 500,
     closeAction: 'destroy',
     scrollable: false,
@@ -37,8 +37,40 @@ Ext.define('Framework.view.admin.menu.EditMenu', {
             name: 'id',
             fieldLabel: 'id'
         }, {
-            name: 'roleName',
-            fieldLabel: '角色名称'
+            name: 'pid',
+            fieldLabel: '父节点'
+        }, {
+            xtype: 'combobox',
+            fieldLabel: 'Choose State',
+            queryMode: 'local',
+            displayField: 'name',
+            valueField: 'abbr',
+            store: [
+                {abbr: 'AL', name: 'Alabama'},
+                {abbr: 'AK', name: 'Alaska'},
+                {abbr: 'AZ', name: 'Arizona'}
+            ]
+        }, {
+            name: 'text',
+            fieldLabel: '菜单名称'
+        }, {
+            name: 'iconCls',
+            fieldLabel: '菜单图标'
+        }, {
+            name: 'expanded',
+            fieldLabel: '是否展开'
+        }, {
+            name: 'leaf',
+            fieldLabel: '是否叶子节点'
+        }, {
+            name: 'sort',
+            fieldLabel: '排序序号'
+        }, {
+            name: 'routeId',
+            fieldLabel: 'routeId'
+        }, {
+            name: 'viewType',
+            fieldLabel: 'viewType'
         }]
     }],
     bbar: ['->', {
