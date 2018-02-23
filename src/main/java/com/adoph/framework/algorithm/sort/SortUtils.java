@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 排序工具类
+ * 排序工具类:
+ * 1.冒泡排序效率最低，快排效率最高，插入相对稳定且效率不错
  *
  * @author Adoph
  * @version v1.0
@@ -23,6 +24,7 @@ public class SortUtils {
      * @return int[] 排序后数组
      */
     public static int[] bubbleSort(int[] arr) {
+        long start = System.currentTimeMillis();
         int len = arr.length;
         for (int i = 0; i < len - 1; i++) {
             for (int j = 0; j < len - 1 - i; j++) {
@@ -33,6 +35,7 @@ public class SortUtils {
                 }
             }
         }
+        System.out.println("【冒泡排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
         return arr;
     }
 
@@ -75,7 +78,10 @@ public class SortUtils {
      * @return int[] 排序后的数组
      */
     public static int[] quickSort(int[] arr) {
-        return quickSort(arr, 0, arr.length - 1);
+        long start = System.currentTimeMillis();
+        quickSort(arr, 0, arr.length - 1);
+        System.out.println("【快速排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
+        return arr;
     }
 
     /**
@@ -104,6 +110,7 @@ public class SortUtils {
      * @return int[] 排序后的数组
      */
     public static int[] selectSort(int[] arr) {
+        long start = System.currentTimeMillis();
         int len = arr.length;
         for (int i = 0; i <= len - 2; i++) {
             for (int j = i + 1; j <= len - 1; j++) {
@@ -114,9 +121,37 @@ public class SortUtils {
                 }
             }
         }
+        System.out.println("【选择排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
         return arr;
     }
 
+    /**
+     * 插入排序:
+     * 1.从第一个元素开始(该元素可以认为已经被排序)，取出下一个元素，在已经排序的元素中从后向前扫描
+     * 2.如果该元素（已排序）大于新元素，将该元素移到下一位置
+     * 3.重复步骤2，直到找到已排序的元素小于或者等于新元素的位置
+     * 4.将新元素插入到该位置中
+     *
+     * @param arr 待排序数组
+     * @return 排序后的数组
+     */
+    public static int[] insertSort(int[] arr) {
+        long start = System.currentTimeMillis();
+        int len = arr.length;
+        for (int i = 0; i < len - 1; i++) {
+            int temp = arr[i + 1];
+            for (int j = i; j >= 0; j--) {
+                if (arr[j] > temp) {
+                    //其实，就是交换位置
+                    arr[j + 1] = arr[j];//元素大的后移
+                    arr[j] = temp;//元素小的前移
+                }
+            }
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("【插入排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
+        return arr;
+    }
 
     /**
      * 随机整数数组
@@ -135,16 +170,24 @@ public class SortUtils {
 
     public static void main(String[] args) {
 //        int arr[] = {5, 19, 8, 3, 16};
-        int arr[] = SortUtils.randomArray(1000);
+        int len = 10000;//数组长度
+        System.out.println("数组长度：" + len);
+        int arr1[] = SortUtils.randomArray(len);
+        int arr2[] = Arrays.copyOfRange(arr1, 0, arr1.length);
+        int arr3[] = Arrays.copyOfRange(arr1, 0, arr1.length);
+        int arr4[] = Arrays.copyOfRange(arr1, 0, arr1.length);
         System.out.println("--排序前：");
-        System.out.println(Arrays.toString(arr));
-        System.out.println("排序开始时间：" + System.currentTimeMillis());
-//        SortUtils.bubbleSort(arr);
-//        SortUtils.quickSort(arr);
-        SortUtils.selectSort(arr);
-        System.out.println("排序结束时间：" + System.currentTimeMillis());
+        System.out.println(Arrays.toString(arr1));
+        SortUtils.bubbleSort(arr1);
+        System.out.println("-----------------------");
+        SortUtils.quickSort(arr2);
+        System.out.println("-----------------------");
+        SortUtils.selectSort(arr3);
+        System.out.println("-----------------------");
+        SortUtils.insertSort(arr4);
+        System.out.println("-----------------------");
         System.out.println("--排序后：");
-        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr1));
     }
 
 }
