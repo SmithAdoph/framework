@@ -103,8 +103,9 @@ public class SortUtils {
 
     /**
      * 选择排序：
-     * 默认数组第一个元素为最小值，依次与后面其他元素比较，如果比其他元素大就交换位置
-     * 下次循环从第二个元素开始比较，如此循环到倒数第二个数和最后一个数比较为止
+     * 1.默认第一个元素为最小值
+     * 2.如果从剩余的元素中找出更小的值，则和第一个位置的元素交换位置
+     * 3.下次从第二个元素开始，重复步骤2
      *
      * @param arr 待排序数组
      * @return int[] 排序后的数组
@@ -112,13 +113,18 @@ public class SortUtils {
     public static int[] selectSort(int[] arr) {
         long start = System.currentTimeMillis();
         int len = arr.length;
-        for (int i = 0; i <= len - 2; i++) {
-            for (int j = i + 1; j <= len - 1; j++) {
-                if (arr[i] > arr[j]) {
-                    int temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
+        for (int i = 0; i < len - 1; i++) {
+            int k = i;//最小值下标
+            //每次选出一个最小值
+            for (int j = i + 1; j < len; j++) {
+                if (arr[j] < arr[k]) {
+                    k = j;
                 }
+            }
+            if (k != i) {
+                int temp = arr[i];
+                arr[i] = arr[k];
+                arr[k] = temp;
             }
         }
         System.out.println("【选择排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
@@ -127,10 +133,12 @@ public class SortUtils {
 
     /**
      * 插入排序:
-     * 1.从第一个元素开始(该元素可以认为已经被排序)，取出下一个元素，在已经排序的元素中从后向前扫描
-     * 2.如果该元素（已排序）大于新元素，将该元素移到下一位置
-     * 3.重复步骤2，直到找到已排序的元素小于或者等于新元素的位置
-     * 4.将新元素插入到该位置中
+     * 1.从第一个元素开始，该元素可以认为已经被排序
+     * 2.取出下一个元素，在已经排序的元素序列中从后向前扫描
+     * 3.如果该元素（已排序）大于新元素，将该元素移到下一位置
+     * 4.重复步骤3，直到找到已排序的元素小于或者等于新元素的位置
+     * 5.将新元素插入到该位置后
+     * 6.重复步骤2~5
      *
      * @param arr 待排序数组
      * @return 排序后的数组
@@ -138,15 +146,13 @@ public class SortUtils {
     public static int[] insertSort(int[] arr) {
         long start = System.currentTimeMillis();
         int len = arr.length;
-        for (int i = 0; i < len - 1; i++) {
-            int temp = arr[i + 1];
-            for (int j = i; j >= 0; j--) {
-                if (arr[j] > temp) {
-                    //其实，就是交换位置
-                    arr[j + 1] = arr[j];//元素大的后移
-                    arr[j] = temp;//元素小的前移
-                }
+        for (int i = 1; i < len; i++) {
+            int temp = arr[i];
+            int j = i - 1;
+            for (; j >= 0 && arr[j] > temp; j--) {
+                arr[j + 1] = arr[j];//元素大的后移
             }
+            arr[j + 1] = temp;//元素小的前移
         }
         long end = System.currentTimeMillis();
         System.out.println("【插入排序】耗时(毫秒)：" + (System.currentTimeMillis() - start));
@@ -169,7 +175,7 @@ public class SortUtils {
     }
 
     public static void main(String[] args) {
-//        int arr[] = {5, 19, 8, 3, 16};
+//        int arr1[] = {5, 3};
         int len = 10000;//数组长度
         System.out.println("数组长度：" + len);
         int arr1[] = SortUtils.randomArray(len);
