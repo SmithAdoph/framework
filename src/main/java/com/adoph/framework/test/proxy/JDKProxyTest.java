@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 /**
- * TODO
+ * 基于jdk的动态代理
  *
  * @author Adoph
  * @version v1.0

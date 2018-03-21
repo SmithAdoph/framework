@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.Enhancer;
 
 /**
- * TODO
+ * 基于cglib的动态代理
  *
  * @author Adoph
  * @version v1.0
