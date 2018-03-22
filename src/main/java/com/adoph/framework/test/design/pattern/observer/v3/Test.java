@@ -1,5 +1,10 @@
 package com.adoph.framework.test.design.pattern.observer.v3;
 
+import com.adoph.framework.util.PropertiesUtils;
+
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * TODO
  *
@@ -11,10 +16,15 @@ public class Test {
 
     public static void main(String[] args) {
         Child c = new Child();
-        Parent p = new Parent();
-        Dog d = new Dog();
-        c.addListener(p);
-        c.addListener(d);
+        String observers = PropertiesUtils.loadProperties("test/observer.properties").getProperty("observers");
+        String[] observerClassFullNames = observers.split(";");
+        for (String observerClassFullName : observerClassFullNames) {
+            try {
+                c.addListener((EventListener) Class.forName(observerClassFullName).newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         new Thread(c).start();
     }
 

@@ -17,8 +17,6 @@ public abstract class Event {
     private long happenTime;
     private Object src;
 
-//    abstract void doAction();
-
     public long getHappenTime() {
         return happenTime;
     }
