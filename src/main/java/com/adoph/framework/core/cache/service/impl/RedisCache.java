@@ -1,6 +1,6 @@
 package com.adoph.framework.core.cache.service.impl;
 
-import com.adoph.framework.core.cache.service.CacheService;
+import com.adoph.framework.core.cache.service.RedisCacheService;
 import com.adoph.framework.util.SpringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
  * @version v1.0
  * @since 2017/9/20
  */
-public class RedisCache<K, V> implements CacheService<K, V> {
+public class RedisCache<K, V> implements RedisCacheService<K, V> {
 
     /**
      * Spring RedisTemplate

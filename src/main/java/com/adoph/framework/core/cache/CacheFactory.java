@@ -1,6 +1,6 @@
 package com.adoph.framework.core.cache;
 
-import com.adoph.framework.core.cache.service.CacheService;
+import com.adoph.framework.core.cache.service.RedisCacheService;
 import com.adoph.framework.core.cache.service.impl.RedisCache;
 
 /**
@@ -18,19 +18,19 @@ public class CacheFactory {
     /**
      * Redis缓存
      */
-    private static volatile CacheService<String, Object> redisCache;
+    private static volatile RedisCacheService<String, Object> redisCache;
 
     /**
      * Redis 字符串缓存
      */
-    private static volatile CacheService<String, String> stringRedisCache;
+    private static volatile RedisCacheService<String, String> stringRedisCache;
 
     /**
      * 获取Redis缓存
      *
-     * @return CacheService
+     * @return RedisCacheService
      */
-    public static CacheService getRedisCache() {
+    public static RedisCacheService<String, Object> getRedisCache() {
         // 双重检查
         if (redisCache == null) {
             synchronized (CacheFactory.class) {
@@ -45,9 +45,9 @@ public class CacheFactory {
     /**
      * 获取Redis缓存
      *
-     * @return CacheService
+     * @return RedisCacheService
      */
-    public static CacheService getStringRedisCache() {
+    public static RedisCacheService<String, String> getStringRedisCache() {
         // 双重检查
         if (stringRedisCache == null) {
             synchronized (CacheFactory.class) {

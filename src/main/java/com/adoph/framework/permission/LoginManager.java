@@ -2,6 +2,7 @@ package com.adoph.framework.permission;
 
 import com.adoph.framework.core.cache.CacheFactory;
 import com.adoph.framework.core.cache.service.CacheService;
+import com.adoph.framework.core.cache.service.RedisCacheService;
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.permission.service.login.LoginService;
 import com.adoph.framework.util.*;
@@ -28,12 +29,12 @@ public class LoginManager {
     /**
      * redis缓存
      */
-    private static CacheService redisCache = CacheFactory.getRedisCache();
+    private static RedisCacheService<String, Object> redisCache = CacheFactory.getRedisCache();
 
     /**
-     *  string redis 缓存
+     * string redis 缓存
      */
-    private static CacheService strRedisCache = CacheFactory.getStringRedisCache();
+    private static RedisCacheService<String, String> strRedisCache = CacheFactory.getStringRedisCache();
 
     /**
      * 登录失败
