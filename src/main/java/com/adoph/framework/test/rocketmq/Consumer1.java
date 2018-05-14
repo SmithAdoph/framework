@@ -34,7 +34,7 @@ public class Consumer1 {
 
         try {
 //            指定topic和tags,多个tag用"||"分开，如：tagA || tagB
-            consumer.subscribe("TopicTest", "TagB");
+            consumer.subscribe("TopicTest", "TagA");
         } catch (MQClientException e) {
             e.printStackTrace();
         }

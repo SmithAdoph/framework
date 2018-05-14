@@ -23,6 +23,12 @@ public class SimpleTest {
     }
 
     @Test
+    public void testLong() {
+        System.out.println(Long.MAX_VALUE);
+        System.out.println(Long.MAX_VALUE / 60 / 24 / 365);
+    }
+
+    @Test
     public void test() {
         int[] arr = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048};
         int i1 = 1470, i2 = 1982;

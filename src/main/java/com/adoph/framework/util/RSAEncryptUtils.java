@@ -73,7 +73,8 @@ public class RSAEncryptUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return r;
+        assert r != null;
+        return replaceSpace(r);
     }
 
     /**
@@ -153,8 +154,18 @@ public class RSAEncryptUtils {
         return keyFactory.generatePrivate(keySpec);
     }
 
+    /**
+     * base64加密后的数据一行不能超过76字符，超过则添加回车换行符
+     *
+     * @param content 需要替换的内容
+     * @return String
+     */
+    private static String replaceSpace(String content) {
+        return content.replaceAll("[\\s*\t\n\r]", "");
+    }
+
     public static void main(String[] args) throws Exception {
-        String password = "123";
+        String password = "renre的我我我我 我我";
         KeyPair keyPair = genKeyPair();
         byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
         byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();
@@ -173,6 +184,7 @@ public class RSAEncryptUtils {
         System.out.println("加密前：" + password);
         System.out.println();
         System.out.println("加密后：" + encrypt);
+        System.out.println("加密后长度：" + encrypt.length());
         System.out.println();
         System.out.println("解密后：" + decrypt);
     }
