@@ -21,8 +21,8 @@ public class Consumer {
 
     public static void main(String[] args) {
         try {
-//            sync();
-            sheduled();
+            sync();
+//            sheduled();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -30,10 +30,10 @@ public class Consumer {
 
     private static void sheduled() throws Exception {
         // Instantiate message consumer
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("ExampleConsumer");
-        consumer.setNamesrvAddr("10.28.14.184:9876");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("tdd_cluster_consumer");
+        consumer.setNamesrvAddr("10.28.14.184:9876;10.28.14.74:9876");
         // Subscribe topics
-        consumer.subscribe("TestTopic", "*");
+        consumer.subscribe("cluster_topic", "tagA");
         // Register message listener
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
@@ -51,12 +51,12 @@ public class Consumer {
     }
 
     private static void sync() throws MQClientException {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("tdd_sync_consumer");
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("tdd_cluster_consumer");
         consumer.setNamesrvAddr("10.28.14.184:9876");
 //        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
 
         try {
-            consumer.subscribe("TestTopic", "*");
+            consumer.subscribe("cluster_topic", "tagA");
 //            consumer.subscribe("TopicAsyncTest", "TagA");
         } catch (MQClientException e) {
             e.printStackTrace();

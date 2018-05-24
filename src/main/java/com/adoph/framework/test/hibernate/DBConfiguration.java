@@ -17,8 +17,8 @@ import java.util.Properties;
  * @version v1.0
  * @since 2018/3/12
  */
-@Configuration
-@EnableTransactionManagement
+//@Configuration
+//@EnableTransactionManagement
 public class DBConfiguration {
     @Bean
     public DataSource dataSource() {

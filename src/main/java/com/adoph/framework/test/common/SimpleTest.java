@@ -1,6 +1,9 @@
 package com.adoph.framework.test.common;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +18,13 @@ import java.util.UUID;
  * @since 2017/9/22
  */
 public class SimpleTest {
+
+    @Test
+    public void getLoggerTest() {
+        Logger logger1 = LoggerFactory.getLogger(getClass());
+        Logger logger2 = LoggerFactory.getLogger(getClass());
+        Assert.assertEquals(logger1, logger2);
+    }
 
     @Test
     public void byteTest() {

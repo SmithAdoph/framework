@@ -12,6 +12,7 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,10 +33,44 @@ public class Producer {
 //            orderSend();
 //            syncMsg();
 //            asyncMsg();
-            scheduleMsg();
+//            scheduleMsg();
+//            batchMsg();
+            clusterTest();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 集群测试
+     *
+     * @throws Exception
+     */
+    private static void clusterTest() throws Exception {
+        DefaultMQProducer producer = new DefaultMQProducer("tdd_cluster_producer");
+        producer.setNamesrvAddr("10.28.14.184:9876;10.28.14.74:9876");//名称服务器地址和端口
+        producer.start();
+        Message msg = new Message("cluster_topic", "tagA", "TEST CONTENT".getBytes());
+        producer.send(msg);
+    }
+
+    /**
+     * 批量发送消息
+     *
+     * @throws Exception
+     */
+    private static void batchMsg() throws Exception {
+        // Instantiate a producer to send scheduled messages
+        DefaultMQProducer producer = new DefaultMQProducer("tdd_schedule_producer");
+        producer.setNamesrvAddr("10.28.14.184:9876");//名称服务器地址和端口
+        // Launch producer
+        producer.start();
+        String topic = "BatchTest";
+        List<Message> messages = new ArrayList<>();
+        messages.add(new Message(topic, "TagA", "OrderID001", "Hello world 0".getBytes()));
+        messages.add(new Message(topic, "TagA", "OrderID002", "Hello world 1".getBytes()));
+        messages.add(new Message(topic, "TagA", "OrderID003", "Hello world 2".getBytes()));
+        producer.send(messages);
     }
 
     /**
