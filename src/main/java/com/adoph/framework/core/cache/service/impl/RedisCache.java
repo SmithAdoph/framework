@@ -25,6 +25,7 @@ public class RedisCache<K, V> implements RedisCacheService<K, V> {
      */
     private RedisTemplate<K, V> redisTemplate;
 
+    @SuppressWarnings("all")
     public RedisCache(boolean stringRedisTemplate) {
         if (stringRedisTemplate) {
             redisTemplate = SpringUtils.getBean("stringRedisTemplate", RedisTemplate.class);

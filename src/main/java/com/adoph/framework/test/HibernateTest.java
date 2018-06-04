@@ -1,6 +1,8 @@
 package com.adoph.framework.test;
 
+import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.test.pojo.User;
+import com.adoph.framework.util.SysUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Objects;
 

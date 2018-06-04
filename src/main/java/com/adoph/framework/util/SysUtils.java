@@ -1,5 +1,6 @@
 package com.adoph.framework.util;
 
+import com.alibaba.fastjson.JSON;
 import org.json.JSONObject;
 
 /**
@@ -19,7 +20,7 @@ public class SysUtils {
      */
     public static void print(Object o) {
         try {
-            System.out.println(JSONObject.valueToString(o));
+            System.out.println(JSON.toJSONString(o));
         } catch (Exception e) {
             System.out.println(o.toString());
         }

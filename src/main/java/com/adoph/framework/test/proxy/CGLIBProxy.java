@@ -1,8 +1,11 @@
 package com.adoph.framework.test.proxy;
 
+import com.adoph.framework.test.annotation.MyTest;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.junit.Test;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import net.sf.cglib.proxy.Enhancer;
 
@@ -21,7 +24,16 @@ public class CGLIBProxy {
         System.out.println();
         DriverCglibProxy driverCglibProxy = new DriverCglibProxy();
         Driver o = (Driver) driverCglibProxy.getProxyInstance(new Driver());
-        o.drive();
+//        o.drive();
+        Class<Driver> clazz = (Class<Driver>) o.getClass();
+        MyTest annotation = clazz.getAnnotation(MyTest.class);
+        MyTest declaredAnnotation = clazz.getDeclaredAnnotation(MyTest.class);
+        Annotation[] annotations = clazz.getAnnotations();
+        for(Annotation att : annotations) {
+            System.out.println(att.annotationType());
+        }
+//        System.out.println(annotation.name());
+//        System.out.println(declaredAnnotation.name());
     }
 }
 
@@ -44,7 +56,12 @@ class DriverCglibProxy implements MethodInterceptor {
     }
 }
 
+@MyTest(name = "CarClass")
 class Car {
+
+    @MyTest(name = "car")
+    private String text;
+
     public void call() {
         System.out.println("滴滴滴滴...........");
         print();

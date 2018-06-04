@@ -1,5 +1,6 @@
 package com.adoph.framework.test.proxy;
 
+import com.adoph.framework.test.annotation.MyTest;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationHandler;
@@ -46,7 +47,11 @@ interface Drive {
     void drive();
 }
 
+@MyTest(name = "CarClass")
 class Driver implements Drive {
+    @MyTest(name = "car")
+    private String text;
+
     public void drive() {
         System.out.println("老司机发车...");
         call();

@@ -20,7 +20,7 @@ public class BeanUtilsTest {
      */
     @Test
     public void testCopy() {
-        User user = new User();
+        MyUser user = new MyUser();
         People people = new People();
         user.setName("testName");
         List<Integer> list = new ArrayList<>();
@@ -36,7 +36,7 @@ public class BeanUtilsTest {
     }
 }
 
-class User {
+class MyUser {
     private String name;
     private List<Integer> arr;
 

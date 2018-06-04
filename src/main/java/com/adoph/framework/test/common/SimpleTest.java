@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 简单测试
@@ -18,6 +20,22 @@ import java.util.UUID;
  * @since 2017/9/22
  */
 public class SimpleTest {
+
+    @Test
+    public void testStringReg() {
+        String sql = "select * from table";
+        String _sql = sql;
+        String pattern = "\\?";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(sql);
+        int count = 0;
+        while (m.find()) {
+            _sql = _sql.replaceFirst(pattern, "#" + count);
+            count++;
+        }
+        _sql = _sql.replaceAll("#", "\\?");
+        System.out.println(_sql.trim());
+    }
 
     @Test
     public void getLoggerTest() {
