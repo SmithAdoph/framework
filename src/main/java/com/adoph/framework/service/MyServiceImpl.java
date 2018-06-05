@@ -204,33 +204,33 @@ public class MyServiceImpl implements MyService {
 //        SysUtils.print(baseDao.executeUpdate(sql3, params));
 
 //        31
-//        StringBuilder sql = new StringBuilder(512);
-//        sql.append("SELECT  \n");
-//        sql.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-//        sql.append("FROM sys_user a \n");
-//        sql.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-//        sql.append("WHERE a.id = 1 \n");
-//        SysUtils.print(baseDao.queryListBySql(sql.toString(), UserVo.class));
+        StringBuilder sql = new StringBuilder(512);
+        sql.append("SELECT  \n");
+        sql.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+        sql.append("FROM sys_user a \n");
+        sql.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+        sql.append("WHERE a.id = 1 \n");
+        SysUtils.print(baseDao.queryListBySql(sql.toString(), UserVo.class));
 
 //        32
-//        StringBuilder sql1 = new StringBuilder(512);
-//        sql1.append("SELECT  \n");
-//        sql1.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-//        sql1.append("FROM sys_user a \n");
-//        sql1.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-//        sql1.append("WHERE a.id = ? \n");
-//        SysUtils.print(baseDao.queryListBySql(sql1.toString(), UserVo.class, 1L));
+        StringBuilder sql1 = new StringBuilder(512);
+        sql1.append("SELECT  \n");
+        sql1.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+        sql1.append("FROM sys_user a \n");
+        sql1.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+        sql1.append("WHERE a.id = ? \n");
+        SysUtils.print(baseDao.queryListBySql(sql1.toString(), UserVo.class, 1L));
 
 //        33
-//        StringBuilder sql2 = new StringBuilder(512);
-//        sql2.append("SELECT  \n");
-//        sql2.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-//        sql2.append("FROM sys_user a \n");
-//        sql2.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-//        sql2.append("WHERE a.id = :id \n");
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("id", 11L);
-//        SysUtils.print(baseDao.queryListBySql(sql2.toString(), UserVo.class, params));
+        StringBuilder sql2 = new StringBuilder(512);
+        sql2.append("SELECT  \n");
+        sql2.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+        sql2.append("FROM sys_user a \n");
+        sql2.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+        sql2.append("WHERE a.id = :id \n");
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", 11L);
+        SysUtils.print(baseDao.queryListBySql(sql2.toString(), UserVo.class, params));
 
 
 //        34
@@ -272,5 +272,20 @@ public class MyServiceImpl implements MyService {
 //        params.put("password", "123");
 //        params.put("createdBy", 1L);
 //        baseDao.getObjectBySql("select * from sys_user where password = :password and created_by = :createdBy", User.class, params);
+
+
+//        SysUtils.print(baseDao.getListBySql("select * from sys_user", User.class));
+
+//        39 枚举测试
+//        StringBuilder sql2 = new StringBuilder(512);
+//        sql2.append("SELECT  \n");
+//        sql2.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime, a.type \n");
+//        sql2.append("FROM sys_user a \n");
+//        sql2.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+//        sql2.append("WHERE a.id = :id \n");
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("id", 1L);
+//        List<UserVo> userVos = baseDao.queryListBySql(sql2.toString(), UserVo.class, params);
+//        SysUtils.print(userVos);
     }
 }

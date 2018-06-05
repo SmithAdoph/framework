@@ -15,6 +15,7 @@ public class UserVo {
     private Long roleId;
     private String sex;
     private Date createTime;
+    private Type type;
 
     public String getSex() {
         return sex;
@@ -57,5 +58,13 @@ public class UserVo {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

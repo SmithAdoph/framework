@@ -1,5 +1,7 @@
 package com.adoph.framework.test.pojo;
 
+import com.adoph.framework.test.vo.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -47,6 +49,13 @@ public class User implements Serializable {
     @Column(name = "created_by")
     private Long createdBy;
 
+    /**
+     * 测试枚举
+     */
+    @Column(name = "type")
+//    @Enumerated(EnumType.STRING)
+    private Type type;
+
     public Long getId() {
         return id;
     }
@@ -87,14 +96,11 @@ public class User implements Serializable {
         this.createdBy = createdBy;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", createTime=" + createTime +
-                ", createdBy=" + createdBy +
-                '}';
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

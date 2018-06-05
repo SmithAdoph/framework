@@ -351,32 +351,17 @@ public class BaseDaoImpl implements BaseDao {
 
     @Override
     public <T> List<T> queryListBySql(String sql, Class<T> clazz, Object... params) {
-        List<T> list = new ArrayList<>();
-        List<Map<String, Object>> mapList = getListMapBySql(sql, params);
-        for (Map<String, Object> map : mapList) {
-            list.add(JSON.parseObject(JSON.toJSONString(map), clazz));
-        }
-        return list;
+        return JSON.parseArray(JSON.toJSONString(getListMapBySql(sql, params)), clazz);
     }
 
     @Override
     public <T> List<T> queryListBySql(String sql, Class<T> clazz) {
-        List<T> list = new ArrayList<>();
-        List<Map<String, Object>> mapList = getListMapBySql(sql, new Object[]{});
-        for (Map<String, Object> map : mapList) {
-            list.add(JSON.parseObject(JSON.toJSONString(map), clazz));
-        }
-        return list;
+        return JSON.parseArray(JSON.toJSONString(getListMapBySql(sql, new Object[]{})), clazz);
     }
 
     @Override
     public <T> List<T> queryListBySql(String sql, Class<T> clazz, Map<String, Object> map) {
-        List<T> list = new ArrayList<>();
-        List<Map<String, Object>> mapList = getListMapBySql(sql, map);
-        for (Map<String, Object> row : mapList) {
-            list.add(JSON.parseObject(JSON.toJSONString(row), clazz));
-        }
-        return list;
+        return JSON.parseArray(JSON.toJSONString(getListMapBySql(sql, map)), clazz);
     }
 
     @Override
