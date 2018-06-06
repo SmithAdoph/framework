@@ -1,4 +1,4 @@
-package com.adoph.framework.test;
+package com.adoph.framework.test.spring;
 
 import com.adoph.framework.permission.pojo.SysUser;
 import com.adoph.framework.test.pojo.User;
@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/3/5
+ * @date 2018/3/5
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

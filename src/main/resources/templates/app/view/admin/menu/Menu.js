@@ -2,7 +2,7 @@
  * 系统菜单视图
  *
  * @author Adoph
- * @since 2017/11/30
+ * @date 2017/11/30
  */
 Ext.create('Ext.data.TreeStore', {
     storeId: 'menuStore',

@@ -2,7 +2,7 @@
  * 新增或者编辑菜单
  *
  * @author Adoph
- * @since 2018/1/8
+ * @date 2018/1/8
  */
 Ext.define('Framework.view.admin.menu.EditMenu', {
     extend: 'Ext.window.Window',

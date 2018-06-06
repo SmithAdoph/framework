@@ -5,7 +5,7 @@ package com.adoph.framework.permission.constant;
  *
  * @author Adohp
  * @version v1.0
- * @since 2017/10/12
+ * @date 2017/10/12
  */
 public class LoginConstant {
 

@@ -9,7 +9,7 @@ import org.json.JSONObject;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/11/16
+ * @date 2017/11/16
  */
 public class SysUtils {
 
@@ -20,7 +20,7 @@ public class SysUtils {
      */
     public static void print(Object o) {
         try {
-            System.out.println(JSON.toJSONString(o));
+            System.out.println(JSONUtils.toJSONString(o));
         } catch (Exception e) {
             System.out.println(o.toString());
         }

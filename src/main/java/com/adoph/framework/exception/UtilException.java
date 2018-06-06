@@ -5,7 +5,7 @@ package com.adoph.framework.exception;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/9/15
+ * @date 2017/9/15
  */
 public class UtilException extends RuntimeException {
     public UtilException(String message, Throwable cause) {

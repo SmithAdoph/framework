@@ -5,7 +5,7 @@ package com.adoph.framework.test;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/3/20
+ * @date 2018/3/20
  */
 public class Vehicle {
 

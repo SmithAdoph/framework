@@ -18,7 +18,7 @@ import static com.adoph.framework.permission.constant.LoginConstant.LOGIN_ONLINE
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/1/10
+ * @date 2018/1/10
  */
 @Component
 public class BaseController {

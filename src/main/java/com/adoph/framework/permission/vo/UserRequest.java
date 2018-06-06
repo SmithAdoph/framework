@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/12/3
+ * @date 2017/12/3
  */
 public class UserRequest extends BasePageRequest implements Serializable {
 

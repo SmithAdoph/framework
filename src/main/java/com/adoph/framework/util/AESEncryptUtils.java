@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/5/24
+ * @date 2018/5/24
  */
 public class AESEncryptUtils {
 

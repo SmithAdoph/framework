@@ -1,33 +1,26 @@
-package com.adoph.framework.test;
+package com.adoph.framework.test.spring;
 
-import com.adoph.framework.util.RSAEncryptUtils;
 import com.adoph.framework.util.SysUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.security.KeyPair;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * StringRedisTemplate测试
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/9/20
+ * @date 2017/9/20
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest

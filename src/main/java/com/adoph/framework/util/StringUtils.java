@@ -7,7 +7,7 @@ package com.adoph.framework.util;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/9/18
+ * @date 2017/9/18
  */
 public class StringUtils extends org.apache.commons.lang3.StringUtils{
 

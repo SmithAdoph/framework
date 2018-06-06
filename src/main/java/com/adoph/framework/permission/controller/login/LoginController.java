@@ -35,7 +35,7 @@ import static com.adoph.framework.permission.constant.LoginConstant.LOGIN_ONLINE
  *
  * @author Adohp
  * @version v1.0
- * @since 2017/8/11
+ * @date 2017/8/11
  */
 @Controller
 @RequestMapping("login")

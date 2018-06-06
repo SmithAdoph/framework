@@ -2008,7 +2008,7 @@ JSX.extend = function(subc, superc, overrides) {
  * @name asn1-1.0.js
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version 1.0.2 (2013-May-30)
- * @since 2.1
+ * @date 2.1
  * @license <a href="http://kjur.github.io/jsrsasign/license/">MIT License</a>
  */
 
@@ -2076,7 +2076,7 @@ if (typeof KJUR.asn1 == "undefined" || !KJUR.asn1) KJUR.asn1 = {};
  * ASN1 utilities class
  * @name KJUR.asn1.ASN1Util
  * @classs ASN1 utilities class
- * @since asn1 1.0.2
+ * @date asn1 1.0.2
  */
 KJUR.asn1.ASN1Util = new function() {
     this.integerToByteHex = function(i) {
@@ -2802,7 +2802,7 @@ KJUR.asn1.DERObjectIdentifier = function(params) {
      * @memberOf KJUR.asn1.DERObjectIdentifier
      * @function
      * @param {String} oidName OID name (ex. 'serverAuth')
-     * @since 1.0.1
+     * @date 1.0.1
      * @description
      * OID name shall be defined in 'KJUR.asn1.x509.OID.name2oidList'.
      * Otherwise raise error.

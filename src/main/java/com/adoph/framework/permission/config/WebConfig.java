@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/11/22
+ * @date 2017/11/22
  */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {

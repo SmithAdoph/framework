@@ -2,7 +2,7 @@
  * 用户列表视图
  *
  * @author Adoph
- * @since 2017/11/30
+ * @date 2017/11/30
  */
 Ext.create('Ext.data.Store', {
     storeId: 'userStore',

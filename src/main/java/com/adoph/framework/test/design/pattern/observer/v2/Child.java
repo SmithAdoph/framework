@@ -5,7 +5,7 @@ package com.adoph.framework.test.design.pattern.observer.v2;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/3/21
+ * @date 2018/3/21
  */
 public class Child implements Runnable {
 

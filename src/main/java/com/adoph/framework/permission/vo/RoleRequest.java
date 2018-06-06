@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/1/15
+ * @date 2018/1/15
  */
 public class RoleRequest extends BasePageRequest implements Serializable {
 

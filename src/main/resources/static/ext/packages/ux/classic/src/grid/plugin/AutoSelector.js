@@ -1,7 +1,7 @@
 /**
  * This plugin ensures that its associated grid or tree always has a selection record. The
  * only exception is, of course, when there are no records in the store.
- * @since 6.0.2
+ * @date 6.0.2
  */
 Ext.define('Ext.ux.grid.plugin.AutoSelector', {
     extend: 'Ext.plugin.Abstract',

@@ -7,7 +7,7 @@ import java.lang.annotation.Annotation;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/5/31
+ * @date 2018/5/31
  */
 public class AnnotationTest {
     @org.junit.Test

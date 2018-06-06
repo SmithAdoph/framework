@@ -2,7 +2,7 @@
  * 登录视图
  *
  * @author Adoph
- * @since 2017/12/4
+ * @date 2017/12/4
  */
 Ext.define('Framework.view.authentication.Login', {
     extend: 'Framework.view.authentication.LockingWindow',

@@ -5,7 +5,7 @@ package com.adoph.framework.web.response;
  *
  * @author Adohp
  * @version v1.0
- * @since 2017/9/13
+ * @date 2017/9/13
  */
 class ResponseStatus {
     /**

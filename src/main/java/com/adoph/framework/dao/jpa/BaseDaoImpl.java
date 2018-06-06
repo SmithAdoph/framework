@@ -20,7 +20,7 @@ import java.util.*;
  * @author Adoph
  * @version v1.0
  * @see javax.persistence.EntityManager
- * @since 2018/6/1
+ * @date 2018/6/1
  */
 @Repository
 public class BaseDaoImpl implements BaseDao {

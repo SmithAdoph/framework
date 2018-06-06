@@ -10,7 +10,7 @@ import java.io.File;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/9/27
+ * @date 2017/9/27
  */
 public class OCRUtils {
 

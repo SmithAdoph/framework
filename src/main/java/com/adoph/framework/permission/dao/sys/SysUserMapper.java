@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/1/3
+ * @date 2018/1/3
  */
 public interface SysUserMapper {
     /**

@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/6/3
+ * @date 2018/6/3
  */
 public class UserVo {
     private Long id;

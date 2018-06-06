@@ -2,7 +2,7 @@
  * 新增或者编辑角色
  *
  * @author Adoph
- * @since 2018/1/8
+ * @date 2018/1/8
  */
 Ext.define('Framework.view.admin.role.EditRole', {
     extend: 'Ext.window.Window',

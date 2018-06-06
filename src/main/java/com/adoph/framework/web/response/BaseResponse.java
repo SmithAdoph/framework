@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Adohp
  * @version v1.0
- * @since 2017/9/13
+ * @date 2017/9/13
  */
 public class BaseResponse<T> implements Serializable {
     /**

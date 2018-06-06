@@ -1,5 +1,6 @@
-package com.adoph.framework.test;
+package com.adoph.framework.test.spring;
 
+import com.adoph.framework.Application;
 import com.adoph.framework.dao.jpa.BaseDao;
 import com.adoph.framework.service.MyService;
 import org.junit.Test;
@@ -10,14 +11,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 /**
- * TODO
+ * 基础BaseDao测试
  *
- * @author Tangqiandong
+ * @author Adoph
  * @version v1.0
- * @since 2018/6/3
+ * @date 2018/6/3
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = Application.class)
 public class BaseDaoTest {
 
     @Resource

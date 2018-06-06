@@ -19,7 +19,7 @@ import static com.adoph.framework.permission.constant.LoginConstant.UNDERLINE;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/11/23
+ * @date 2017/11/23
  */
 public class IndexInterceptor implements HandlerInterceptor {
     @Override

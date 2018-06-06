@@ -20,7 +20,7 @@ import static com.adoph.framework.permission.constant.LoginConstant.*;
  *
  * @author Adohp
  * @version v1.0
- * @since 2017/9/15
+ * @date 2017/9/15
  */
 public class LoginManager {
 

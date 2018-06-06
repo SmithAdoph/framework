@@ -12,7 +12,7 @@ import java.lang.reflect.Proxy;
  *
  * @author Adoph
  * @version v1.0
- * @since 2018/2/7
+ * @date 2018/2/7
  */
 public class JDKProxyTest {
 

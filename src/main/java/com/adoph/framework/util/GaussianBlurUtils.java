@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author Adoph
  * @version v1.0
- * @since 2017/9/19
+ * @date 2017/9/19
  */
 public class GaussianBlurUtils {
 

@@ -1,29 +1,23 @@
 package com.adoph.framework.service;
 
 import com.adoph.framework.dao.jpa.BaseDao;
-import com.adoph.framework.test.pojo.User;
-import com.adoph.framework.test.vo.UserVo;
 import com.adoph.framework.util.SysUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import javax.annotation.Resource;
 
 /**
  * TODO
  *
- * @author Tangqiandong
+ * @author Adoph
  * @version v1.0
- * @since 2018/6/4
+ * @date 2018/6/4
  */
 @Service
 public class MyServiceImpl implements MyService {
 
-    @Autowired
+    @Resource
     private BaseDao baseDao;
 
     @Transactional
@@ -162,14 +156,16 @@ public class MyServiceImpl implements MyService {
 //        24
 //        String sql = "select * from sys_user";
 //        Map<String, Object> mapBySql = baseDao.getMapBySql(sql);
-        Object value1 = baseDao.getValue("select type1 from sys_user where id = ?", 1L);
-        Object value2 = baseDao.getValue("select type2 from sys_user where id = ?", 1L);
-        Object value3 = baseDao.getValue("select type3 from sys_user where id = ?", 1L);
-        Object value4 = baseDao.getValue("select type4 from sys_user where id = ?", 1L);
-        SysUtils.print(value1.getClass() + ":" + value1.toString());
-        SysUtils.print(value2.getClass() + ":" + value2.toString());
-        SysUtils.print(value3.getClass() + ":" + value3.toString());
-        SysUtils.print(value4.getClass() + ":" + value4.toString());
+//        Object value1 = baseDao.getValue("select type1 from sys_user where id = ?", 1L);
+//        Object value2 = baseDao.getValue("select type2 from sys_user where id = ?", 1L);
+//        Object value3 = baseDao.getValue("select type3 from sys_user where id = ?", 1L);
+//        Object value4 = baseDao.getValue("select type4 from sys_user where id = ?", 1L);
+//        Object value5 = baseDao.getValue("select type5 from sys_user where id = ?", 1L);
+//        SysUtils.print("类型长度：tinyint(1) 存储值：-128 hibernate映射类型：" + value1.getClass() + ":结果值：" + value1.toString());
+//        SysUtils.print("类型长度：tinyint(1) 存储值：0    hibernate映射类型：" + value2.getClass() + ":结果值：" + value2.toString());
+//        SysUtils.print("类型长度：tinyint(1) 存储值：127  hibernate映射类型：" + value3.getClass() + ":结果值：" + value3.toString());
+//        SysUtils.print("类型长度：tinyint(2) 存储值：-11  hibernate映射类型：" + value4.getClass() + ":结果值：" + value4.toString());
+//        SysUtils.print("类型长度：tinyint(2) 存储值：11   hibernate映射类型：" + value4.getClass() + ":结果值：" + value5.toString());
 
 //        25
 //        String sql1 = "select * from sys_user where id = ? and user_name = ?";

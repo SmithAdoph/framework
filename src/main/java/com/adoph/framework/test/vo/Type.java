@@ -5,7 +5,7 @@ package com.adoph.framework.test.vo;
  *
  * @author Tangqiandong
  * @version v1.0
- * @since 2018/6/4
+ * @date 2018/6/4
  */
 public enum Type {
     SYS_TYPE_ADMIN(1, "系统管理员"),
