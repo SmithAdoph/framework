@@ -22,6 +22,46 @@ import java.util.regex.Pattern;
 public class SimpleTest {
 
     @Test
+    public void testString() {
+        StringBuffer sql = new StringBuffer();
+        {
+            sql.append("SELECT t1.id,t1.optOrderId,t1.CreatedBy, UNIX_TIMESTAMP(t1.CreatedTime) AS createTime, t1.account_type, t1.reg_city_code                                                                                                     ");
+            sql.append("	, t1.account, t2.`name`, t1.recharge_amount, t1.gift_amount, t1.voucher                                                                                                                                     ");
+            sql.append("    , t1.flowStatus");
+            sql.append("	, CASE t1.account_type WHEN 0 THEN '个人' WHEN 1 THEN '企业' ELSE '其他' END AS accountTypeDes, t1.opea_type, CASE t1.opea_type WHEN 0 THEN '上账' WHEN 1 THEN '下账' ELSE '其他' END AS opeaTypeDesc, (    ");
+            sql.append("		SELECT t3.name                                                                                                                                                                                          ");
+            sql.append("		FROM city_mapping t3                                                                                                                                                                                    ");
+            sql.append("		WHERE t3.areaCode = t1.reg_city_code                                                                                                                                                                    ");
+            sql.append("		) AS regCityCodeDesc, (                                                                                                                                                                                 ");
+            sql.append("		SELECT t5.accountBalance                                                                                                                                                                                ");
+            sql.append("		FROM subscriber t6, subscriber_account t5                                                                                                                                                               ");
+            sql.append("		WHERE t6.ID = t5.subscriberId                                                                                                                                                                           ");
+            sql.append("			AND t6.mobileNo = t1.account                                                                                                                                                                        ");
+            sql.append("		) AS accountBalance                                                                                                                                                                                     ");
+            sql.append("	, (                                                                                                                                                                                                         ");
+            sql.append("		SELECT t5.invoiceAmount                                                                                                                                                                                 ");
+            sql.append("		FROM subscriber t6, subscriber_account t5                                                                                                                                                               ");
+            sql.append("		WHERE t6.ID = t5.subscriberId                                                                                                                                                                           ");
+            sql.append("			AND t6.mobileNo = t1.account                                                                                                                                                                        ");
+            sql.append("		) AS invoiceAmount, (                                                                                                                                                                                   ");
+            sql.append("		SELECT t5.occupancyExpenses                                                                                                                                                                             ");
+            sql.append("		FROM subscriber t6, subscriber_account t5                                                                                                                                                               ");
+            sql.append("		WHERE t6.ID = t5.subscriberId                                                                                                                                                                           ");
+            sql.append("			AND t6.mobileNo = t1.account                                                                                                                                                                        ");
+            sql.append("		) AS occupancyExpenses                                                                                                                                                                                  ");
+            sql.append("FROM finance_account_history t1, subscriber t2                                                                                                                                                                  ");
+            sql.append("WHERE t1.account = t2.mobileNo                                                                                                                                                                                  ");
+        }
+        String temp = "";
+        temp = " and t1.reg_city_code = " + "028";
+        temp = temp + " and (t1.CreatedTime <= FROM_UNIXTIME(" + 1528214400 + ",'%Y%m%d' ) and t1.CreatedTime >= FROM_UNIXTIME(" + 1514736000 + ",'%Y%m%d' ))";
+        temp = temp + " and t1.account like '%" + "13608068844" + "%'";
+        sql.append(temp + " ORDER BY t1.CreatedTime DESC                                                         ");
+        sql.append("LIMIT 0, 1                                                                        ");
+        System.out.println(sql.toString());
+    }
+
+    @Test
     public void testStringReg() {
         String sql = "select * from table";
         String _sql = sql;

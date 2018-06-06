@@ -273,12 +273,20 @@ public class BaseDaoImpl implements BaseDao {
     @Override
     public Map<String, Object> getMapBySql(final String sql, final Map<String, Object> map) {
         List<Map<String, Object>> list = getListMapBySql(sql, map);
+        if (list.size() > 1) {
+            throw new RuntimeException(String.format("存在多条数据，总共查询到{%d}条！查询参数%s，执行sql=[%s]",
+                    list.size(), map.toString(), sql));
+        }
         return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
     public Map<String, Object> getMapBySql(final String sql, final Object... params) {
         List<Map<String, Object>> list = getListMapBySql(sql, params);
+        if (list.size() > 1) {
+            throw new RuntimeException(String.format("存在多条数据，总共查询到{%d}条！查询参数%s，执行sql=[%s]",
+                    list.size(), Arrays.toString(params), sql));
+        }
         return list.isEmpty() ? null : list.get(0);
     }
 

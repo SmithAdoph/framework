@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -160,7 +161,15 @@ public class MyServiceImpl implements MyService {
 
 //        24
 //        String sql = "select * from sys_user";
-//        SysUtils.print(baseDao.getMapBySql(sql));
+//        Map<String, Object> mapBySql = baseDao.getMapBySql(sql);
+        Object value1 = baseDao.getValue("select type1 from sys_user where id = ?", 1L);
+        Object value2 = baseDao.getValue("select type2 from sys_user where id = ?", 1L);
+        Object value3 = baseDao.getValue("select type3 from sys_user where id = ?", 1L);
+        Object value4 = baseDao.getValue("select type4 from sys_user where id = ?", 1L);
+        SysUtils.print(value1.getClass() + ":" + value1.toString());
+        SysUtils.print(value2.getClass() + ":" + value2.toString());
+        SysUtils.print(value3.getClass() + ":" + value3.toString());
+        SysUtils.print(value4.getClass() + ":" + value4.toString());
 
 //        25
 //        String sql1 = "select * from sys_user where id = ? and user_name = ?";
@@ -176,7 +185,9 @@ public class MyServiceImpl implements MyService {
 //        27
 //        String sql1 = "select count(*) from sys_user";
 //        String sql2 = "select user_name from sys_user where id = 1";
-//        SysUtils.print(baseDao.getValue(sql1));
+//        Object value = baseDao.getValue(sql1);
+//        long count = ((BigInteger) value).longValue();
+//        SysUtils.print(count);
 //        SysUtils.print(baseDao.getValue(sql2));
 
 //        28
@@ -204,33 +215,33 @@ public class MyServiceImpl implements MyService {
 //        SysUtils.print(baseDao.executeUpdate(sql3, params));
 
 //        31
-        StringBuilder sql = new StringBuilder(512);
-        sql.append("SELECT  \n");
-        sql.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-        sql.append("FROM sys_user a \n");
-        sql.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-        sql.append("WHERE a.id = 1 \n");
-        SysUtils.print(baseDao.queryListBySql(sql.toString(), UserVo.class));
+//        StringBuilder sql = new StringBuilder(512);
+//        sql.append("SELECT  \n");
+//        sql.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+//        sql.append("FROM sys_user a \n");
+//        sql.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+//        sql.append("WHERE a.id = 1 \n");
+//        SysUtils.print(baseDao.queryListBySql(sql.toString(), UserVo.class));
 
 //        32
-        StringBuilder sql1 = new StringBuilder(512);
-        sql1.append("SELECT  \n");
-        sql1.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-        sql1.append("FROM sys_user a \n");
-        sql1.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-        sql1.append("WHERE a.id = ? \n");
-        SysUtils.print(baseDao.queryListBySql(sql1.toString(), UserVo.class, 1L));
+//        StringBuilder sql1 = new StringBuilder(512);
+//        sql1.append("SELECT  \n");
+//        sql1.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+//        sql1.append("FROM sys_user a \n");
+//        sql1.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+//        sql1.append("WHERE a.id = ? \n");
+//        SysUtils.print(baseDao.queryListBySql(sql1.toString(), UserVo.class, 1L));
 
-//        33
-        StringBuilder sql2 = new StringBuilder(512);
-        sql2.append("SELECT  \n");
-        sql2.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
-        sql2.append("FROM sys_user a \n");
-        sql2.append("JOIN sys_user_role b ON a.id = b.user_id \n");
-        sql2.append("WHERE a.id = :id \n");
-        Map<String, Object> params = new HashMap<>();
-        params.put("id", 11L);
-        SysUtils.print(baseDao.queryListBySql(sql2.toString(), UserVo.class, params));
+////        33
+//        StringBuilder sql2 = new StringBuilder(512);
+//        sql2.append("SELECT  \n");
+//        sql2.append("	a.id, a.user_name userName, b.role_id roleId, a.create_time createTime \n");
+//        sql2.append("FROM sys_user a \n");
+//        sql2.append("JOIN sys_user_role b ON a.id = b.user_id \n");
+//        sql2.append("WHERE a.id = :id \n");
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("id", 11L);
+//        SysUtils.print(baseDao.queryListBySql(sql2.toString(), UserVo.class, params));
 
 
 //        34
