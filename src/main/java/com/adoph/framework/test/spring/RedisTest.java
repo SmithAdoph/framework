@@ -7,12 +7,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Protocol;
+import redis.clients.util.SafeEncoder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,6 +41,28 @@ public class RedisTest {
     @Before
     public void setRedisSerializer() {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+    }
+
+//    @Resource
+    private Jedis jedis;
+
+    @Test
+    public void testDLM() {
+//        ValueOperations<String, String> ops = redisTemplate.opsForValue();
+//        ops.set("test", "test", 10, TimeUnit.SECONDS);
+//        ops.set("test", "test1", 20, TimeUnit.SECONDS);
+        Object o = redisTemplate.execute(new RedisCallback() {
+            @Override
+            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+                return connection.execute("set", new byte[][]{
+                        SafeEncoder.encode("test"), SafeEncoder.encode("xxxxx"), SafeEncoder.encode("nx"),
+                        SafeEncoder.encode("ex"), Protocol.toByteArray(10)});
+            }
+        });
+        System.out.println(Arrays.toString((byte[]) o));
+        String r = jedis.set("test", "xxoo", "NX", "EX", 10);
+//        System.out.println(r);
+
     }
 
     /**

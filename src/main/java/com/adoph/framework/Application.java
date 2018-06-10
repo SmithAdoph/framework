@@ -1,7 +1,10 @@
 package com.adoph.framework;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -17,7 +20,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ServletComponentScan
 //@MapperScan("com.adoph.framework.permission.dao.sys")
-@ComponentScan(basePackages={"com.adoph.framework.dao.jpa","com.adoph.framework.service","com.adoph.framework.test"})
+//@ComponentScan(basePackages={"com.adoph.framework.dao.jpa","com.adoph.framework.service","com.adoph.framework.test"})
+@ComponentScan(basePackages = {"com.adoph.framework.test.spring"})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+
 public class Application implements EmbeddedServletContainerCustomizer {
 
     public static void main(String[] args) {

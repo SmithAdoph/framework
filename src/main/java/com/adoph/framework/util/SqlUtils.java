@@ -1,4 +1,4 @@
-package com.adoph.framework.dao.jpa;
+package com.adoph.framework.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

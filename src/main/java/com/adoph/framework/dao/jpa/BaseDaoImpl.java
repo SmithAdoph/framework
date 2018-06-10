@@ -1,5 +1,6 @@
 package com.adoph.framework.dao.jpa;
 
+import com.adoph.framework.util.SqlUtils;
 import com.alibaba.fastjson.JSON;
 import org.hibernate.SQLQuery;
 import org.hibernate.transform.Transformers;
