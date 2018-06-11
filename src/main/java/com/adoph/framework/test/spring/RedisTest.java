@@ -1,10 +1,14 @@
 package com.adoph.framework.test.spring;
 
+import com.adoph.framework.core.lock.DistributedLockManager;
 import com.adoph.framework.util.SysUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
@@ -12,14 +16,16 @@ import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Protocol;
 import redis.clients.util.SafeEncoder;
 
+import javax.annotation.Resource;
+import javax.script.ScriptException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * StringRedisTemplate测试
@@ -44,24 +50,76 @@ public class RedisTest {
     }
 
 //    @Resource
-    private Jedis jedis;
+//    private Jedis jedis;
+
+    @Test
+    public void testLua() throws ScriptException {
+//        LuaTable luaTable = JsePlatform.standardGlobals();
+//        luaTable.get("dofile").call(LuaValue.valueOf("lua/redis/Basic.lua"));
+//        LuaValue value = luaTable.get("delKey").call(LuaValue.valueOf("test"));
+//        System.out.println(value);
+
+//        ScriptEngineManager mgr = new ScriptEngineManager();
+//        ScriptEngine e = mgr.getEngineByName("luaj");
+//        e.put("x", 25);
+//        e.eval("y = math.sqrt(x)");
+//        System.out.println("y=" + e.get("y"));
+
+//        Globals globals = JsePlatform.standardGlobals();
+//        LuaValue chunk = globals.load("print 'hello, world'");
+//        globals.loadfile("lua/redis/Basic.lua").call();
+//        chunk.call(LuaValue.valueOf("delKey"), LuaValue.valueOf("test"));
+//        LuaValue chunk = globals.load("function delKey(KEY, ARGV)\n" +
+//                "    if redis.call(\"get\", KEY) == ARGV then\n" +
+//                "        return redis.call(\"del\", KEYS)\n" +
+//                "    else\n" +
+//                "        return 0\n" +
+//                "    end\n" +
+//                "end");
+//        LuaValue[] params = new LuaValue[]{LuaValue.valueOf("test"), LuaValue.valueOf("test")};
+//        chunk.invokemethod("delKey", params);
+//        chunk.invokemethod("max", LuaValue.valueOf("111"));
+//        chunk.invoke();
+//        chunk.call("delKey");
+//        System.out.println(globals.get("max1").call().toString());
+//        System.out.println(globals.get("max2").call().toString());
+//        System.out.println(globals.get("max3").call(LuaValue.valueOf("test")).toString());
+//        System.out.println(globals.get("delKey").call(LuaValue.valueOf("test")).toString());
+
+        System.out.println(UUID.randomUUID().toString().length());
+    }
+
+
+    @Resource
+    private DistributedLockManager distributedLockManager;
 
     @Test
     public void testDLM() {
 //        ValueOperations<String, String> ops = redisTemplate.opsForValue();
 //        ops.set("test", "test", 10, TimeUnit.SECONDS);
 //        ops.set("test", "test1", 20, TimeUnit.SECONDS);
-        Object o = redisTemplate.execute(new RedisCallback() {
-            @Override
-            public Object doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.execute("set", new byte[][]{
-                        SafeEncoder.encode("test"), SafeEncoder.encode("xxxxx"), SafeEncoder.encode("nx"),
-                        SafeEncoder.encode("ex"), Protocol.toByteArray(10)});
-            }
-        });
-        System.out.println(Arrays.toString((byte[]) o));
-        String r = jedis.set("test", "xxoo", "NX", "EX", 10);
+//        Object o = redisTemplate.execute(new RedisCallback() {
+//            @Override
+//            public Object doInRedis(RedisConnection connection) throws DataAccessException {
+//                return connection.execute("set", new byte[][]{
+//                        SafeEncoder.encode("test"), SafeEncoder.encode("xxxxx"), SafeEncoder.encode("nx"),
+//                        SafeEncoder.encode("ex"), Protocol.toByteArray(10)});
+//            }
+//        });
+//        System.out.println(Arrays.toString((byte[]) o));
+//        String r = jedis.set("test", "xxoo", "NX", "EX", 10);
 //        System.out.println(r);
+
+        String clientId = DistributedLockManager.createClientId();
+        boolean r = distributedLockManager.lock("testLock", clientId, 60);
+        if (r) {
+            System.out.println("加锁成功！" + clientId);
+        }
+        boolean unlock = distributedLockManager.unlock("testLock", clientId);
+        if (unlock) {
+            System.out.println("解锁成功！");
+        }
+
 
     }
 
