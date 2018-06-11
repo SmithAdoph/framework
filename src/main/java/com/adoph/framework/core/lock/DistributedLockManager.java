@@ -1,5 +1,7 @@
 package com.adoph.framework.core.lock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.ReturnType;
@@ -10,7 +12,9 @@ import redis.clients.jedis.Protocol;
 import redis.clients.util.SafeEncoder;
 
 import javax.annotation.Resource;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 基于Redis实现的分布式锁（DLM）
@@ -26,6 +30,8 @@ import java.util.UUID;
 @Component
 public class DistributedLockManager {
 
+    private Logger logger = LoggerFactory.getLogger(DistributedLockManager.class);
+
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -35,6 +41,56 @@ public class DistributedLockManager {
     private static final String REDIS_SET_COMMAND = "SET";
 
     /**
+     * 默认超时时间120秒
+     */
+    private static final int DEFAULT_TIMEOUT = 120;
+
+    /**
+     * 默认随机等待时间边界0~100毫秒
+     */
+    private static final int DEFAULT_RANDOM_BOUND = 100;
+
+    /**
+     * 尝试获取锁
+     *
+     * @param key        key
+     * @param clientId   客户端id
+     * @param expireTime 锁有效时间
+     * @param timeout    获取锁等待时间
+     * @return boolean
+     */
+    public boolean tryLock(String key, String clientId, int expireTime, int timeout) {
+        long start = System.currentTimeMillis();
+        boolean isLocked;
+        do {
+            isLocked = getLock(key, clientId, expireTime);
+            try {
+                if (!isLocked) {
+                    //当客户端无法获得锁定时，应该在随机延迟之后再次尝试
+                    //避免以试图同时尝试同时尝试获取同一资源的锁定的多个客户端都未取胜
+                    TimeUnit.MILLISECONDS.sleep(new Random().nextInt(DEFAULT_RANDOM_BOUND));
+                }
+            } catch (InterruptedException e) {
+                logger.error("获取锁异常！", e);
+            }
+        } while (!isLocked && System.currentTimeMillis() - start < timeout);
+        return isLocked;
+    }
+
+    /**
+     * 获取锁
+     * 默认一个超时时间120秒
+     *
+     * @param key        key
+     * @param clientId   客户端id
+     * @param expireTime 锁有效时间
+     * @return boolean
+     */
+    public boolean lock(String key, String clientId, int expireTime) {
+        return tryLock(key, clientId, expireTime, DEFAULT_TIMEOUT);
+    }
+
+    /**
      * 获取锁
      *
      * @param key        key
@@ -42,7 +98,7 @@ public class DistributedLockManager {
      * @param expireTime 锁有效时间(秒)
      * @return boolean
      */
-    public boolean lock(String key, String clientId, int expireTime) {
+    public boolean getLock(String key, String clientId, int expireTime) {
         return set(key, clientId, "NX", "EX", expireTime);
     }
 
@@ -100,7 +156,7 @@ public class DistributedLockManager {
      *
      * @return 一个36位长度的UUID
      */
-    public static String createClientId() {
+    public String getClientId() {
         return UUID.randomUUID().toString();
     }
 }

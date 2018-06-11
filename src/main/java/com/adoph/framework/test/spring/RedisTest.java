@@ -6,26 +6,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.jse.JsePlatform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.clients.jedis.Protocol;
-import redis.clients.util.SafeEncoder;
 
 import javax.annotation.Resource;
 import javax.script.ScriptException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * StringRedisTemplate测试
@@ -53,7 +44,7 @@ public class RedisTest {
 //    private Jedis jedis;
 
     @Test
-    public void testLua() throws ScriptException {
+    public void testLua() throws ScriptException, InterruptedException {
 //        LuaTable luaTable = JsePlatform.standardGlobals();
 //        luaTable.get("dofile").call(LuaValue.valueOf("lua/redis/Basic.lua"));
 //        LuaValue value = luaTable.get("delKey").call(LuaValue.valueOf("test"));
@@ -86,7 +77,10 @@ public class RedisTest {
 //        System.out.println(globals.get("max3").call(LuaValue.valueOf("test")).toString());
 //        System.out.println(globals.get("delKey").call(LuaValue.valueOf("test")).toString());
 
-        System.out.println(UUID.randomUUID().toString().length());
+//        System.out.println(UUID.randomUUID().toString().length());
+
+        TimeUnit.MILLISECONDS.sleep(new Random().nextInt(100));
+        System.out.println("111");
     }
 
 
@@ -110,8 +104,8 @@ public class RedisTest {
 //        String r = jedis.set("test", "xxoo", "NX", "EX", 10);
 //        System.out.println(r);
 
-        String clientId = DistributedLockManager.createClientId();
-        boolean r = distributedLockManager.lock("testLock", clientId, 60);
+        String clientId = distributedLockManager.getClientId();
+        boolean r = distributedLockManager.getLock("testLock", clientId, 60);
         if (r) {
             System.out.println("加锁成功！" + clientId);
         }
