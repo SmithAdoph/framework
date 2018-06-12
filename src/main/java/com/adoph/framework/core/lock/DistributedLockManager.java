@@ -46,7 +46,7 @@ public class DistributedLockManager {
     private static final int DEFAULT_TIMEOUT = 5;
 
     /**
-     * 默认随机等待时间边界0~100毫秒
+     * 默认随机等待时间边界50~150毫秒
      */
     private static final int DEFAULT_RANDOM_BOUND = 100;
 
@@ -69,7 +69,7 @@ public class DistributedLockManager {
                 if (!isLocked) {
                     //当客户端无法获得锁定时，应该在随机延迟之后再次尝试
                     //避免以试图同时尝试同时尝试获取同一资源的锁定的多个客户端都未取胜
-                    TimeUnit.MILLISECONDS.sleep(new Random().nextInt(DEFAULT_RANDOM_BOUND));
+                    TimeUnit.MILLISECONDS.sleep(new Random().nextInt(DEFAULT_RANDOM_BOUND) + 50);
                 }
             } catch (InterruptedException e) {
                 logger.error("获取锁异常，锁信息[key=" + key + ", clientId=" + clientId + ", expireTime=" + expireTime + "秒, timeout=" + timeout + "秒]！", e);
