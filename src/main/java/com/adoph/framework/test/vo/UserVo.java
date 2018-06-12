@@ -1,5 +1,6 @@
 package com.adoph.framework.test.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @version v1.0
  * @date 2018/6/3
  */
-public class UserVo {
+public class UserVo implements Serializable {
     private Long id;
     private String userName;
     private Long roleId;
