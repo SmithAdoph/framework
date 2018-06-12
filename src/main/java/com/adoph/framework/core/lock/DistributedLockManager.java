@@ -139,8 +139,8 @@ public class DistributedLockManager {
      *
      * @param key        key
      * @param value      值
-     * @param nxxx       NX
-     * @param expx       EX
+     * @param nxxx       NX/XX
+     * @param expx       EX/px
      * @param expireTime 过期时间(秒)
      */
     private boolean set(String key, String value, String nxxx, String expx, int expireTime) {
