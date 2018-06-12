@@ -89,29 +89,17 @@ public class RedisTest {
 
     @Test
     public void testDLM() {
-//        ValueOperations<String, String> ops = redisTemplate.opsForValue();
-//        ops.set("test", "test", 10, TimeUnit.SECONDS);
-//        ops.set("test", "test1", 20, TimeUnit.SECONDS);
-//        Object o = redisTemplate.execute(new RedisCallback() {
-//            @Override
-//            public Object doInRedis(RedisConnection connection) throws DataAccessException {
-//                return connection.execute("set", new byte[][]{
-//                        SafeEncoder.encode("test"), SafeEncoder.encode("xxxxx"), SafeEncoder.encode("nx"),
-//                        SafeEncoder.encode("ex"), Protocol.toByteArray(10)});
-//            }
-//        });
-//        System.out.println(Arrays.toString((byte[]) o));
-//        String r = jedis.set("test", "xxoo", "NX", "EX", 10);
-//        System.out.println(r);
-
         String clientId = distributedLockManager.getClientId();
-        boolean r = distributedLockManager.getLock("testLock", clientId, 60);
+//        boolean r = distributedLockManager.lock("test", clientId, 60);
+        boolean r = distributedLockManager.tryLock("testLock", clientId, 60, 20);
         if (r) {
-            System.out.println("加锁成功！" + clientId);
-        }
-        boolean unlock = distributedLockManager.unlock("testLock", clientId);
-        if (unlock) {
-            System.out.println("解锁成功！");
+            try {
+                System.out.println("执行业务代码。。。");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                distributedLockManager.unlock("testLock", clientId);
+            }
         }
 
 

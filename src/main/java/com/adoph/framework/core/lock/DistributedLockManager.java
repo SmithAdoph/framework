@@ -41,9 +41,9 @@ public class DistributedLockManager {
     private static final String REDIS_SET_COMMAND = "SET";
 
     /**
-     * 默认超时时间120秒
+     * 默认超时时间5秒
      */
-    private static final int DEFAULT_TIMEOUT = 120;
+    private static final int DEFAULT_TIMEOUT = 5;
 
     /**
      * 默认随机等待时间边界0~100毫秒
@@ -55,11 +55,12 @@ public class DistributedLockManager {
      *
      * @param key        key
      * @param clientId   客户端id
-     * @param expireTime 锁有效时间
-     * @param timeout    获取锁等待时间
+     * @param expireTime 锁有效时间(秒)
+     * @param timeout    获取锁等待时间(秒)
      * @return boolean
      */
     public boolean tryLock(String key, String clientId, int expireTime, int timeout) {
+        logger.info("开始获取锁，锁信息[key={}, clientId={}, expireTime={}秒, timeout={}秒]", key, clientId, expireTime, timeout);
         long start = System.currentTimeMillis();
         boolean isLocked;
         do {
@@ -71,15 +72,16 @@ public class DistributedLockManager {
                     TimeUnit.MILLISECONDS.sleep(new Random().nextInt(DEFAULT_RANDOM_BOUND));
                 }
             } catch (InterruptedException e) {
-                logger.error("获取锁异常！", e);
+                logger.error("获取锁异常，锁信息[key=" + key + ", clientId=" + clientId + ", expireTime=" + expireTime + "秒, timeout=" + timeout + "秒]！", e);
             }
-        } while (!isLocked && System.currentTimeMillis() - start < timeout);
+        } while (!isLocked && (System.currentTimeMillis() - start) / 1000 < timeout);
+        logger.info("获取锁{}！锁信息[key={}, clientId={}, expireTime={}秒, timeout={}秒]", isLocked ? "成功" : "失败", key, clientId, expireTime, timeout);
         return isLocked;
     }
 
     /**
      * 获取锁
-     * 默认一个超时时间120秒
+     * 默认超时时间5秒
      *
      * @param key        key
      * @param clientId   客户端id
@@ -116,9 +118,14 @@ public class DistributedLockManager {
         Long r = stringRedisTemplate.execute(new RedisCallback<Long>() {
             @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.eval(script.getBytes(), ReturnType.INTEGER, 1, key.getBytes(), clientId.getBytes());
+                return connection.eval(SafeEncoder.encode(script),
+                        ReturnType.INTEGER,
+                        1,
+                        SafeEncoder.encode(key),
+                        SafeEncoder.encode(clientId));
             }
         });
+        logger.info("释放锁{}！锁信息[key={}, clientId={}]", r == 1L ? "成功" : "失败", key, clientId);
         return r == 1L;
     }
 
