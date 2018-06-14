@@ -22,6 +22,9 @@ import java.util.concurrent.TimeUnit;
  * 1.互斥性（在任何特定时刻，只有一个客户端可以锁定）
  * 2.安全性（避免死锁。即使锁定资源的客户端崩溃或被分区，也总是可以获取锁）
  * 3.容错性（只要大多数Redis节点启动，客户端就可以获取并释放锁）
+ * <br/>
+ * 存在问题：
+ * 1.客户端c1获取到锁key1，在key1过期后自动释放后(c1依然正常执行完他的业务代码！！！)，客户端c2可以获取同一把锁key1
  *
  * @author Adoph
  * @version v1.0
@@ -75,7 +78,8 @@ public class DistributedLockManager {
                 logger.error("获取锁异常，锁信息[key=" + key + ", clientId=" + clientId + ", expireTime=" + expireTime + "秒, timeout=" + timeout + "秒]！", e);
             }
         } while (!isLocked && (System.currentTimeMillis() - start) / 1000 < timeout);
-        logger.info("获取锁{}！锁信息[key={}, clientId={}, expireTime={}秒, timeout={}秒]", isLocked ? "成功" : "失败", key, clientId, expireTime, timeout);
+        logger.info("获取锁{}，消耗时间{}毫秒！锁信息[key={}, clientId={}, expireTime={}秒, timeout={}秒]",
+                isLocked ? "成功" : "失败", now() - start, key, clientId, expireTime, timeout);
         return isLocked;
     }
 
@@ -90,6 +94,33 @@ public class DistributedLockManager {
      */
     public boolean lock(String key, String clientId, int expireTime) {
         return tryLock(key, clientId, expireTime, DEFAULT_TIMEOUT);
+    }
+
+
+    /**
+     * 获取锁(1)，不建议使用
+     * 为了解决锁超时继续执行的问题，存在问题：<br/>
+     * 1.必须等待业务代码执行完才能判断是否超时！
+     * 2.执行和回滚在两个方法中，回滚麻烦！
+     *
+     * @param key        key
+     * @param clientId   客户端id
+     * @param expireTime 锁过期时间
+     * @param action     用于获取锁成功或失败后的具体行为
+     */
+    @Deprecated
+    public void lock(String key, String clientId, int expireTime, LockAction action) {
+        boolean locked = tryLock(key, clientId, expireTime, DEFAULT_TIMEOUT);
+        if (locked) {
+            long startExecTime = now();
+            action.execute(true);
+            long execTime = now() - startExecTime;
+            if (execTime > expireTime * 1000) {//执行业务时间大于锁过期时间，回滚事务
+                action.rollback();
+            }
+        } else {
+            action.execute(false);
+        }
     }
 
     /**
@@ -166,4 +197,9 @@ public class DistributedLockManager {
     public String getClientId() {
         return UUID.randomUUID().toString();
     }
+
+    private long now() {
+        return System.currentTimeMillis();
+    }
+
 }

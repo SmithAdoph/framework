@@ -1,6 +1,7 @@
 package com.adoph.framework.test.spring;
 
 import com.adoph.framework.core.lock.DistributedLockManager;
+import com.adoph.framework.core.lock.LockAction;
 import com.adoph.framework.util.SysUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -91,16 +92,40 @@ public class RedisTest {
     public void testDLM() {
         String clientId = distributedLockManager.getClientId();
 //        boolean r = distributedLockManager.lock("test", clientId, 60);
-        boolean r = distributedLockManager.tryLock("testLock", clientId, 60, 20);
-        if (r) {
-            try {
-                System.out.println("执行业务代码。。。");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                distributedLockManager.unlock("testLock", clientId);
+//        boolean r = distributedLockManager.tryLock("testLock", clientId, 60, 20);
+//        if (r) {
+//            try {
+//                System.out.println("执行业务代码。。。");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                distributedLockManager.unlock("testLock", clientId);
+//            }
+//        }
+
+        String key = "test1";
+        distributedLockManager.lock(key, clientId, 5, new LockAction() {
+            @Override
+            public void execute(boolean locked) {
+                if (locked) {
+                    try {
+                        System.out.println("执行业务代码！");
+                        Thread.sleep(6000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        distributedLockManager.unlock(key, clientId);
+                    }
+                } else {
+                    System.out.println("客户端获取锁失败！");
+                }
             }
-        }
+
+            @Override
+            public void rollback() {
+                System.out.println("回滚事务！");
+            }
+        });
 
 
     }
