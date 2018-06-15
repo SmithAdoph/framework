@@ -8,8 +8,8 @@ import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Protocol;
-import redis.clients.util.SafeEncoder;
+//import redis.clients.jedis.Protocol;
+//import redis.clients.util.SafeEncoder;
 
 import javax.annotation.Resource;
 import java.util.Random;
@@ -149,11 +149,11 @@ public class DistributedLockManager {
         Long r = stringRedisTemplate.execute(new RedisCallback<Long>() {
             @Override
             public Long doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.eval(SafeEncoder.encode(script),
+                return connection.eval(script.getBytes(),
                         ReturnType.INTEGER,
                         1,
-                        SafeEncoder.encode(key),
-                        SafeEncoder.encode(clientId));
+                        key.getBytes(),
+                        clientId.getBytes());
             }
         });
         logger.info("释放锁{}！锁信息[key={}, clientId={}]", r == 1L ? "成功" : "失败", key, clientId);
@@ -179,11 +179,11 @@ public class DistributedLockManager {
             @Override
             public Object doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.execute(REDIS_SET_COMMAND,
-                        SafeEncoder.encode(key),
-                        SafeEncoder.encode(value),
-                        SafeEncoder.encode(nxxx),
-                        SafeEncoder.encode(expx),
-                        Protocol.toByteArray(expireTime));
+                        key.getBytes(),
+                        value.getBytes(),
+                        nxxx.getBytes(),
+                        expx.getBytes(),
+                        (expireTime + "").getBytes());
             }
         });
         return o != null;
