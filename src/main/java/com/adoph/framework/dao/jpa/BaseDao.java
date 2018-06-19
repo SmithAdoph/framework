@@ -76,7 +76,7 @@ public interface BaseDao {
     <T> T findObject(String hql, final Map<String, Object> map);
 
     /**
-     * 更新或者保存对象
+     * 更新或者保存对象(晦涩)
      * 说明：
      * 1.entity对象将会被hibernate进行持久化管理
      * 2.设置了id，在hibernate上下文中未找到该实体，抛出异常
@@ -88,7 +88,7 @@ public interface BaseDao {
     void persist(Object entity);
 
     /**
-     * 更新或者保存对象
+     * 更新或者保存对象(晦涩)
      * 说明：
      * 1.entity对象不会被hibernate进行持久化管理
      * 2.设置id，在hibernate上下文找到该对象进行更新操作，未找到新增（若设置自增id，以数据库返回id值保存）
